@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowRight } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
 
 import logoImg from '../assets/images/logo.png';
 import logo2Img from '../assets/images/logo2.png';
@@ -9,22 +8,50 @@ import logo2Img from '../assets/images/logo2.png';
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const location = useLocation();
+    const [activeSection, setActiveSection] = useState('home');
 
     React.useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
+
+            // Determine active section based on scroll position
+            const sections = ['home', 'about', 'facilities', 'destinations', 'gallery', 'contact'];
+            let current = 'home';
+            for (const section of sections) {
+                const element = document.getElementById(section);
+                if (element && window.scrollY >= (element.offsetTop - 150)) {
+                    current = section;
+                }
+            }
+            setActiveSection(current);
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+        e.preventDefault();
+        const element = document.getElementById(sectionId);
+        if (element) {
+            // Adjust offset for fixed navbar
+            const offset = 80;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+        setIsOpen(false);
+    };
+
     const navLinks = [
-        { name: "About", path: "/about" },
-        { name: "Facilities", path: "/facilities" },
-        { name: "Destinations", path: "/destinations" },
-        { name: "Gallery", path: "/gallery" },
-        { name: "Contact Us", path: "/contact" }
+        { name: "About", id: "about" },
+        { name: "Facilities", id: "facilities" },
+        { name: "Destinations", id: "destinations" },
+        { name: "Gallery", id: "gallery" },
+        { name: "Contact Us", id: "contact" }
     ];
 
     return (
@@ -38,7 +65,7 @@ export const Navbar = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <Link to="/">
+                    <a href="#home" onClick={(e) => scrollToSection(e, 'home')}>
                         <motion.img
                             src={logoImg}
                             alt="Clouds Village Logo"
@@ -48,7 +75,7 @@ export const Navbar = () => {
                             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
                             whileHover={{ scale: 1.1, filter: "drop-shadow(0 0 25px rgba(0,163,196,0.9))" }}
                         />
-                    </Link>
+                    </a>
                 </motion.div>
 
                 {/* Center/Right: Floating Navigation Pill */}
@@ -57,14 +84,15 @@ export const Navbar = () => {
                     {/* Desktop Nav Links */}
                     <div className="hidden lg:flex items-center gap-1 xl:gap-2">
                         {navLinks.map((item) => (
-                            <Link
+                            <a
                                 key={item.name}
-                                to={item.path}
-                                className={`group relative px-4 py-2 text-xs xl:text-sm font-bold uppercase tracking-widest transition-colors whitespace-nowrap rounded-full hover:bg-white/5 ${location.pathname === item.path ? 'text-brand-cyan' : 'text-white/80 hover:text-white'}`}
+                                href={`#${item.id}`}
+                                onClick={(e) => scrollToSection(e, item.id)}
+                                className={`group relative px-4 py-2 text-xs xl:text-sm font-bold uppercase tracking-widest transition-colors whitespace-nowrap rounded-full hover:bg-white/5 ${activeSection === item.id ? 'text-brand-cyan' : 'text-white/80 hover:text-white'}`}
                             >
                                 {item.name}
-                                <span className={`absolute bottom-1 left-1/2 -translate-x-1/2 h-[2px] bg-brand-cyan/80 transition-all duration-300 rounded-full shadow-[0_0_10px_rgba(0,163,196,0.8)] ${location.pathname === item.path ? 'w-1/2' : 'w-0 group-hover:w-1/2'}`} />
-                            </Link>
+                                <span className={`absolute bottom-1 left-1/2 -translate-x-1/2 h-[2px] bg-brand-cyan/80 transition-all duration-300 rounded-full shadow-[0_0_10px_rgba(0,163,196,0.8)] ${activeSection === item.id ? 'w-1/2' : 'w-0 group-hover:w-1/2'}`} />
+                            </a>
                         ))}
                     </div>
 
@@ -85,17 +113,18 @@ export const Navbar = () => {
                         </motion.div>
 
                         {/* Book Now Button */}
-                        <Link
-                            to="/contact"
+                        <a
+                            href="#contact"
+                            onClick={(e) => scrollToSection(e, 'contact')}
                             className="hidden md:flex relative group overflow-hidden bg-brand-cyan/20 border border-brand-cyan/40 text-brand-cyan px-5 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-xs md:text-sm transition-all hover:text-brand-dark shadow-[0_0_15px_rgba(0,163,196,0.2)] hover:shadow-[0_0_25px_rgba(0,163,196,0.5)] whitespace-nowrap"
                         >
                             <span className="relative z-10 flex items-center gap-2">Book Now</span>
                             <div className="absolute inset-0 bg-gradient-to-r from-brand-cyan via-[#00d4ff] to-brand-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0" />
-                        </Link>
+                        </a>
 
                         {/* Mobile Menu Toggle */}
                         <button
-                            className="lg:hidden w-10 md:w-12 h-10 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                            className="lg:hidden w-10 md:w-12 h-10 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors pointer-events-auto"
                             onClick={() => setIsOpen(!isOpen)}
                         >
                             {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -121,14 +150,14 @@ export const Navbar = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: i * 0.05 }}
                                 >
-                                    <Link
-                                        to={item.path}
-                                        className={`text-lg md:text-xl font-display font-medium transition-colors flex items-center justify-between group py-3 border-b border-white/5 ${location.pathname === item.path ? 'text-brand-cyan' : 'text-white/80 hover:text-brand-cyan'}`}
-                                        onClick={() => setIsOpen(false)}
+                                    <a
+                                        href={`#${item.id}`}
+                                        className={`text-lg md:text-xl font-display font-medium transition-colors flex items-center justify-between group py-3 border-b border-white/5 ${activeSection === item.id ? 'text-brand-cyan' : 'text-white/80 hover:text-brand-cyan'}`}
+                                        onClick={(e) => scrollToSection(e, item.id)}
                                     >
                                         {item.name}
                                         <ArrowRight size={18} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-brand-cyan" />
-                                    </Link>
+                                    </a>
                                 </motion.div>
                             ))}
                             <motion.div
@@ -136,13 +165,13 @@ export const Navbar = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.3 }}
                             >
-                                <Link
-                                    to="/contact"
-                                    onClick={() => setIsOpen(false)}
-                                    className="w-full flex justify-center bg-gradient-to-r from-brand-cyan to-[#00d4ff] text-brand-dark py-4 rounded-xl font-bold text-lg md:text-xl shadow-[0_0_20px_rgba(0,163,196,0.3)] mt-6 uppercase tracking-wider"
+                                <a
+                                    href="#contact"
+                                    onClick={(e) => scrollToSection(e, 'contact')}
+                                    className="w-full flex justify-center bg-gradient-to-r from-brand-cyan to-[#00d4ff] text-brand-dark py-4 rounded-xl font-bold text-lg md:text-xl shadow-[0_0_20px_rgba(0,163,196,0.3)] mt-6 uppercase tracking-wider text-center"
                                 >
                                     Reserve Stay
-                                </Link>
+                                </a>
                             </motion.div>
                         </div>
                     </motion.div>
