@@ -205,7 +205,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="relative bg-brand-surface py-32 overflow-hidden border-y border-white/5 min-h-[100svh] pt-32 mt-20"
+            className="relative bg-brand-surface py-20 md:py-32 overflow-hidden border-y border-white/5 min-h-[100svh] pt-24 md:pt-32 mt-16 md:mt-20"
         >
             {/* Abstract Background Glows */}
             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-cyan/10 rounded-full filter blur-[120px] opacity-40 pointer-events-none transform translate-x-1/3 -translate-y-1/3" />
@@ -223,7 +223,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                         <span className="text-brand-cyan text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase">Signature Spaces</span>
                     </motion.div>
 
-                    <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl text-white mb-6 md:mb-8 drop-shadow-2xl">
+                    <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-white mb-4 md:mb-6 drop-shadow-2xl">
                         Facilities <span className="text-white/30 italic font-light">&</span> Experiences
                     </h2>
                     <p className="text-white/50 text-base md:text-xl leading-relaxed max-w-2xl mx-auto font-light">
@@ -264,7 +264,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                 >
 
                     {/* Left Sidebar - Scrollable List */}
-                    <div className="w-full lg:w-1/3 flex flex-col gap-3 overflow-y-auto hide-scrollbar pr-2 pb-4 snap-y lg:h-full">
+                    <div className="w-full lg:w-1/3 flex flex-col gap-3 overflow-y-auto hide-scrollbar pr-2 pb-4 snap-y max-h-[40vh] md:max-h-[50vh] lg:max-h-none lg:h-full">
                         {filteredGallery.map((item) => (
                             <motion.button
                                 key={item.id}

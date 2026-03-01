@@ -146,13 +146,13 @@ export const Destinations = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="bg-brand-surface py-32 border-y border-white/5 min-h-[100svh] mt-20"
+            className="bg-brand-surface py-20 md:py-32 border-y border-white/5 min-h-[100svh] mt-16 md:mt-20"
         >
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                     <div className="max-w-3xl">
-                        <h2 className="font-display font-bold text-4xl text-white mb-4">Explore Our Surroundings</h2>
-                        <p className="text-white/60 leading-relaxed">
+                        <h2 className="font-display font-bold text-3xl md:text-4xl text-white mb-4">Explore Our Surroundings</h2>
+                        <p className="text-white/60 leading-relaxed text-sm md:text-base">
                             The resort sits in Vannappuram near Thodupuzha, close to attractions like Thommankuthu Waterfall, Kattadikadavu trekking point, and Idukki Dam. Its borders feature spice gardens, ponds, and mountain views, especially stunning during monsoons with clouds draping the hills. Guests enjoy proximity to Munnar and Wagamon for day trips.
                         </p>
                     </div>

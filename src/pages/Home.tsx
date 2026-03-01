@@ -14,7 +14,7 @@ import heritage2 from '../assets/images/heritage2.jpeg';
 
 export const Home = ({ openLightbox }: { openLightbox: (images: string[], title: string) => void }) => {
     return (
-        <section className="relative min-h-[100svh] md:h-[90vh] md:min-h-[700px] flex items-center justify-center overflow-hidden py-32 md:py-0">
+        <section className="relative min-h-[100svh] md:h-[90vh] md:min-h-[700px] flex items-center justify-center overflow-hidden py-24 md:py-0">
             {/* Background Layer */}
             <div className="absolute inset-0 z-0">
                 <motion.video
@@ -55,7 +55,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="font-display font-bold text-5xl md:text-8xl lg:text-9xl text-white leading-[1] mb-6 drop-shadow-2xl"
+                    className="font-display font-bold text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-white leading-[1] mb-4 md:mb-6 drop-shadow-2xl"
                 >
                     Clouds <span className="text-gradient">Village</span>
                 </motion.h1>
@@ -64,7 +64,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
-                    className="text-white/90 text-lg md:text-2xl font-light max-w-2xl mb-12 drop-shadow-md"
+                    className="text-white/90 text-[15px] sm:text-lg md:text-2xl font-light max-w-2xl mb-8 md:mb-12 drop-shadow-md"
                 >
                     Escape the ordinary. Experience luxury woven into nature at our exclusive retreat.
                 </motion.p>

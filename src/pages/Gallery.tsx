@@ -32,7 +32,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="bg-brand-dark py-32 border-y border-white/5 relative overflow-hidden min-h-[100svh] mt-20"
+            className="bg-brand-dark py-20 md:py-32 border-y border-white/5 relative overflow-hidden min-h-[100svh] mt-16 md:mt-20"
         >
             <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-30 pointer-events-none transform -translate-x-1/3 -translate-y-1/3" />
 
@@ -48,10 +48,10 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                         <span className="text-brand-cyan text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase">Memories</span>
                     </motion.div>
 
-                    <h2 className="font-display font-bold text-4xl md:text-5xl text-white mb-6 drop-shadow-lg">
+                    <h2 className="font-display font-bold text-3xl md:text-5xl text-white mb-4 md:mb-6 drop-shadow-lg">
                         Event Gallery
                     </h2>
-                    <p className="text-white/50 text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-light">
+                    <p className="text-white/50 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto font-light">
                         Glimpses of unforgettable moments, celebrations, and events hosted at our resort.
                     </p>
                 </div>

@@ -15,13 +15,13 @@ export const ContactUs = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="max-w-7xl mx-auto px-6 py-32 border-y border-white/5 min-h-[100svh] flex items-center mt-20"
+            className="max-w-7xl mx-auto px-6 py-20 md:py-32 border-y border-white/5 min-h-[100svh] flex items-center mt-16 md:mt-20"
         >
             <div className="flex flex-col lg:flex-row gap-12 items-center w-full">
                 <div className="w-full lg:w-1/3">
-                    <span className="text-brand-cyan text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Reservations</span>
-                    <h2 className="font-display font-bold text-4xl md:text-5xl text-white mb-6">Book Your Stay</h2>
-                    <p className="text-white/60 mb-8 leading-relaxed">
+                    <span className="text-brand-cyan text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Reservations</span>
+                    <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-4 md:mb-6">Book Your Stay</h2>
+                    <p className="text-white/60 mb-6 md:mb-8 leading-relaxed text-sm md:text-base">
                         Ready for your luxury escape? Select your dates, guests, and preferred room type to check availability instantly. We guarantee the best rates when booking direct.
                     </p>
                     <div className="flex items-center gap-4 text-white/80">
@@ -131,9 +131,9 @@ export const ContactUs = () => {
                                 </div>
 
                                 {bookingRoomType.toLowerCase().includes('suite') || bookingRoomType.toLowerCase().includes('dormitory') ? (
-                                    <div className="flex gap-4">
+                                    <div className="flex flex-col sm:flex-row gap-4">
                                         <input type="hidden" name="guests" value={`${bookingAdults} Adults, ${bookingChildren} Children`} />
-                                        <div className="flex flex-col gap-2 w-1/2">
+                                        <div className="flex flex-col gap-2 w-full sm:w-1/2">
                                             <label className="text-white/70 text-xs font-bold uppercase tracking-wider">Adults</label>
                                             <input
                                                 type="number"
@@ -143,7 +143,7 @@ export const ContactUs = () => {
                                                 className="bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors [color-scheme:dark] w-full"
                                             />
                                         </div>
-                                        <div className="flex flex-col gap-2 w-1/2">
+                                        <div className="flex flex-col gap-2 w-full sm:w-1/2">
                                             <label className="text-white/70 text-xs font-bold uppercase tracking-wider">Children</label>
                                             <input
                                                 type="number"

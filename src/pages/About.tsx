@@ -31,12 +31,12 @@ export const About = () => {
                             <span className="text-brand-cyan text-[10px] font-bold tracking-[0.3em] uppercase">Our Story</span>
                         </div>
 
-                        <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-8 leading-tight drop-shadow-lg">
+                        <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-6 md:mb-8 leading-tight drop-shadow-lg">
                             Authentic Farm Stay <br />
                             <span className="text-white/30 italic font-light drop-shadow-none">in Kerala's Heart</span>
                         </h2>
 
-                        <div className="space-y-6 text-white/60 text-lg leading-relaxed mb-10">
+                        <div className="space-y-4 md:space-y-6 text-white/60 text-base md:text-lg leading-relaxed mb-8 md:mb-10">
                             <p className="border-l-2 border-brand-cyan/50 pl-6 text-white/80 font-medium">
                                 Clouds Village Farm Resort is an authentic farm stay nestled in the heart of Manjakkunel Farm, Thodupuzha, in Kerala's Idukki district.
                             </p>
@@ -63,7 +63,7 @@ export const About = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="relative h-[500px] sm:h-[600px] w-full mt-10 lg:mt-0"
+                        className="relative h-[400px] sm:h-[500px] md:h-[600px] w-full mt-10 lg:mt-0"
                     >
                         <div className="absolute top-0 right-0 w-[60%] h-[55%] rounded-[2rem] overflow-hidden shadow-2xl z-10 border border-white/10 hover:-translate-y-2 transition-transform duration-500 group">
                             <img src={heritage1} alt="Heritage" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
