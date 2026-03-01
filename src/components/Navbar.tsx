@@ -79,7 +79,7 @@ export const Navbar = () => {
                 </motion.div>
 
                 {/* Center/Right: Floating Navigation Pill */}
-                <div className={`flex items-center gap-2 md:gap-4 p-2 pl-6 rounded-full transition-all duration-500 ease-out border ${scrolled ? 'bg-brand-dark/90 backdrop-blur-2xl border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]' : 'bg-brand-surface/70 backdrop-blur-lg border-white/5 shadow-xl'} `}>
+                <div className={`flex items-center gap-2 md:gap-4 p-1.5 pl-5 rounded-full transition-all duration-700 ease-out border ${scrolled ? 'bg-brand-dark/80 backdrop-blur-3xl border-white/[0.08] shadow-[0_10px_40px_rgba(0,0,0,0.4)]' : 'bg-brand-surface/50 backdrop-blur-2xl border-white/5 shadow-2xl'} `}>
 
                     {/* Desktop Nav Links */}
                     <div className="hidden lg:flex items-center gap-1 xl:gap-2">
@@ -116,7 +116,7 @@ export const Navbar = () => {
                         <a
                             href="#contact"
                             onClick={(e) => scrollToSection(e, 'contact')}
-                            className="hidden md:flex relative group overflow-hidden bg-brand-cyan/20 border border-brand-cyan/40 text-brand-cyan px-5 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-xs md:text-sm transition-all hover:text-brand-dark shadow-[0_0_15px_rgba(0,163,196,0.2)] hover:shadow-[0_0_25px_rgba(0,163,196,0.5)] whitespace-nowrap"
+                            className="hidden md:flex relative group overflow-hidden bg-brand-dark border border-brand-cyan/30 text-brand-cyan px-6 py-2 rounded-full font-bold text-xs transition-all hover:text-brand-dark hover:border-transparent shadow-[0_0_15px_rgba(0,163,196,0.1)] hover:shadow-[0_0_25px_rgba(0,163,196,0.4)] whitespace-nowrap"
                         >
                             <span className="relative z-10 flex items-center gap-2">Book Now</span>
                             <div className="absolute inset-0 bg-gradient-to-r from-brand-cyan via-[#00d4ff] to-brand-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0" />

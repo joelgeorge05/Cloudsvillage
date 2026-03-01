@@ -72,18 +72,18 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-50px" }}
                                 transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
-                                className={`relative group rounded-[2rem] overflow-hidden cursor-pointer border border-white/5 hover:border-brand-cyan/30 transition-colors shadow-lg ${spanClass}`}
+                                className={`relative group rounded-[2rem] overflow-hidden cursor-pointer border-[0.5px] border-white/10 hover:border-brand-cyan/40 hover:shadow-[0_15px_40px_rgba(0,163,196,0.2)] transition-all shadow-xl ${spanClass}`}
                                 onClick={() => openLightbox([item.image], item.title)}
                             >
                                 <img
                                     src={item.image}
                                     alt={item.title}
-                                    className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 group-hover:rotate-1"
+                                    className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-110 group-hover:rotate-1"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-700" />
                                 <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
-                                    <h4 className="font-display font-bold text-2xl md:text-3xl text-white drop-shadow-md transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{item.title}</h4>
-                                    <div className="w-0 h-[2px] bg-brand-cyan mt-3 transition-all duration-500 group-hover:w-12 shadow-[0_0_10px_rgba(0,163,196,0.8)]" />
+                                    <h4 className="font-display font-bold text-2xl md:text-3xl text-white drop-shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">{item.title}</h4>
+                                    <div className="w-0 h-[1.5px] bg-brand-cyan mt-3 transition-all duration-700 group-hover:w-12 shadow-[0_0_15px_rgba(0,163,196,0.8)]" />
                                 </div>
                             </motion.div>
                         );

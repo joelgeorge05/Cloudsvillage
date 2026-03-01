@@ -65,19 +65,19 @@ export const About = () => {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="relative h-[400px] sm:h-[500px] md:h-[600px] w-full mt-10 lg:mt-0"
                     >
-                        <div className="absolute top-0 right-0 w-[60%] h-[55%] rounded-[2rem] overflow-hidden shadow-2xl z-10 border border-white/10 hover:-translate-y-2 transition-transform duration-500 group">
+                        <div className="absolute top-0 right-0 w-[60%] h-[55%] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-10 border border-white/5 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(0,163,196,0.15)] transition-all duration-700 group">
                             <img src={heritage1} alt="Heritage" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                            <div className="absolute inset-0 bg-brand-dark/20 group-hover:bg-transparent transition-colors duration-500" />
+                            <div className="absolute inset-0 bg-brand-dark/30 group-hover:bg-transparent transition-colors duration-700" />
                         </div>
 
-                        <div className="absolute bottom-0 left-0 w-[55%] h-[60%] rounded-[2rem] overflow-hidden shadow-2xl z-20 border border-white/10 hover:-translate-y-2 transition-transform duration-500 group">
+                        <div className="absolute bottom-0 left-0 w-[55%] h-[60%] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-20 border border-white/5 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(0,163,196,0.15)] transition-all duration-700 group">
                             <img src={npool1} alt="Natural Pool" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                            <div className="absolute inset-0 bg-brand-dark/20 group-hover:bg-transparent transition-colors duration-500" />
+                            <div className="absolute inset-0 bg-brand-dark/30 group-hover:bg-transparent transition-colors duration-700" />
                         </div>
 
-                        <div className="absolute top-1/2 left-1/2 w-[45%] h-[45%] rounded-[2rem] overflow-hidden shadow-2xl z-30 border-2 border-brand-dark transform -translate-x-[40%] -translate-y-1/2 hover:scale-105 transition-transform duration-500 group">
-                            <img src={pic1} alt="Farm Life" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                            <div className="absolute inset-0 bg-brand-cyan/20 mix-blend-overlay group-hover:bg-brand-cyan/0 transition-colors duration-500"></div>
+                        <div className="absolute top-1/2 left-1/2 w-[45%] h-[45%] rounded-[2rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] z-30 border-[0.5px] border-white/20 transform -translate-x-[40%] -translate-y-1/2 hover:scale-105 hover:shadow-[0_30px_60px_rgba(0,163,196,0.2)] transition-all duration-700 group">
+                            <img src={pic1} alt="Farm Life" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                            <div className="absolute inset-0 bg-brand-dark/40 mix-blend-overlay group-hover:bg-transparent transition-colors duration-700"></div>
                         </div>
                     </motion.div>
                 </div>

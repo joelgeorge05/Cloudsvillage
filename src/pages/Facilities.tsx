@@ -237,15 +237,15 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                         <button
                             key={category}
                             onClick={() => setActiveCategory(category)}
-                            className={`snap-center shrink-0 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-xs md:text-sm tracking-widest uppercase transition-all duration-500 border relative overflow-hidden group ${activeCategory === category
-                                ? 'text-brand-dark border-brand-cyan shadow-[0_0_30px_rgba(0,163,196,0.3)]'
-                                : 'text-white/50 border-white/10 bg-white/5 hover:border-white/20 hover:text-white hover:bg-white/10 hover:-translate-y-1'
+                            className={`snap-center shrink-0 px-6 md:px-8 py-3 rounded-full font-bold text-xs tracking-widest uppercase transition-all duration-500 border relative overflow-hidden group ${activeCategory === category
+                                ? 'text-brand-dark border-brand-cyan shadow-[0_0_20px_rgba(0,163,196,0.3)]'
+                                : 'text-white/40 border-white/5 bg-white/[0.02] hover:border-white/20 hover:text-white hover:bg-white/5 hover:-translate-y-1'
                                 }`}
                         >
                             {activeCategory === category && (
                                 <motion.div
                                     layoutId="activeCategory"
-                                    className="absolute inset-0 bg-gradient-to-r from-brand-cyan via-[#00d4ff] to-brand-cyan bg-[length:200%_auto] animate-[gradient_3s_linear_infinite] -z-10"
+                                    className="absolute inset-0 bg-gradient-to-r from-brand-cyan/80 via-[#00d4ff]/80 to-brand-cyan/80 bg-[length:200%_auto] animate-[gradient_3s_linear_infinite] -z-10"
                                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                                 />
                             )}
@@ -306,7 +306,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                     </div>
 
                     {/* Right Side - Hero Display */}
-                    <div className="w-full lg:w-2/3 relative h-[400px] sm:h-[500px] lg:h-full rounded-[2rem] overflow-hidden group border border-white/10 shadow-2xl glass">
+                    <div className="w-full lg:w-2/3 relative h-[400px] sm:h-[500px] lg:h-full rounded-[2rem] overflow-hidden group border-[0.5px] border-white/20 shadow-[0_30px_80px_rgba(0,0,0,0.6)] glass">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={selectedFacility.id}
@@ -322,9 +322,9 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                     className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
                                 />
 
-                                {/* Gradients for text legibility */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/40 to-transparent opacity-90" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/80 via-transparent to-transparent opacity-70" />
+                                {/* Gradients for text legibility and cinematic depth */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/50 to-transparent opacity-90" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/90 via-transparent to-transparent opacity-70" />
 
                                 <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end pointer-events-none">
                                     <motion.div

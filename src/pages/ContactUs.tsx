@@ -89,18 +89,18 @@ export const ContactUs = () => {
                                 </div>
 
                                 <div className="flex flex-col gap-2">
-                                    <label className="text-white/70 text-xs font-bold uppercase tracking-wider">Full Name</label>
-                                    <input type="text" name="user_name" required placeholder="John Doe" className="bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors w-full" />
+                                    <label className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">Full Name</label>
+                                    <input type="text" name="user_name" required placeholder="John Doe" className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all w-full backdrop-blur-md shadow-inner" />
                                 </div>
 
                                 <div className="flex flex-col gap-2">
-                                    <label className="text-white/70 text-xs font-bold uppercase tracking-wider">Phone Number</label>
-                                    <input type="tel" name="user_phone" required placeholder="+91 98765 43210" className="bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors w-full" />
+                                    <label className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">Phone Number</label>
+                                    <input type="tel" name="user_phone" required placeholder="+91 98765 43210" className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all w-full backdrop-blur-md shadow-inner" />
                                 </div>
 
                                 <div className="flex flex-col gap-2 md:col-span-2">
-                                    <label className="text-white/70 text-xs font-bold uppercase tracking-wider">Email Address</label>
-                                    <input type="email" name="user_email" required placeholder="john@example.com" className="bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors w-full" />
+                                    <label className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">Email Address</label>
+                                    <input type="email" name="user_email" required placeholder="john@example.com" className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all w-full backdrop-blur-md shadow-inner" />
                                 </div>
 
                                 {/* Booking Details */}
@@ -109,12 +109,12 @@ export const ContactUs = () => {
                                 </div>
 
                                 <div className="flex flex-col gap-2">
-                                    <label className="text-white/70 text-xs font-bold uppercase tracking-wider">Check In</label>
-                                    <input type="date" name="check_in" required className="bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors [color-scheme:dark] w-full" />
+                                    <label className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">Check In</label>
+                                    <input type="date" name="check_in" required className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all [color-scheme:dark] w-full backdrop-blur-md shadow-inner" />
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <label className="text-white/70 text-xs font-bold uppercase tracking-wider">Check Out</label>
-                                    <input type="date" name="check_out" required className="bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors [color-scheme:dark] w-full" />
+                                    <label className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">Check Out</label>
+                                    <input type="date" name="check_out" required className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all [color-scheme:dark] w-full backdrop-blur-md shadow-inner" />
                                 </div>
 
                                 <div className="flex flex-col gap-2">
@@ -123,7 +123,7 @@ export const ContactUs = () => {
                                         name="room_type"
                                         value={bookingRoomType}
                                         onChange={(e) => setBookingRoomType(e.target.value)}
-                                        className="bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors appearance-none cursor-pointer w-full"
+                                        className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all appearance-none cursor-pointer w-full backdrop-blur-md shadow-inner"
                                     >
                                         <option value="Suite Room" className="bg-brand-dark text-white">Suite Room</option>
                                         <option value="Dormitory" className="bg-brand-dark text-white">Dormitory</option>
@@ -140,7 +140,7 @@ export const ContactUs = () => {
                                                 min="1"
                                                 value={bookingAdults}
                                                 onChange={(e) => setBookingAdults(parseInt(e.target.value) || 1)}
-                                                className="bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors [color-scheme:dark] w-full"
+                                                className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all [color-scheme:dark] w-full backdrop-blur-md shadow-inner"
                                             />
                                         </div>
                                         <div className="flex flex-col gap-2 w-full sm:w-1/2">
@@ -150,14 +150,14 @@ export const ContactUs = () => {
                                                 min="0"
                                                 value={bookingChildren}
                                                 onChange={(e) => setBookingChildren(parseInt(e.target.value) || 0)}
-                                                className="bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors [color-scheme:dark] w-full"
+                                                className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all [color-scheme:dark] w-full backdrop-blur-md shadow-inner"
                                             />
                                         </div>
                                     </div>
                                 ) : (
                                     <div className="flex flex-col gap-2">
-                                        <label className="text-white/70 text-xs font-bold uppercase tracking-wider">Guests</label>
-                                        <select name="guests" className="bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors appearance-none cursor-pointer w-full">
+                                        <label className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">Guests</label>
+                                        <select name="guests" className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all appearance-none cursor-pointer w-full backdrop-blur-md shadow-inner">
                                             <option value="1 Adult" className="bg-brand-dark text-white">1 Adult</option>
                                             <option value="2 Adults" className="bg-brand-dark text-white" defaultValue="2 Adults">2 Adults</option>
                                             <option value="2 Adults, 1 Child" className="bg-brand-dark text-white">2 Adults, 1 Child</option>
@@ -170,7 +170,7 @@ export const ContactUs = () => {
                                     <button
                                         type="submit"
                                         disabled={bookingStatus === 'sending'}
-                                        className="w-full relative group overflow-hidden rounded-xl font-bold text-white shadow-[0_0_20px_rgba(0,163,196,0.2)] hover:shadow-[0_0_30px_rgba(0,163,196,0.5)] transition-all transform hover:-translate-y-1 py-4 disabled:opacity-70 disabled:hover:translate-y-0"
+                                        className="w-full relative group overflow-hidden rounded-xl font-bold text-white shadow-[0_0_20px_rgba(0,163,196,0.3)] hover:shadow-[0_0_40px_rgba(0,163,196,0.6)] transition-all transform hover:-translate-y-1 py-4 disabled:opacity-70 disabled:hover:translate-y-0"
                                     >
                                         <div className="absolute inset-0 bg-gradient-to-r from-brand-cyan via-[#00d4ff] to-brand-cyan bg-[length:200%_auto] animate-[gradient_3s_linear_infinite] group-hover:opacity-90 transition-opacity" />
                                         <div className="absolute inset-[1px] bg-brand-dark/20 rounded-xl transition-opacity group-hover:opacity-0" />

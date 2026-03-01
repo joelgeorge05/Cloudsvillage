@@ -34,8 +34,11 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                 >
                     <source src="/CLOUDS VILLAGE DAY.mp4" type="video/mp4" />
                 </motion.video>
-                {/* Multi-stop gradient for better text legibility */}
-                <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/70 via-brand-dark/40 to-brand-dark" />
+                {/* Multi-stop cinematic gradient for better text legibility */}
+                <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/80 via-brand-dark/40 to-brand-dark opacity-90" />
+
+                {/* Film Grain Texture Overlay */}
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
             </div>
 
             {/* Hero Content */}
@@ -55,16 +58,16 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="font-display font-bold text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-white leading-[1] mb-4 md:mb-6 drop-shadow-2xl"
+                    className="font-serif text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] text-white leading-[0.9] mb-4 md:mb-8 drop-shadow-2xl tracking-tighter"
                 >
-                    Clouds <span className="text-gradient">Village</span>
+                    Clouds <span className="text-gradient italic font-light tracking-normal pr-4">Village</span>
                 </motion.h1>
 
                 <motion.p
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
-                    className="text-white/90 text-[15px] sm:text-lg md:text-2xl font-light max-w-2xl mb-8 md:mb-12 drop-shadow-md"
+                    className="text-white/80 text-[15px] sm:text-lg md:text-2xl font-light max-w-2xl mb-8 md:mb-12 shadow-black drop-shadow-md tracking-wide"
                 >
                     Escape the ordinary. Experience luxury woven into nature at our exclusive retreat.
                 </motion.p>
@@ -85,17 +88,17 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                             <div
                                 key={item.label}
                                 onClick={() => item.images && openLightbox(item.images, item.label)}
-                                className="group relative px-6 py-4 rounded-full glass bg-brand-dark/40 border border-white/10 backdrop-blur-2xl shadow-2xl hover:bg-brand-dark/60 transition-all cursor-pointer flex items-center gap-5 hover:-translate-y-2 overflow-hidden w-full sm:w-auto min-w-[220px]"
+                                className="group relative px-6 md:px-8 py-3 rounded-full glass bg-brand-dark/20 border border-white/5 backdrop-blur-3xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-brand-dark/40 hover:border-brand-cyan/30 transition-all duration-700 cursor-pointer flex items-center gap-4 hover:-translate-y-1 overflow-hidden w-full sm:w-auto min-w-[200px]"
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-brand-cyan/0 via-brand-cyan/20 to-brand-cyan/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-brand-cyan/0 via-brand-cyan/10 to-brand-cyan/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
 
-                                <div className="relative z-10 w-12 h-12 rounded-full bg-brand-cyan/10 flex items-center justify-center text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan group-hover:text-brand-dark transition-all duration-500 shadow-[inset_0_0_15px_rgba(0,163,196,0.3)]">
-                                    <item.icon size={22} strokeWidth={1.5} />
+                                <div className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-white/70 group-hover:scale-105 group-hover:text-brand-cyan transition-all duration-500">
+                                    <item.icon size={20} strokeWidth={1} />
                                 </div>
 
-                                <div className="relative z-10 text-left">
-                                    <span className="block text-white font-display font-medium text-lg leading-tight group-hover:text-brand-cyan transition-colors duration-300">{item.label}</span>
-                                    <span className="block text-brand-cyan/70 text-[9px] font-bold tracking-[0.2em] uppercase mt-1">{item.desc}</span>
+                                <div className="relative z-10 text-left border-l border-white/10 pl-4 group-hover:border-brand-cyan/30 transition-colors duration-500">
+                                    <span className="block text-white/90 font-sans font-light text-sm tracking-wide group-hover:text-white transition-colors duration-300">{item.label}</span>
+                                    <span className="block text-brand-cyan/60 text-[9px] font-bold tracking-[0.2em] uppercase mt-0.5">{item.desc}</span>
                                 </div>
                             </div>
                         ))}

@@ -112,8 +112,8 @@ const AttractionCard = ({ attraction }: { attraction: Attraction, key?: React.Ke
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute top-4 right-4 bg-brand-dark/80 backdrop-blur-md px-4 py-1.5 rounded-full flex items-center gap-2 border border-white/10 shadow-lg transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/30 to-transparent opacity-80 transition-opacity duration-300" />
+                <div className="absolute top-4 right-4 bg-brand-dark/80 backdrop-blur-xl px-4 py-1.5 rounded-full flex items-center gap-2 border-[0.5px] border-white/10 shadow-lg transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
                     <MapPin size={12} className="text-brand-cyan" />
                     <span className="text-[10px] font-bold text-white tracking-wider">{attraction.distance}</span>
                 </div>
@@ -146,9 +146,10 @@ export const Destinations = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="bg-brand-surface py-20 md:py-32 border-y border-white/5 min-h-[100svh] mt-16 md:mt-20"
+            className="bg-brand-surface py-20 md:py-32 border-y border-white/5 min-h-[100svh] mt-16 md:mt-20 relative overflow-hidden"
         >
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-20 pointer-events-none transform translate-x-1/2 -translate-y-1/2" />
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                     <div className="max-w-3xl">
                         <h2 className="font-display font-bold text-3xl md:text-4xl text-white mb-4">Explore Our Surroundings</h2>
