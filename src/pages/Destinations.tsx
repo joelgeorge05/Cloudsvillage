@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 import kottapparaImg from '../assets/destinations/Kottappara.jpg';
 import kattadikadavuImg from '../assets/destinations/Kattadikadavu.jpg';
@@ -13,90 +14,90 @@ import munnarImg from '../assets/destinations/Munnar.jpg';
 import vagamonImg from '../assets/destinations/Vagamon.jpg';
 
 export interface Attraction {
-    id: number;
+    id: string | number;
     title: string;
     description: string;
-    image: string;
+    image_url: string;
     distance: string;
-    mapLink: string;
+    map_link: string;
 }
 
-export const ATTRACTIONS: Attraction[] = [
+const STATIC_ATTRACTIONS: Attraction[] = [
     {
         id: 1,
         title: "Kottappara Viewpoint",
         description: "A stunning viewpoint offering a panoramic view of the majestic hills and deep valleys below.",
-        image: kottapparaImg,
+        image_url: kottapparaImg,
         distance: "15 MIN AWAY",
-        mapLink: "https://www.google.com/maps/search/?api=1&query=Kottappara+view+point+Idukki"
+        map_link: "https://www.google.com/maps/search/?api=1&query=Kottappara+view+point+Idukki"
     },
     {
         id: 2,
         title: "Kattadikadavu",
         description: "Known for its cool breeze and spectacular views, Kattadikadavu is perfect for a short trek and a misty morning.",
-        image: kattadikadavuImg,
+        image_url: kattadikadavuImg,
         distance: "20 MIN AWAY",
-        mapLink: "https://www.google.com/maps/search/?api=1&query=Kattadikadavu+view+point+Idukki"
+        map_link: "https://www.google.com/maps/search/?api=1&query=Kattadikadavu+view+point+Idukki"
     },
     {
         id: 3,
         title: "Anayadikuthu Waterfall",
         description: "A beautiful cascading waterfall nestled within the lush greenery of Idukki forests.",
-        image: anayadikuthuImg,
+        image_url: anayadikuthuImg,
         distance: "25 MIN AWAY",
-        mapLink: "https://www.google.com/maps/search/?api=1&query=Anayadikuthu+waterfall+Idukki"
+        map_link: "https://www.google.com/maps/search/?api=1&query=Anayadikuthu+waterfall+Idukki"
     },
     {
         id: 4,
         title: "Thommankuthu Waterfall",
         description: "A scenic seven-step waterfall offering a tranquil escape and adventurous trekking trails.",
-        image: thommankuthuImg,
+        image_url: thommankuthuImg,
         distance: "30 MIN AWAY",
-        mapLink: "https://www.google.com/maps/search/?api=1&query=Thommankuthu+waterfall+Idukki"
+        map_link: "https://www.google.com/maps/search/?api=1&query=Thommankuthu+waterfall+Idukki"
     },
     {
         id: 5,
         title: "Meenuliyanpara",
         description: "A massive rocky peak adorned with a thick layer of green forest atop, offering a breathtaking 360-degree view.",
-        image: meenuliyanparaImg,
+        image_url: meenuliyanparaImg,
         distance: "35 MIN AWAY",
-        mapLink: "https://www.google.com/maps/search/?api=1&query=Meenuliyanpara+Idukki"
+        map_link: "https://www.google.com/maps/search/?api=1&query=Meenuliyanpara+Idukki"
     },
     {
         id: 6,
         title: "Palkulamedu",
         description: "A high-altitude viewpoint where you can sometimes spot the distant sea and backwaters on a clear day.",
-        image: palkulameduImg,
+        image_url: palkulameduImg,
         distance: "40 MIN AWAY",
-        mapLink: "https://www.google.com/maps/search/?api=1&query=Palkulamedu+Idukki"
+        map_link: "https://www.google.com/maps/search/?api=1&query=Palkulamedu+Idukki"
     },
     {
         id: 7,
         title: "Malankara Dam",
         description: "A beautiful reservoir surrounded by hills, perfect for boating and a quiet evening walk.",
-        image: malankaraImg,
+        image_url: malankaraImg,
         distance: "45 MIN AWAY",
-        mapLink: "https://www.google.com/maps/search/?api=1&query=Malankara+Dam+Idukki"
+        map_link: "https://www.google.com/maps/search/?api=1&query=Malankara+Dam+Idukki"
     },
     {
         id: 8,
         title: "Munnar",
         description: "Famous for its emerald green tea plantations, misty mountains, and pleasant weather all year round.",
-        image: munnarImg,
+        image_url: munnarImg,
         distance: "1.5 HRS AWAY",
-        mapLink: "https://www.google.com/maps/search/?api=1&query=Munnar+Kerala"
+        map_link: "https://www.google.com/maps/search/?api=1&query=Munnar+Kerala"
     },
     {
         id: 9,
         title: "Vagamon",
         description: "A quiet hill station known for its rolling pine forests, meadows, and breathtaking deep valleys.",
-        image: vagamonImg,
+        image_url: vagamonImg,
         distance: "1 HR AWAY",
-        mapLink: "https://www.google.com/maps/search/?api=1&query=Vagamon+Kerala"
+        map_link: "https://www.google.com/maps/search/?api=1&query=Vagamon+Kerala"
     }
 ];
 
-const AttractionCard = ({ attraction }: { attraction: Attraction, key?: React.Key }) => {
+const AttractionCard = ({ attraction }: { attraction: Attraction }) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -107,13 +108,13 @@ const AttractionCard = ({ attraction }: { attraction: Attraction, key?: React.Ke
         >
             <div className="relative h-64 overflow-hidden shrink-0">
                 <img
-                    src={attraction.image}
+                    src={attraction.image_url}
                     alt={attraction.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute top-4 right-4 bg-brand-dark/80 backdrop-blur-md px-4 py-1.5 rounded-full flex items-center gap-2 border border-white/10 shadow-lg transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/30 to-transparent opacity-80 transition-opacity duration-300" />
+                <div className="absolute top-4 right-4 bg-brand-dark/80 backdrop-blur-xl px-4 py-1.5 rounded-full flex items-center gap-2 border-[0.5px] border-white/10 shadow-lg transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
                     <MapPin size={12} className="text-brand-cyan" />
                     <span className="text-[10px] font-bold text-white tracking-wider">{attraction.distance}</span>
                 </div>
@@ -126,7 +127,7 @@ const AttractionCard = ({ attraction }: { attraction: Attraction, key?: React.Ke
                     {attraction.description}
                 </p>
                 <a
-                    href={attraction.mapLink}
+                    href={attraction.map_link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-auto w-full py-3.5 border border-white/10 rounded-xl text-white/80 text-sm font-bold tracking-wide uppercase flex items-center justify-center gap-2 hover:bg-brand-cyan hover:border-brand-cyan hover:text-brand-dark transition-all duration-300 shadow-[0_0_10px_rgba(0,163,196,0)] hover:shadow-[0_0_20px_rgba(0,163,196,0.4)]"
@@ -140,34 +141,41 @@ const AttractionCard = ({ attraction }: { attraction: Attraction, key?: React.Ke
 
 
 export const Destinations = () => {
+    const [attractions, setAttractions] = useState<Attraction[]>([]);
+
+    useEffect(() => {
+        const fetchAttractions = async () => {
+            const { data } = await supabase.from('destinations').select('*').order('created_at', { ascending: false });
+            if (data && data.length > 0) {
+                setAttractions(data);
+            } else {
+                setAttractions(STATIC_ATTRACTIONS);
+            }
+        };
+        fetchAttractions();
+    }, []);
+
     return (
         <motion.section
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="bg-brand-surface py-32 border-y border-white/5 min-h-[100svh] mt-20"
+            className="bg-brand-surface py-20 md:py-32 border-y border-white/5 min-h-[100svh] mt-16 md:mt-20 relative overflow-hidden"
         >
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-20 pointer-events-none transform translate-x-1/2 -translate-y-1/2" />
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                     <div className="max-w-3xl">
-                        <h2 className="font-display font-bold text-4xl text-white mb-4">Explore Our Surroundings</h2>
-                        <p className="text-white/60 leading-relaxed">
+                        <h2 className="font-display font-bold text-3xl md:text-4xl text-white mb-4">Explore Our Surroundings</h2>
+                        <p className="text-white/60 leading-relaxed text-sm md:text-base">
                             The resort sits in Vannappuram near Thodupuzha, close to attractions like Thommankuthu Waterfall, Kattadikadavu trekking point, and Idukki Dam. Its borders feature spice gardens, ponds, and mountain views, especially stunning during monsoons with clouds draping the hills. Guests enjoy proximity to Munnar and Wagamon for day trips.
                         </p>
-                    </div>
-                    <div className="flex gap-3 shrink-0">
-                        <button className="w-12 h-12 rounded-full glass flex items-center justify-center text-white/40 hover:text-white transition-colors">
-                            <ChevronLeft />
-                        </button>
-                        <button className="w-12 h-12 rounded-full bg-brand-cyan flex items-center justify-center text-brand-dark hover:bg-white transition-colors">
-                            <ChevronRight />
-                        </button>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {ATTRACTIONS.map((attr) => (
+                    {attractions.map((attr) => (
                         <AttractionCard key={attr.id} attraction={attr} />
                     ))}
                 </div>

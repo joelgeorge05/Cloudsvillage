@@ -1,10 +1,25 @@
 import React from 'react';
 import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 import logoImg from '../assets/images/logo.png';
 
 export const Footer = () => {
+    const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+        if (sectionId === '#') return;
+        e.preventDefault();
+        const element = document.getElementById(sectionId);
+        if (element) {
+            const offset = 80;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+    };
+
     return (
         <footer id="contact-us" className="relative bg-brand-dark overflow-hidden border-t border-white/5 pt-20 pb-10">
             {/* Decorative Background Elements */}
@@ -88,17 +103,17 @@ export const Footer = () => {
                         </span>
                         <div className="flex flex-col gap-4">
                             {[
-                                { name: "About", path: "/about" },
-                                { name: "Facilities", path: "/facilities" },
-                                { name: "Destinations", path: "/destinations" },
-                                { name: "Gallery", path: "/gallery" },
+                                { name: "About", path: "about" },
+                                { name: "Facilities", path: "facilities" },
+                                { name: "Destinations", path: "destinations" },
+                                { name: "Gallery", path: "gallery" },
                                 { name: "Privacy Policy", path: "#" },
                                 { name: "Terms of Service", path: "#" }
                             ].map((link) => (
-                                <Link key={link.name} to={link.path} className="group flex items-center gap-2 text-sm text-white/50 hover:text-white transition-all w-fit">
+                                <a key={link.name} href={`#${link.path}`} onClick={(e) => scrollToSection(e, link.path)} className="group flex items-center gap-2 text-sm text-white/50 hover:text-white transition-all w-fit">
                                     <ChevronRight size={14} className="text-brand-cyan opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                                     <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>
-                                </Link>
+                                </a>
                             ))}
                         </div>
                     </div>
