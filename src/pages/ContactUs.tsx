@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Coffee, ArrowRight } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { supabase } from '../lib/supabase';
 
 export const ContactUs = () => {
     const [bookingStatus, setBookingStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -65,6 +66,28 @@ export const ContactUs = () => {
                                 }
 
                                 setBookingStatus('sending');
+
+                                // Save to Supabase
+                                const saveToSupabase = async () => {
+                                    const { error } = await supabase
+                                        .from('bookings')
+                                        .insert([{
+                                            user_name: formData.get('user_name'),
+                                            user_phone: formData.get('user_phone'),
+                                            user_email: formData.get('user_email'),
+                                            check_in: checkIn,
+                                            check_out: checkOut,
+                                            room_type: formData.get('room_type'),
+                                            guests: formData.get('guests') || `${bookingAdults} Adults, ${bookingChildren} Children`
+                                        }]);
+
+                                    if (error) {
+                                        console.error('Error saving to Supabase:', error);
+                                        // We continue even if Supabase fails, as EmailJS is the primary notification
+                                    }
+                                };
+
+                                saveToSupabase();
 
                                 emailjs.sendForm(
                                     'service_hu3jl8g',   // User's Service ID

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Routes, Route } from 'react-router';
 import { AnimatePresence, motion } from 'motion/react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -10,6 +11,13 @@ import { Facilities } from './pages/Facilities';
 import { Destinations } from './pages/Destinations';
 import { Gallery } from './pages/Gallery';
 import { ContactUs } from './pages/ContactUs';
+import { Login } from './pages/Login';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { GalleryManager } from './pages/admin/GalleryManager';
+import { DestinationManager } from './pages/admin/DestinationManager';
+import { FacilityManager } from './pages/admin/FacilityManager';
+import { HomeManager } from './pages/admin/HomeManager';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
   // Lightbox State (shared across components through props)
@@ -39,37 +47,34 @@ function App() {
     setLightboxIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length);
   };
 
-  return (
+  const PublicSite = () => (
     <div className="min-h-screen bg-brand-dark flex flex-col font-sans selection:bg-brand-cyan/30 selection:text-white">
       <Navbar />
-
       <main className="flex-grow">
-        <section id="home">
-          <Home openLightbox={openLightbox} />
-        </section>
-
-        <section id="about">
-          <About />
-        </section>
-
-        <section id="facilities">
-          <Facilities openLightbox={openLightbox} />
-        </section>
-
-        <section id="destinations">
-          <Destinations />
-        </section>
-
-        <section id="gallery">
-          <Gallery openLightbox={openLightbox} />
-        </section>
-
-        <section id="contact">
-          <ContactUs />
-        </section>
+        <section id="home"><Home openLightbox={openLightbox} /></section>
+        <section id="about"><About /></section>
+        <section id="facilities"><Facilities openLightbox={openLightbox} /></section>
+        <section id="destinations"><Destinations /></section>
+        <section id="gallery"><Gallery openLightbox={openLightbox} /></section>
+        <section id="contact"><ContactUs /></section>
       </main>
-
       <Footer />
+    </div>
+  );
+
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<PublicSite />} />
+        <Route path="/login" element={<Login />} />
+        
+        {/* Admin Routes */}
+        <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/admin/gallery" element={<ProtectedRoute><GalleryManager /></ProtectedRoute>} />
+        <Route path="/admin/destinations" element={<ProtectedRoute><DestinationManager /></ProtectedRoute>} />
+        <Route path="/admin/facilities" element={<ProtectedRoute><FacilityManager /></ProtectedRoute>} />
+        <Route path="/admin/home" element={<ProtectedRoute><HomeManager /></ProtectedRoute>} />
+      </Routes>
 
       {/* Global Lightbox Modal */}
       <AnimatePresence>
@@ -177,7 +182,7 @@ function App() {
           )
         }
       </AnimatePresence >
-    </div>
+    </>
   );
 }
 

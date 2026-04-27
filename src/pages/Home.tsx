@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Waves, Compass, Landmark } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 import npool1 from '../assets/images/npool1.jpeg';
 import npool2 from '../assets/images/npool2.jpeg';
@@ -13,11 +14,27 @@ import heritage1 from '../assets/images/heritage1.jpeg';
 import heritage2 from '../assets/images/heritage2.jpeg';
 
 export const Home = ({ openLightbox }: { openLightbox: (images: string[], title: string) => void }) => {
+    const [settings, setSettings] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            const { data } = await supabase.from('settings').select('*').single();
+            if (data) setSettings(data);
+        };
+        fetchSettings();
+    }, []);
+
+    const heroTitle = settings?.hero_title || "Clouds";
+    const heroTitleItalic = settings?.hero_title_italic || "Village";
+    const heroSubtitle = settings?.hero_subtitle || "Escape the ordinary. Experience luxury woven into nature at our exclusive retreat.";
+    const bgVideo = settings?.bg_video_url || "/CLOUDS VILLAGE DAY.mp4";
+
     return (
         <section className="relative min-h-[100svh] md:h-[90vh] md:min-h-[700px] flex items-center justify-center overflow-hidden py-24 md:py-0">
             {/* Background Layer */}
             <div className="absolute inset-0 z-0">
                 <motion.video
+                    key={bgVideo}
                     initial={{ scale: 1.1 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 1.5, ease: "easeOut" }}
@@ -26,13 +43,8 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                     muted
                     playsInline
                     className="w-full h-full object-cover"
-                    onEnded={(e) => {
-                        const video = e.target as HTMLVideoElement;
-                        video.currentTime = 0;
-                        video.play();
-                    }}
                 >
-                    <source src="/CLOUDS VILLAGE DAY.mp4" type="video/mp4" />
+                    <source src={bgVideo} type="video/mp4" />
                 </motion.video>
                 {/* Multi-stop cinematic gradient for better text legibility */}
                 <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/80 via-brand-dark/40 to-brand-dark opacity-90" />
@@ -60,7 +72,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="font-serif text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] text-white leading-[0.9] mb-4 md:mb-8 drop-shadow-2xl tracking-tighter"
                 >
-                    Clouds <span className="text-gradient italic font-light tracking-normal pr-4">Village</span>
+                    {heroTitle} <span className="text-gradient italic font-light tracking-normal pr-4">{heroTitleItalic}</span>
                 </motion.h1>
 
                 <motion.p
@@ -69,7 +81,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                     transition={{ duration: 0.8, delay: 0.4 }}
                     className="text-white/80 text-[15px] sm:text-lg md:text-2xl font-light max-w-2xl mb-8 md:mb-12 shadow-black drop-shadow-md tracking-wide"
                 >
-                    Escape the ordinary. Experience luxury woven into nature at our exclusive retreat.
+                    {heroSubtitle}
                 </motion.p>
 
                 {/* Amenities Highlights Float - Stylish Redesign */}
