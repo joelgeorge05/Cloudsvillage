@@ -28,7 +28,17 @@ export const BookingManager = () => {
 
   const openConfirmationModal = (booking: any) => {
     setSelectedBooking(booking);
-    setConfirmationMessage(`Dear ${booking.name},\n\nYour booking request for ${booking.date ? new Date(booking.date).toLocaleDateString() : 'the requested dates'} has been successfully confirmed!\n\nBooking Details:\n${booking.message}\n\nWe look forward to hosting you.\n\nBest regards,\nCloud Village`);
+    
+    // Safely format date
+    let formattedDate = 'the requested dates';
+    if (booking.date) {
+      const d = new Date(booking.date);
+      if (!isNaN(d.getTime())) {
+        formattedDate = d.toLocaleDateString();
+      }
+    }
+
+    setConfirmationMessage(`Dear ${booking.name},\n\nYour booking request for ${formattedDate} has been successfully confirmed!\n\nBooking Details:\n${booking.message}\n\nWe look forward to hosting you.\n\nBest regards,\nCloud Village`);
   };
 
   const closeConfirmationModal = () => {
@@ -39,17 +49,17 @@ export const BookingManager = () => {
   const handleSendEmail = async () => {
     if (!selectedBooking) return;
 
-    // Attempt to update status in Supabase
-    const { error } = await supabase
+    // Update local UI immediately so it reflects the change
+    setBookings(bookings.map(b => b.id === selectedBooking.id ? { ...b, status: 'confirmed' } : b));
+
+    // Try to update using a prefix hack so the user doesn't have to alter the Supabase schema
+    await supabase
       .from('bookings')
-      .update({ status: 'confirmed' })
+      .update({ message: `[CONFIRMED]\n${selectedBooking.message}` })
       .eq('id', selectedBooking.id);
-      
-    if (error && error.code === 'PGRST204') {
-      console.warn("Please add a 'status' column to the 'bookings' table in Supabase.");
-    } else if (!error) {
-      setBookings(bookings.map(b => b.id === selectedBooking.id ? { ...b, status: 'confirmed' } : b));
-    }
+
+    // Also attempt standard status update just in case they added the column
+    supabase.from('bookings').update({ status: 'confirmed' }).eq('id', selectedBooking.id);
 
     const subject = encodeURIComponent("Booking Confirmation - Cloud Village");
     const body = encodeURIComponent(confirmationMessage);
@@ -69,7 +79,18 @@ export const BookingManager = () => {
       .order('created_at', { ascending: false });
 
     if (!error && data) {
-      setBookings(data);
+      const processedData = data.map(b => {
+        // Handle standard status or the fallback message prefix
+        if (b.status === 'confirmed' || (b.message && b.message.startsWith('[CONFIRMED]\n'))) {
+          return {
+            ...b,
+            status: 'confirmed',
+            message: b.message.replace('[CONFIRMED]\n', '')
+          };
+        }
+        return b;
+      });
+      setBookings(processedData);
     }
     setLoading(false);
   };
