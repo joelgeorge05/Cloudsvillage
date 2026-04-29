@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Calendar, 
@@ -215,71 +216,74 @@ export const BookingManager = () => {
         </div>
       </div>
 
-      <AnimatePresence>
-        {selectedBooking && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-            onClick={closeConfirmationModal}
-          >
+      {createPortal(
+        <AnimatePresence>
+          {selectedBooking && (
             <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="glass w-full max-w-2xl rounded-3xl border border-white/10 overflow-hidden shadow-2xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+              onClick={closeConfirmationModal}
             >
-              <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/5">
-                <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                  <Mail className="text-brand-cyan" size={24} />
-                  Confirm Booking for {selectedBooking.name}
-                </h3>
-                <button 
-                  onClick={closeConfirmationModal}
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              
-              <div className="p-6 space-y-4">
-                <div>
-                  <label className="text-white/60 text-xs font-bold uppercase tracking-wider mb-2 block">
-                    Confirmation Email Message
-                  </label>
-                  <textarea
-                    value={confirmationMessage}
-                    onChange={(e) => setConfirmationMessage(e.target.value)}
-                    className="w-full h-64 bg-brand-dark/30 border border-white/10 rounded-2xl p-4 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all resize-none shadow-inner"
-                    placeholder="Type your confirmation message here..."
-                  />
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="glass w-full max-w-2xl rounded-3xl border border-white/10 overflow-hidden shadow-2xl"
+              >
+                <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/5">
+                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                    <Mail className="text-brand-cyan" size={24} />
+                    Confirm Booking for {selectedBooking.name}
+                  </h3>
+                  <button 
+                    onClick={closeConfirmationModal}
+                    className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all"
+                  >
+                    <X size={20} />
+                  </button>
                 </div>
-                <p className="text-white/40 text-sm">
-                  Clicking send will open your default email client with this message pre-filled.
-                </p>
-              </div>
+                
+                <div className="p-6 space-y-4">
+                  <div>
+                    <label className="text-white/60 text-xs font-bold uppercase tracking-wider mb-2 block">
+                      Confirmation Email Message
+                    </label>
+                    <textarea
+                      value={confirmationMessage}
+                      onChange={(e) => setConfirmationMessage(e.target.value)}
+                      className="w-full h-64 bg-brand-dark/30 border border-white/10 rounded-2xl p-4 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all resize-none shadow-inner"
+                      placeholder="Type your confirmation message here..."
+                    />
+                  </div>
+                  <p className="text-white/40 text-sm">
+                    Clicking send will open your default email client with this message pre-filled.
+                  </p>
+                </div>
 
-              <div className="p-6 border-t border-white/5 bg-white/5 flex justify-end gap-3">
-                <button
-                  onClick={closeConfirmationModal}
-                  className="px-6 py-3 rounded-xl font-bold text-white/70 hover:text-white transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSendEmail}
-                  className="px-6 py-3 bg-brand-cyan text-brand-dark rounded-xl font-bold hover:bg-[#00d4ff] transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,163,196,0.3)] hover:shadow-[0_0_30px_rgba(0,163,196,0.5)]"
-                >
-                  <Send size={18} />
-                  Send Confirmation Email
-                </button>
-              </div>
+                <div className="p-6 border-t border-white/5 bg-white/5 flex justify-end gap-3">
+                  <button
+                    onClick={closeConfirmationModal}
+                    className="px-6 py-3 rounded-xl font-bold text-white/70 hover:text-white transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSendEmail}
+                    className="px-6 py-3 bg-brand-cyan text-brand-dark rounded-xl font-bold hover:bg-[#00d4ff] transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,163,196,0.3)] hover:shadow-[0_0_30px_rgba(0,163,196,0.5)]"
+                  >
+                    <Send size={18} />
+                    Send Confirmation Email
+                  </button>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </AdminLayout>
   );
 };
