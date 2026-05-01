@@ -8,19 +8,22 @@ import {
   X,
   CheckCircle2,
   Loader2,
-  Edit3
+  Edit3,
+  RefreshCw
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { uploadMedia, deleteMedia } from '../../lib/storage';
 import { AdminLayout } from '../../components/admin/AdminLayout';
+import { INITIAL_FACILITIES } from '../../data/initialData';
 
 export const FacilityManager = () => {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [syncing, setSyncing] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
-  
+
   // Form State
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -35,14 +38,22 @@ export const FacilityManager = () => {
 
   const fetchItems = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('facilities')
-      .select('*')
-      .order('created_at', { ascending: false });
+    try {
+      const { data, error } = await supabase
+        .from('facilities')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-    if (error) console.error('Error fetching facilities:', error);
-    else setItems(data || []);
-    setLoading(false);
+      if (error) {
+        console.error('Error fetching facilities:', error);
+      } else {
+        setItems(data || []);
+      }
+    } catch (err) {
+      console.error('Unexpected error fetching facilities:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,9 +106,9 @@ export const FacilityManager = () => {
       setIsModalOpen(false);
       resetForm();
       fetchItems();
-    } catch (err) {
+    } catch (err: any) {
       console.error('Operation failed:', err);
-      alert('Operation failed. Please check your connection.');
+      alert(`Operation failed: ${err.message || 'Unknown error occurred'}`);
     } finally {
       setUploading(false);
     }
@@ -140,6 +151,27 @@ export const FacilityManager = () => {
     setPreview(null);
   };
 
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      const facData = INITIAL_FACILITIES.map(fac => ({
+        title: fac.title,
+        description: fac.description,
+        image_url: fac.image_url,
+        category: fac.category,
+        badge: fac.badge
+      }));
+      const { error } = await supabase.from('facilities').insert(facData);
+      if (error) throw error;
+      fetchItems();
+    } catch (err) {
+      console.error('Sync failed:', err);
+      alert('Failed to sync. Please try again.');
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   return (
     <AdminLayout>
       <div className="max-w-6xl mx-auto">
@@ -148,12 +180,24 @@ export const FacilityManager = () => {
             <h1 className="font-display font-bold text-4xl text-white mb-2">Facilities & Experiences</h1>
             <p className="text-white/40 text-sm">Manage resort amenities and activities.</p>
           </div>
-          <button
-            onClick={() => { resetForm(); setIsModalOpen(true); }}
-            className="flex items-center gap-2 px-6 py-3 bg-brand-cyan text-brand-dark rounded-xl font-bold text-sm hover:bg-white transition-all shadow-[0_0_20px_rgba(0,163,196,0.3)]"
-          >
-            <Plus size={18} /> Add Facility
-          </button>
+          <div className="flex items-center gap-3">
+            {items.length > 0 && (
+              <button
+                onClick={handleSync}
+                disabled={syncing}
+                className="flex items-center gap-2 px-6 py-3 bg-white/5 text-white rounded-xl font-bold text-sm hover:bg-white/10 transition-all border border-white/10"
+              >
+                <RefreshCw size={18} className={syncing ? 'animate-spin' : ''} />
+                {syncing ? 'Syncing...' : 'Sync from Website'}
+              </button>
+            )}
+            <button
+              onClick={() => { resetForm(); setIsModalOpen(true); }}
+              className="flex items-center gap-2 px-6 py-3 bg-brand-cyan text-brand-dark rounded-xl font-bold text-sm hover:bg-white transition-all shadow-[0_0_20px_rgba(0,163,196,0.3)]"
+            >
+              <Plus size={18} /> Add Facility
+            </button>
+          </div>
         </div>
 
         {loading ? (
@@ -167,7 +211,15 @@ export const FacilityManager = () => {
               <Waves size={32} />
             </div>
             <h3 className="text-white text-xl font-bold mb-2">No facilities found</h3>
-            <p className="text-white/40 max-w-xs mx-auto text-sm">Start by adding your first resort facility.</p>
+            <p className="text-white/40 max-w-xs mx-auto text-sm mb-8">Start by adding your first resort facility or import data from the website.</p>
+            <button
+              onClick={handleSync}
+              disabled={syncing}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-brand-cyan text-brand-dark rounded-2xl font-bold hover:bg-white transition-all shadow-[0_0_30px_rgba(0,163,196,0.2)] disabled:opacity-50"
+            >
+              <RefreshCw size={20} className={syncing ? 'animate-spin' : ''} />
+              {syncing ? 'Importing...' : 'Import from Website'}
+            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

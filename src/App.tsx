@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, Navigate } from 'react-router';
 import { AnimatePresence, motion } from 'motion/react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -17,6 +17,7 @@ import { GalleryManager } from './pages/admin/GalleryManager';
 import { DestinationManager } from './pages/admin/DestinationManager';
 import { FacilityManager } from './pages/admin/FacilityManager';
 import { HomeManager } from './pages/admin/HomeManager';
+import { BookingManager } from './pages/admin/BookingManager';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
@@ -69,11 +70,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         
         {/* Admin Routes */}
+        {/* Admin Routes */}
         <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
         <Route path="/admin/gallery" element={<ProtectedRoute><GalleryManager /></ProtectedRoute>} />
         <Route path="/admin/destinations" element={<ProtectedRoute><DestinationManager /></ProtectedRoute>} />
         <Route path="/admin/facilities" element={<ProtectedRoute><FacilityManager /></ProtectedRoute>} />
         <Route path="/admin/home" element={<ProtectedRoute><HomeManager /></ProtectedRoute>} />
+        <Route path="/admin/bookings" element={<ProtectedRoute><BookingManager /></ProtectedRoute>} />
+
+        {/* Catch-all Route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
       {/* Global Lightbox Modal */}

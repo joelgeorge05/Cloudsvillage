@@ -3,15 +3,7 @@ import { motion } from 'motion/react';
 import { MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-import kottapparaImg from '../assets/destinations/Kottappara.jpg';
-import kattadikadavuImg from '../assets/destinations/Kattadikadavu.jpg';
-import anayadikuthuImg from '../assets/destinations/Anayadikuthu.jpg';
-import thommankuthuImg from '../assets/destinations/Thommankuthu.jpg';
-import meenuliyanparaImg from '../assets/destinations/Meenuliyanpara.jpg';
-import palkulameduImg from '../assets/destinations/Palkulamedu.jpg';
-import malankaraImg from '../assets/destinations/Malankara.jpg';
-import munnarImg from '../assets/destinations/Munnar.jpg';
-import vagamonImg from '../assets/destinations/Vagamon.jpg';
+import { INITIAL_ATTRACTIONS } from '../data/initialData';
 
 export interface Attraction {
     id: string | number;
@@ -21,81 +13,6 @@ export interface Attraction {
     distance: string;
     map_link: string;
 }
-
-const STATIC_ATTRACTIONS: Attraction[] = [
-    {
-        id: 1,
-        title: "Kottappara Viewpoint",
-        description: "A stunning viewpoint offering a panoramic view of the majestic hills and deep valleys below.",
-        image_url: kottapparaImg,
-        distance: "15 MIN AWAY",
-        map_link: "https://www.google.com/maps/search/?api=1&query=Kottappara+view+point+Idukki"
-    },
-    {
-        id: 2,
-        title: "Kattadikadavu",
-        description: "Known for its cool breeze and spectacular views, Kattadikadavu is perfect for a short trek and a misty morning.",
-        image_url: kattadikadavuImg,
-        distance: "20 MIN AWAY",
-        map_link: "https://www.google.com/maps/search/?api=1&query=Kattadikadavu+view+point+Idukki"
-    },
-    {
-        id: 3,
-        title: "Anayadikuthu Waterfall",
-        description: "A beautiful cascading waterfall nestled within the lush greenery of Idukki forests.",
-        image_url: anayadikuthuImg,
-        distance: "25 MIN AWAY",
-        map_link: "https://www.google.com/maps/search/?api=1&query=Anayadikuthu+waterfall+Idukki"
-    },
-    {
-        id: 4,
-        title: "Thommankuthu Waterfall",
-        description: "A scenic seven-step waterfall offering a tranquil escape and adventurous trekking trails.",
-        image_url: thommankuthuImg,
-        distance: "30 MIN AWAY",
-        map_link: "https://www.google.com/maps/search/?api=1&query=Thommankuthu+waterfall+Idukki"
-    },
-    {
-        id: 5,
-        title: "Meenuliyanpara",
-        description: "A massive rocky peak adorned with a thick layer of green forest atop, offering a breathtaking 360-degree view.",
-        image_url: meenuliyanparaImg,
-        distance: "35 MIN AWAY",
-        map_link: "https://www.google.com/maps/search/?api=1&query=Meenuliyanpara+Idukki"
-    },
-    {
-        id: 6,
-        title: "Palkulamedu",
-        description: "A high-altitude viewpoint where you can sometimes spot the distant sea and backwaters on a clear day.",
-        image_url: palkulameduImg,
-        distance: "40 MIN AWAY",
-        map_link: "https://www.google.com/maps/search/?api=1&query=Palkulamedu+Idukki"
-    },
-    {
-        id: 7,
-        title: "Malankara Dam",
-        description: "A beautiful reservoir surrounded by hills, perfect for boating and a quiet evening walk.",
-        image_url: malankaraImg,
-        distance: "45 MIN AWAY",
-        map_link: "https://www.google.com/maps/search/?api=1&query=Malankara+Dam+Idukki"
-    },
-    {
-        id: 8,
-        title: "Munnar",
-        description: "Famous for its emerald green tea plantations, misty mountains, and pleasant weather all year round.",
-        image_url: munnarImg,
-        distance: "1.5 HRS AWAY",
-        map_link: "https://www.google.com/maps/search/?api=1&query=Munnar+Kerala"
-    },
-    {
-        id: 9,
-        title: "Vagamon",
-        description: "A quiet hill station known for its rolling pine forests, meadows, and breathtaking deep valleys.",
-        image_url: vagamonImg,
-        distance: "1 HR AWAY",
-        map_link: "https://www.google.com/maps/search/?api=1&query=Vagamon+Kerala"
-    }
-];
 
 const AttractionCard = ({ attraction }: { attraction: Attraction }) => {
     return (
@@ -149,7 +66,7 @@ export const Destinations = () => {
             if (data && data.length > 0) {
                 setAttractions(data);
             } else {
-                setAttractions(STATIC_ATTRACTIONS);
+                setAttractions(INITIAL_ATTRACTIONS);
             }
         };
         fetchAttractions();

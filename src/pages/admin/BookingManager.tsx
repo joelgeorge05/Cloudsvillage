@@ -12,7 +12,8 @@ import {
   CheckCircle2,
   Clock,
   X,
-  Send
+  Send,
+  AlertCircle
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { supabase } from '../../lib/supabase';
@@ -54,7 +55,7 @@ export const BookingManager = () => {
     // Try to update using a prefix hack so the user doesn't have to alter the Supabase schema
     await supabase
       .from('bookings')
-      .update({ message: `[CONFIRMED]\n${selectedBooking.message}` })
+      .update({ message: `[CONFIRMED]\n${selectedBooking.message || ''}` })
       .eq('id', selectedBooking.id);
 
     // Also attempt standard status update just in case they added the column
@@ -66,8 +67,15 @@ export const BookingManager = () => {
     // Add visual feedback before triggering mailto
     alert("Confirmation marked! Opening your default email app to send the message...");
     
-    // Use window.open for better mailto compatibility in some browsers
-    window.open(`mailto:${selectedBooking.email}?subject=${subject}&body=${body}`, '_blank');
+    // Use a hidden anchor tag to trigger mailto reliably without popup blockers
+    const mailtoLink = `mailto:${selectedBooking.email}?subject=${subject}&body=${body}`;
+    const link = document.createElement('a');
+    link.href = mailtoLink;
+    // Some browsers need target="_blank" on the anchor
+    link.target = "_blank";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     
     closeConfirmationModal();
   };
@@ -78,26 +86,37 @@ export const BookingManager = () => {
 
   const fetchBookings = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('bookings')
-      .select('*')
-      .order('created_at', { ascending: false });
+    try {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-    if (!error && data) {
-      const processedData = data.map(b => {
-        // Handle standard status or the fallback message prefix
-        if (b.status === 'confirmed' || (b.message && b.message.startsWith('[CONFIRMED]\n'))) {
-          return {
-            ...b,
-            status: 'confirmed',
-            message: b.message.replace('[CONFIRMED]\n', '')
-          };
-        }
-        return b;
-      });
-      setBookings(processedData);
+      if (error) {
+        console.error('Supabase error fetching bookings:', error);
+        alert('Error fetching bookings: ' + error.message);
+      }
+
+      if (data) {
+        const processedData = data.map(b => {
+          // Handle standard status or the fallback message prefix
+          const messageStr = b.message || '';
+          if (b.status === 'confirmed' || (typeof messageStr === 'string' && messageStr.startsWith('[CONFIRMED]\n'))) {
+            return {
+              ...b,
+              status: 'confirmed',
+              message: typeof messageStr === 'string' ? messageStr.replace('[CONFIRMED]\n', '') : messageStr
+            };
+          }
+          return b;
+        });
+        setBookings(processedData);
+      }
+    } catch (err) {
+      console.error('Unexpected error fetching bookings:', err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const deleteBooking = async (id: string) => {
@@ -111,8 +130,8 @@ export const BookingManager = () => {
 
   const filteredBookings = bookings.filter(booking => {
     const matchesSearch = 
-      booking.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      booking.email.toLowerCase().includes(searchTerm.toLowerCase());
+      String(booking.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      String(booking.email || '').toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
   });
 
@@ -175,7 +194,9 @@ export const BookingManager = () => {
                       </div>
                       <div>
                         <h3 className="text-white font-bold">{booking.name}</h3>
-                        <p className="text-white/40 text-[10px] uppercase tracking-widest">{new Date(booking.created_at).toLocaleString()}</p>
+                        <p className="text-white/40 text-[10px] uppercase tracking-widest">
+                          {booking.created_at ? new Date(booking.created_at).toLocaleString() : 'Date Unknown'}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -194,7 +215,9 @@ export const BookingManager = () => {
                     {booking.date && (
                       <div className="flex items-center gap-3 text-white/60 hover:text-white transition-colors">
                         <Calendar size={16} className="text-brand-cyan" />
-                        <span className="text-sm">Requested: {new Date(booking.date).toLocaleDateString()}</span>
+                        <span className="text-sm">
+                          Requested: {booking.date ? new Date(booking.date).toLocaleDateString() : 'TBD'}
+                        </span>
                       </div>
                     )}
                   </div>

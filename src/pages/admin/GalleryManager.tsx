@@ -9,17 +9,22 @@ import {
   X,
   CheckCircle2,
   AlertCircle,
-  Loader2
+  Loader2,
+  RefreshCw,
+  Edit3
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { uploadMedia, deleteMedia } from '../../lib/storage';
 import { AdminLayout } from '../../components/admin/AdminLayout';
+import { INITIAL_GALLERY } from '../../data/initialData';
 
 export const GalleryManager = () => {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [editingItem, setEditingItem] = useState<any>(null);
   
   // Form State
   const [title, setTitle] = useState('');
@@ -34,14 +39,22 @@ export const GalleryManager = () => {
 
   const fetchItems = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('gallery')
-      .select('*')
-      .order('created_at', { ascending: false });
+    try {
+      const { data, error } = await supabase
+        .from('gallery')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-    if (error) console.error('Error fetching gallery:', error);
-    else setItems(data || []);
-    setLoading(false);
+      if (error) {
+        console.error('Error fetching gallery:', error);
+      } else {
+        setItems(data || []);
+      }
+    } catch (err) {
+      console.error('Unexpected error fetching gallery:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,29 +72,48 @@ export const GalleryManager = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file || !title) return;
+    if (!title || (!file && !editingItem)) return;
 
     setUploading(true);
     try {
-      const publicUrl = await uploadMedia(file, 'gallery');
+      let url = editingItem?.url;
+
+      if (file) {
+        if (editingItem?.url) {
+          await deleteMedia(editingItem.url);
+        }
+        url = await uploadMedia(file, 'gallery');
+      }
       
-      const { error } = await supabase
-        .from('gallery')
-        .insert([{
-          title,
-          url: publicUrl,
-          type,
-          category
-        }]);
+      const payload = {
+        title,
+        url,
+        type,
+        category
+      };
+
+      let error;
+      if (editingItem) {
+        const { error: updateError } = await supabase
+          .from('gallery')
+          .update(payload)
+          .eq('id', editingItem.id);
+        error = updateError;
+      } else {
+        const { error: insertError } = await supabase
+          .from('gallery')
+          .insert([payload]);
+        error = insertError;
+      }
 
       if (error) throw error;
 
       setIsModalOpen(false);
       resetForm();
       fetchItems();
-    } catch (err) {
-      console.error('Upload failed:', err);
-      alert('Upload failed. Please check your connection and try again.');
+    } catch (err: any) {
+      console.error('Operation failed:', err);
+      alert(`Operation failed: ${err.message || 'Unknown error occurred'}`);
     } finally {
       setUploading(false);
     }
@@ -91,7 +123,9 @@ export const GalleryManager = () => {
     if (!confirm('Are you sure you want to delete this item?')) return;
 
     try {
-      await deleteMedia(item.url);
+      if (item.url && !item.url.includes('initialData')) {
+        await deleteMedia(item.url);
+      }
       const { error } = await supabase
         .from('gallery')
         .delete()
@@ -104,12 +138,42 @@ export const GalleryManager = () => {
     }
   };
 
+  const openEdit = (item: any) => {
+    setEditingItem(item);
+    setTitle(item.title);
+    setType(item.type);
+    setCategory(item.category);
+    setPreview(item.url);
+    setIsModalOpen(true);
+  };
+
   const resetForm = () => {
+    setEditingItem(null);
     setTitle('');
     setType('image');
     setCategory('General');
     setFile(null);
     setPreview(null);
+  };
+
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      const galData = INITIAL_GALLERY.map(img => ({ 
+        title: img.title, 
+        url: img.url,
+        type: 'image',
+        category: 'General'
+      }));
+      const { error } = await supabase.from('gallery').insert(galData);
+      if (error) throw error;
+      fetchItems();
+    } catch (err) {
+      console.error('Sync failed:', err);
+      alert('Failed to sync. Please try again.');
+    } finally {
+      setSyncing(false);
+    }
   };
 
   return (
@@ -120,12 +184,24 @@ export const GalleryManager = () => {
             <h1 className="font-display font-bold text-4xl text-white mb-2">Gallery Manager</h1>
             <p className="text-white/40 text-sm">Manage event photos and cinematic videos.</p>
           </div>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-brand-cyan text-brand-dark rounded-xl font-bold text-sm hover:bg-white transition-all shadow-[0_0_20px_rgba(0,163,196,0.3)]"
-          >
-            <Plus size={18} /> Add New Media
-          </button>
+          <div className="flex items-center gap-3">
+            {items.length > 0 && (
+              <button
+                onClick={handleSync}
+                disabled={syncing}
+                className="flex items-center gap-2 px-6 py-3 bg-white/5 text-white rounded-xl font-bold text-sm hover:bg-white/10 transition-all border border-white/10"
+              >
+                <RefreshCw size={18} className={syncing ? 'animate-spin' : ''} />
+                {syncing ? 'Syncing...' : 'Sync Website Photos'}
+              </button>
+            )}
+            <button
+              onClick={() => { resetForm(); setIsModalOpen(true); }}
+              className="flex items-center gap-2 px-6 py-3 bg-brand-cyan text-brand-dark rounded-xl font-bold text-sm hover:bg-white transition-all shadow-[0_0_20px_rgba(0,163,196,0.3)]"
+            >
+              <Plus size={18} /> Add New Media
+            </button>
+          </div>
         </div>
 
         {loading ? (
@@ -139,7 +215,15 @@ export const GalleryManager = () => {
               <ImageIcon size={32} />
             </div>
             <h3 className="text-white text-xl font-bold mb-2">No media found</h3>
-            <p className="text-white/40 max-w-xs mx-auto text-sm">Start by adding your first photo or video to the gallery.</p>
+            <p className="text-white/40 max-w-xs mx-auto text-sm mb-8">Start by adding your first photo or video, or import the default website photos.</p>
+            <button
+              onClick={handleSync}
+              disabled={syncing}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-brand-cyan text-brand-dark rounded-2xl font-bold hover:bg-white transition-all shadow-[0_0_30px_rgba(0,163,196,0.2)] disabled:opacity-50"
+            >
+              <RefreshCw size={20} className={syncing ? 'animate-spin' : ''} />
+              {syncing ? 'Importing...' : 'Import from Website'}
+            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -164,6 +248,12 @@ export const GalleryManager = () => {
                 </div>
                 <div className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => openEdit(item)}
+                      className="p-2 text-white/20 hover:text-brand-cyan hover:bg-brand-cyan/10 rounded-lg transition-all"
+                    >
+                      <Edit3 size={16} />
+                    </button>
                     {item.type === 'image' ? <ImageIcon size={14} className="text-white/40" /> : <Film size={14} className="text-brand-cyan" />}
                     <span className="text-white/40 text-[10px] font-bold uppercase tracking-widest">{item.type}</span>
                   </div>
@@ -197,7 +287,7 @@ export const GalleryManager = () => {
                 className="relative w-full max-w-xl glass p-8 md:p-10 rounded-[2.5rem] border border-white/10 shadow-2xl"
               >
                 <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl font-display font-bold text-white">Add New Media</h2>
+                  <h2 className="text-2xl font-display font-bold text-white">{editingItem ? 'Edit' : 'Add New'} Media</h2>
                   <button
                     onClick={() => setIsModalOpen(false)}
                     disabled={uploading}
@@ -297,12 +387,12 @@ export const GalleryManager = () => {
                       {uploading ? (
                         <>
                           <Loader2 size={18} className="animate-spin" />
-                          Uploading...
+                          Processing...
                         </>
                       ) : (
                         <>
                           <CheckCircle2 size={18} />
-                          Confirm & Upload
+                          {editingItem ? 'Save Changes' : 'Confirm & Upload'}
                         </>
                       )}
                     </span>

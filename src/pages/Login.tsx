@@ -22,7 +22,13 @@ export const Login = () => {
     });
 
     if (error) {
-      setError(error.message);
+      if (error.message.includes('Invalid login credentials')) {
+        setError('Invalid email or password. Please check your credentials in the Supabase Dashboard.');
+      } else if (error.message.includes('Email not confirmed')) {
+        setError('Please confirm your email address before logging in.');
+      } else {
+        setError(error.message);
+      }
       setLoading(false);
     } else {
       navigate('/admin');

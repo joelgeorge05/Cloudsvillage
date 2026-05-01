@@ -3,18 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Maximize2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-import suite1Img from '../assets/images/suite1.jpeg';
-import pic2 from '../assets/images/pic2.jpeg';
-import dormitoryImg from '../assets/images/dormitory.jpeg';
-import pic4 from '../assets/images/pic4.jpeg';
-import pic5 from '../assets/images/pic5.jpeg';
-import pic3 from '../assets/images/pic3.jpeg';
-import heritage1 from '../assets/images/heritage1.jpeg';
-import npool1 from '../assets/images/npool1.jpeg';
-import pic1 from '../assets/images/pic1.jpeg';
-import npool2 from '../assets/images/npool2.jpeg';
-import npool3 from '../assets/images/npool3.jpeg';
-import heritage2 from '../assets/images/heritage2.jpeg';
+import { INITIAL_FACILITIES } from '../data/initialData';
 
 export interface GalleryItem {
     id: string | number;
@@ -24,144 +13,6 @@ export interface GalleryItem {
     category: string;
     badge?: string;
 }
-
-const STATIC_FACILITIES: GalleryItem[] = [
-    {
-        id: 1,
-        title: "Suite Rooms",
-        description: "Premium luxury suites with gorgeous views and exquisite amenities.",
-        image_url: suite1Img,
-        category: "Accommodations",
-        badge: "PREMIUM choice",
-    },
-    {
-        id: 2,
-        title: "Farmstay",
-        description: "Experience authentic rural life in our traditional farmstay cottages.",
-        image_url: pic2,
-        category: "Accommodations",
-    },
-    {
-        id: 3,
-        title: "Dormitory",
-        description: "Comfortable and spacious shared accommodations for groups and backpackers.",
-        image_url: dormitoryImg,
-        category: "Accommodations",
-    },
-    {
-        id: 4,
-        title: "Massage Centre",
-        description: "Rejuvenating therapies and traditional massages for ultimate relaxation.",
-        image_url: pic4,
-        category: "Wellness",
-    },
-    {
-        id: 5,
-        title: "Business Centre",
-        description: "Fully equipped modern workspace and meeting rooms for professionals.",
-        image_url: pic5,
-        category: "Facilities",
-    },
-    {
-        id: 6,
-        title: "Banquet Hall",
-        description: "State-of-the-art facilities for large gatherings, events, and celebrations.",
-        image_url: pic3,
-        category: "Facilities",
-    },
-    {
-        id: 7,
-        title: "Restaurant",
-        description: "Multi-cuisine dining experience with a stunning view.",
-        image_url: pic5,
-        category: "Dining",
-    },
-    {
-        id: 8,
-        title: "Organic Food",
-        description: "Farm-to-table dining featuring fresh, locally sourced organic ingredients.",
-        image_url: heritage1,
-        category: "Dining",
-    },
-    {
-        id: 9,
-        title: "Natural Rock Pool",
-        description: "Crystal clear natural rock pools perfect for a refreshing dip.",
-        image_url: npool1,
-        category: "Activities",
-        badge: "POPULAR",
-    },
-    {
-        id: 10,
-        title: "Farm Tour",
-        description: "Guided tours through our rubber plantations, fruit gardens, and rice paddies.",
-        image_url: pic1,
-        category: "Activities",
-    },
-    {
-        id: 11,
-        title: "Campfire",
-        description: "Cozy evenings around the campfire with music and storytelling.",
-        image_url: pic2,
-        category: "Activities",
-    },
-    {
-        id: 12,
-        title: "Boating",
-        description: "Peaceful boating experiences on the scenic lake.",
-        image_url: npool2,
-        category: "Activities",
-    },
-    {
-        id: 13,
-        title: "Fishing",
-        description: "Relaxing fishing activities by our well-stocked ponds.",
-        image_url: npool3,
-        category: "Activities",
-    },
-    {
-        id: 14,
-        title: "Wild Safari",
-        description: "Thrilling wildlife encounters and guided safari adventures.",
-        image_url: heritage2,
-        category: "Activities",
-    },
-    {
-        id: 15,
-        title: "Rural Visit",
-        description: "Immersive visits to local villages to experience the culture.",
-        image_url: heritage1,
-        category: "Activities",
-    },
-    {
-        id: 16,
-        title: "Bird Watching",
-        description: "Spot endemic and migratory birds in their natural lush habitats.",
-        image_url: pic4,
-        category: "Activities",
-    },
-    {
-        id: 17,
-        title: "Trekking",
-        description: "Challenging trails offering spectacular panoramic mountain views.",
-        image_url: pic1,
-        category: "Activities",
-    },
-    {
-        id: 18,
-        title: "Camping",
-        description: "Sleep under the stars with our secure and scenic camping grounds.",
-        image_url: pic2,
-        category: "Activities",
-    },
-    {
-        id: 19,
-        title: "Cultural Experience",
-        description: "Witness traditional art forms and local heritage showcases.",
-        image_url: heritage2,
-        category: "Activities",
-    }
-];
 
 export const CATEGORIES = ["All Collections", "Accommodations", "Facilities", "Dining", "Wellness", "Activities"];
 
@@ -176,7 +27,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
             if (data && data.length > 0) {
                 setFacilities(data);
             } else {
-                setFacilities(STATIC_FACILITIES);
+                setFacilities(INITIAL_FACILITIES);
             }
         };
         fetchFacilities();

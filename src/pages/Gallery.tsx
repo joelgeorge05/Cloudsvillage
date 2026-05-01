@@ -2,29 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { supabase } from '../lib/supabase';
 
-import pic1 from '../assets/images/pic1.jpeg';
-import pic3 from '../assets/images/pic3.jpeg';
-import pic4 from '../assets/images/pic4.jpeg';
-import heritage1 from '../assets/images/heritage1.jpeg';
-import heritage2 from '../assets/images/heritage2.jpeg';
-import pic5 from '../assets/images/pic5.jpeg';
-import gal1 from '../assets/gallery/IMG_2325.JPG';
-import gal2 from '../assets/gallery/IMG_2331.JPG';
-import gal3 from '../assets/gallery/IMG_2561.JPG';
-import gal4 from '../assets/gallery/IMG_2666.JPG';
-
-const STATIC_IMAGES = [
-    { id: 's1', url: pic1, title: 'Resort Weddings' },
-    { id: 's2', url: pic3, title: 'Corporate Retreats' },
-    { id: 's3', url: pic4, title: 'Family Gatherings' },
-    { id: 's4', url: heritage1, title: 'Cultural Nights' },
-    { id: 's5', url: heritage2, title: 'Birthday Celebrations' },
-    { id: 's6', url: pic5, title: 'Yoga Retreats' },
-    { id: 's7', url: gal1, title: 'Resort Views' },
-    { id: 's8', url: gal2, title: 'Scenic Landscapes' },
-    { id: 's9', url: gal3, title: 'Relaxing Vibes' },
-    { id: 's10', url: gal4, title: 'Nature Escapes' }
-];
+import { INITIAL_GALLERY } from '../data/initialData';
 
 export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], title: string) => void }) => {
     const [images, setImages] = useState<any[]>([]);
@@ -35,7 +13,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
             if (data && data.length > 0) {
                 setImages(data);
             } else {
-                setImages(STATIC_IMAGES);
+                setImages(INITIAL_GALLERY);
             }
         };
         fetchImages();

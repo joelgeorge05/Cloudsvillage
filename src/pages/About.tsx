@@ -1,10 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
+import { supabase } from '../lib/supabase';
 import heritage1 from '../assets/images/heritage1.jpeg';
 import npool1 from '../assets/images/npool1.jpeg';
 import pic1 from '../assets/images/pic1.jpeg';
 
 export const About = () => {
+    const [content, setContent] = useState({
+        title: 'Authentic Farm Stay',
+        subtitle: "in Kerala's Heart",
+        text: "Clouds Village Farm Resort is an authentic farm stay nestled in the heart of Manjakkunel Farm, Thodupuzha, in Kerala's Idukki district. It offers a serene escape completely surrounded by lush rice paddies, thriving rubber plantations, exotic fruit gardens, and its very own scenic waterfall.",
+        stat1Value: '15+',
+        stat1Label: 'Acres of Nature',
+        stat2Value: '100%',
+        stat2Label: 'Organic Farm'
+    });
+
+    useEffect(() => {
+        const fetchContent = async () => {
+            const { data } = await supabase.from('settings').select('*').single();
+            if (data) {
+                setContent({
+                    title: data.about_title || 'Authentic Farm Stay',
+                    subtitle: data.about_subtitle || "in Kerala's Heart",
+                    text: data.about_content || "Clouds Village Farm Resort is an authentic farm stay nestled in the heart of Manjakkunel Farm, Thodupuzha, in Kerala's Idukki district.",
+                    stat1Value: data.about_stat1_value || '15+',
+                    stat1Label: data.about_stat1_label || 'Acres of Nature',
+                    stat2Value: data.about_stat2_value || '100%',
+                    stat2Label: data.about_stat2_label || 'Organic Farm'
+                });
+            }
+        };
+        fetchContent();
+    }, []);
+
     return (
         <motion.section
             initial={{ opacity: 0 }}
@@ -32,27 +61,24 @@ export const About = () => {
                         </div>
 
                         <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-6 md:mb-8 leading-tight drop-shadow-lg">
-                            Authentic Farm Stay <br />
-                            <span className="text-white/30 italic font-light drop-shadow-none">in Kerala's Heart</span>
+                            {content.title} <br />
+                            <span className="text-white/30 italic font-light drop-shadow-none">{content.subtitle}</span>
                         </h2>
 
                         <div className="space-y-4 md:space-y-6 text-white/60 text-base md:text-lg leading-relaxed mb-8 md:mb-10">
-                            <p className="border-l-2 border-brand-cyan/50 pl-6 text-white/80 font-medium">
-                                Clouds Village Farm Resort is an authentic farm stay nestled in the heart of Manjakkunel Farm, Thodupuzha, in Kerala's Idukki district.
-                            </p>
-                            <p className="pl-6">
-                                It offers a serene escape completely surrounded by lush rice paddies, thriving rubber plantations, exotic fruit gardens, and its very own scenic waterfall. A true return to nature without compromising on luxury.
+                            <p className="border-l-2 border-brand-cyan/50 pl-6 text-white/80 font-medium whitespace-pre-wrap">
+                                {content.text}
                             </p>
                         </div>
 
                         <div className="grid grid-cols-2 gap-8 pt-8 border-t border-white/10 pl-6">
                             <div>
-                                <div className="text-4xl font-display font-bold text-brand-cyan mb-2">15+</div>
-                                <div className="text-xs uppercase tracking-[0.2em] text-white/40 font-bold">Acres of Nature</div>
+                                <div className="text-4xl font-display font-bold text-brand-cyan mb-2">{content.stat1Value}</div>
+                                <div className="text-xs uppercase tracking-[0.2em] text-white/40 font-bold">{content.stat1Label}</div>
                             </div>
                             <div>
-                                <div className="text-4xl font-display font-bold text-brand-cyan mb-2">100%</div>
-                                <div className="text-xs uppercase tracking-[0.2em] text-white/40 font-bold">Organic Farm</div>
+                                <div className="text-4xl font-display font-bold text-brand-cyan mb-2">{content.stat2Value}</div>
+                                <div className="text-xs uppercase tracking-[0.2em] text-white/40 font-bold">{content.stat2Label}</div>
                             </div>
                         </div>
                     </motion.div>

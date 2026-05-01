@@ -24,8 +24,11 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
         fetchSettings();
     }, []);
 
-    const heroTitle = settings?.hero_title || "Clouds";
-    const heroTitleItalic = settings?.hero_title_italic || "Village";
+    const fullTitle = settings?.hero_title || "Clouds Village";
+    const titleParts = fullTitle.split(' ');
+    const heroTitle = titleParts[0];
+    const heroTitleItalic = titleParts.slice(1).join(' ') || "";
+    
     const heroSubtitle = settings?.hero_subtitle || "Escape the ordinary. Experience luxury woven into nature at our exclusive retreat.";
     const bgVideo = settings?.bg_video_url || "/CLOUDS VILLAGE DAY.mp4";
 
@@ -93,9 +96,9 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                         className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 md:gap-6 w-full"
                     >
                         {[
-                            { icon: Waves, label: "Natural Pool", desc: "Crystal Clear", images: [npool1, npool2, npool3, npool4, npool5, npool6, npool7] },
-                            { icon: Compass, label: "Safari", desc: "Wild Encounters" },
-                            { icon: Landmark, label: "Heritage", desc: "Local Culture", images: [heritage1, heritage2] },
+                            { icon: Waves, label: settings?.amenity1_label || "Natural Pool", desc: settings?.amenity1_desc || "Crystal Clear", images: [npool1, npool2, npool3, npool4, npool5, npool6, npool7] },
+                            { icon: Compass, label: settings?.amenity2_label || "Safari", desc: settings?.amenity2_desc || "Wild Encounters" },
+                            { icon: Landmark, label: settings?.amenity3_label || "Heritage", desc: settings?.amenity3_desc || "Local Culture", images: [heritage1, heritage2] },
                         ].map((item, idx) => (
                             <div
                                 key={item.label}

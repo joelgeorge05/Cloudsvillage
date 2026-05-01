@@ -10,6 +10,20 @@ export const ContactUs = () => {
     const [bookingAdults, setBookingAdults] = useState(2);
     const [bookingChildren, setBookingChildren] = useState(0);
 
+    const [settings, setSettings] = useState<any>(null);
+
+    React.useEffect(() => {
+        const fetchSettings = async () => {
+            const { data } = await supabase.from('settings').select('*').single();
+            if (data) setSettings(data);
+        };
+        fetchSettings();
+    }, []);
+
+    const contactTitle = settings?.contact_title || "Book Your Stay";
+    const contactSubtitle = settings?.contact_subtitle || "Ready for your luxury escape? Select your dates, guests, and preferred room type to check availability instantly. We guarantee the best rates when booking direct.";
+    const contactHighlight = settings?.contact_highlight || "Breakfast included with all direct bookings";
+
     return (
         <motion.section
             initial={{ opacity: 0, scale: 0.95 }}
@@ -21,15 +35,15 @@ export const ContactUs = () => {
             <div className="flex flex-col lg:flex-row gap-12 items-center w-full">
                 <div className="w-full lg:w-1/3">
                     <span className="text-brand-cyan text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Reservations</span>
-                    <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-4 md:mb-6">Book Your Stay</h2>
+                    <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-4 md:mb-6">{contactTitle}</h2>
                     <p className="text-white/60 mb-6 md:mb-8 leading-relaxed text-sm md:text-base">
-                        Ready for your luxury escape? Select your dates, guests, and preferred room type to check availability instantly. We guarantee the best rates when booking direct.
+                        {contactSubtitle}
                     </p>
                     <div className="flex items-center gap-4 text-white/80">
                         <div className="w-12 h-12 rounded-full glass flex items-center justify-center text-brand-cyan">
                             <Coffee size={20} />
                         </div>
-                        <span className="text-sm">Breakfast included with all direct bookings</span>
+                        <span className="text-sm">{contactHighlight}</span>
                     </div>
                 </div>
 
@@ -69,21 +83,25 @@ export const ContactUs = () => {
 
                                 // Save to Supabase
                                 const saveToSupabase = async () => {
+                                    const guests = formData.get('guests') || `${bookingAdults} Adults, ${bookingChildren} Children`;
+                                    const messageSummary = `
+                                        Room: ${formData.get('room_type')}
+                                        Dates: ${checkIn} to ${checkOut}
+                                        Guests: ${guests}
+                                    `.trim();
+
                                     const { error } = await supabase
                                         .from('bookings')
                                         .insert([{
-                                            user_name: formData.get('user_name'),
-                                            user_phone: formData.get('user_phone'),
-                                            user_email: formData.get('user_email'),
-                                            check_in: checkIn,
-                                            check_out: checkOut,
-                                            room_type: formData.get('room_type'),
-                                            guests: formData.get('guests') || `${bookingAdults} Adults, ${bookingChildren} Children`
+                                            name: formData.get('user_name'),
+                                            phone: formData.get('user_phone'),
+                                            email: formData.get('user_email'),
+                                            date: checkIn, // Using check-in as the primary date
+                                            message: messageSummary
                                         }]);
 
                                     if (error) {
                                         console.error('Error saving to Supabase:', error);
-                                        // We continue even if Supabase fails, as EmailJS is the primary notification
                                     }
                                 };
 

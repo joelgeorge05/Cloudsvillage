@@ -1,9 +1,20 @@
 import React from 'react';
 import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, ChevronRight } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 import logoImg from '../assets/images/logo.png';
 
 export const Footer = () => {
+    const [settings, setSettings] = React.useState<any>(null);
+
+    React.useEffect(() => {
+        const fetchSettings = async () => {
+            const { data } = await supabase.from('settings').select('*').single();
+            if (data) setSettings(data);
+        };
+        fetchSettings();
+    }, []);
+
     const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
         if (sectionId === '#') return;
         e.preventDefault();
@@ -19,6 +30,14 @@ export const Footer = () => {
             });
         }
     };
+
+    const contactAddress = settings?.contact_address || "Clouds Village Farm Resort, Manjakkunel Farm, Thodupuzha, Idukki, Kerala";
+    const contactPhone = settings?.contact_phone || "+91 9645464747, +91 9446506075";
+    const contactEmail = settings?.contact_email || "cloudsvillage@gmail.com";
+    const contactLocationUrl = settings?.contact_location_url || "https://google.com/maps/place/Clouds+Village+Farm+Resort/@9.9797876,76.8016067,17z";
+    const facebookUrl = settings?.facebook_url || "https://www.facebook.com/CloudsVillageResort/";
+    const instagramUrl = settings?.instagram_url || "https://www.instagram.com/cloudsvillagefarmresort";
+    const youtubeUrl = settings?.youtube_url || "https://www.youtube.com/channel/UCc94gpmGBGYSEpCx8sCWmbA";
 
     return (
         <footer id="contact-us" className="relative bg-brand-dark overflow-hidden border-t border-white/5 pt-20 pb-10">
@@ -46,15 +65,15 @@ export const Footer = () => {
                             Escape the ordinary. Experience luxury woven into nature at our exclusive retreat. Where every moment is a memory waiting to be made.
                         </p>
                         <div className="flex gap-4 mt-4">
-                            <a href="https://www.facebook.com/CloudsVillageResort/" target="_blank" rel="noopener noreferrer" className="group relative w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-1 overflow-hidden shadow-[0_0_15px_rgba(0,163,196,0.1)] hover:shadow-[0_0_20px_rgba(0,163,196,0.5)]">
+                            <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="group relative w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-1 overflow-hidden shadow-[0_0_15px_rgba(0,163,196,0.1)] hover:shadow-[0_0_20px_rgba(0,163,196,0.5)]">
                                 <div className="absolute inset-0 bg-[#1877F2] scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom duration-300" />
                                 <Facebook size={20} className="relative z-10 group-hover:text-white transition-colors" />
                             </a>
-                            <a href="https://www.instagram.com/cloudsvillagefarmresort?igsh=cTQyc2pjYXpqZzZ6" target="_blank" rel="noopener noreferrer" className="group relative w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-1 overflow-hidden shadow-[0_0_15px_rgba(0,163,196,0.1)] hover:shadow-[0_0_20px_rgba(255,0,128,0.4)]">
+                            <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="group relative w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-1 overflow-hidden shadow-[0_0_15px_rgba(0,163,196,0.1)] hover:shadow-[0_0_20px_rgba(255,0,128,0.4)]">
                                 <div className="absolute inset-0 bg-gradient-to-tr from-[#FD1D1D] via-[#E1306C] to-[#833AB4] scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom duration-300" />
                                 <Instagram size={20} className="relative z-10 group-hover:text-white transition-colors" />
                             </a>
-                            <a href="https://www.youtube.com/channel/UCc94gpmGBGYSEpCx8sCWmbA" target="_blank" rel="noopener noreferrer" className="group relative w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-1 overflow-hidden shadow-[0_0_15px_rgba(0,163,196,0.1)] hover:shadow-[0_0_20px_rgba(255,0,0,0.5)]">
+                            <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="group relative w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-1 overflow-hidden shadow-[0_0_15px_rgba(0,163,196,0.1)] hover:shadow-[0_0_20px_rgba(255,0,0,0.5)]">
                                 <div className="absolute inset-0 bg-[#FF0000] scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom duration-300" />
                                 <Youtube size={20} className="relative z-10 group-hover:text-white transition-colors" />
                             </a>
@@ -69,27 +88,27 @@ export const Footer = () => {
                         </span>
                         <ul className="flex flex-col gap-3">
                             <li>
-                                <a href="https://google.com/maps/place/Clouds+Village+Farm+Resort/@9.9797876,76.8016067,17z/data=!4m9!3m8!1s0x3b07c1e777b0f6a7:0x5794954071fa596e!5m2!4m1!1i2!8m2!3d9.9807612!4d76.8032541!16s%2Fg%2F11gy5zdslv?entry=tts&g_ep=EgoyMDI1MDkwMy4wIPu8ASoASAFQAw%3D%3D&skid=0a7d89ea-06e3-4f0f-8224-e26089b0ce57" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 p-3 -ml-3 rounded-xl hover:bg-white/5 transition-colors group">
+                                <a href={contactLocationUrl} target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 p-3 -ml-3 rounded-xl hover:bg-white/5 transition-colors group">
                                     <div className="w-10 h-10 rounded-full bg-brand-cyan/10 flex items-center justify-center shrink-0 group-hover:bg-brand-cyan group-hover:scale-110 transition-all shadow-inner">
                                         <MapPin size={18} className="text-brand-cyan group-hover:text-brand-dark transition-colors" />
                                     </div>
-                                    <span className="text-sm leading-relaxed text-white/70 group-hover:text-white transition-colors mt-1">Clouds Village Farm Resort,<br />Manjakkunel Farm, Thodupuzha,<br />Idukki, Kerala</span>
+                                    <span className="text-sm leading-relaxed text-white/70 group-hover:text-white transition-colors mt-1 whitespace-pre-wrap">{contactAddress}</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="tel:+919645464747" className="flex items-center gap-4 p-3 -ml-3 rounded-xl hover:bg-white/5 transition-colors group">
+                                <a href={`tel:${contactPhone.split(',')[0].trim()}`} className="flex items-center gap-4 p-3 -ml-3 rounded-xl hover:bg-white/5 transition-colors group">
                                     <div className="w-10 h-10 rounded-full bg-brand-cyan/10 flex items-center justify-center shrink-0 group-hover:bg-brand-cyan group-hover:scale-110 transition-all shadow-inner">
                                         <Phone size={18} className="text-brand-cyan group-hover:text-brand-dark transition-colors" />
                                     </div>
-                                    <span className="text-sm text-white/70 group-hover:text-white transition-colors">+91 9645464747, +91 9446506075</span>
+                                    <span className="text-sm text-white/70 group-hover:text-white transition-colors">{contactPhone}</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="mailto:cloudsvillage@gmail.com" className="flex items-center gap-4 p-3 -ml-3 rounded-xl hover:bg-white/5 transition-colors group">
+                                <a href={`mailto:${contactEmail}`} className="flex items-center gap-4 p-3 -ml-3 rounded-xl hover:bg-white/5 transition-colors group">
                                     <div className="w-10 h-10 rounded-full bg-brand-cyan/10 flex items-center justify-center shrink-0 group-hover:bg-brand-cyan group-hover:scale-110 transition-all shadow-inner">
                                         <Mail size={18} className="text-brand-cyan group-hover:text-brand-dark transition-colors" />
                                     </div>
-                                    <span className="text-sm text-white/70 group-hover:text-white transition-colors">cloudsvillage@gmail.com</span>
+                                    <span className="text-sm text-white/70 group-hover:text-white transition-colors">{contactEmail}</span>
                                 </a>
                             </li>
                         </ul>
