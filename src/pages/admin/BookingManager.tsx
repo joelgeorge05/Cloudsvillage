@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { supabase } from '../../lib/supabase';
+import emailjs from '@emailjs/browser';
 
 export const BookingManager = () => {
   const [bookings, setBookings] = useState<any[]>([]);
@@ -25,6 +26,7 @@ export const BookingManager = () => {
   const [filter, setFilter] = useState('all');
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [sendingEmail, setSendingEmail] = useState(false);
 
   const openConfirmationModal = (booking: any) => {
     setSelectedBooking(booking);
@@ -49,35 +51,54 @@ export const BookingManager = () => {
   const handleSendEmail = async () => {
     if (!selectedBooking) return;
 
-    // Update local UI immediately so it reflects the change
-    setBookings(bookings.map(b => b.id === selectedBooking.id ? { ...b, status: 'confirmed' } : b));
+    setSendingEmail(true);
+    try {
+      // 1. Send Automated Email via EmailJS
+      const templateParams = {
+        to_name: selectedBooking.name,
+        to_email: selectedBooking.email,
+        message: confirmationMessage,
+        subject: "Booking Confirmation - Cloud Village",
+        // These fields are standard in many templates
+        guest_name: selectedBooking.name,
+        booking_details: selectedBooking.message,
+        reply_to: 'cloudvillage@gmail.com' // Adjust if you have a business email
+      };
 
-    // Try to update using a prefix hack so the user doesn't have to alter the Supabase schema
-    await supabase
-      .from('bookings')
-      .update({ message: `[CONFIRMED]\n${selectedBooking.message || ''}` })
-      .eq('id', selectedBooking.id);
+      await emailjs.send(
+        'service_hu3jl8g',   // Service ID
+        'template_y8kgrhq',  // Template ID (User might want to update this)
+        templateParams,
+        'cDIGWBEFd8TNUon5u'  // Public Key
+      );
 
-    // Also attempt standard status update just in case they added the column
-    supabase.from('bookings').update({ status: 'confirmed' }).eq('id', selectedBooking.id);
+      // 2. Update Supabase Status
+      // Update local UI immediately so it reflects the change
+      setBookings(bookings.map(b => b.id === selectedBooking.id ? { ...b, status: 'confirmed' } : b));
 
-    const subject = encodeURIComponent("Booking Confirmation - Cloud Village");
-    const body = encodeURIComponent(confirmationMessage);
-    
-    // Add visual feedback before triggering mailto
-    alert("Confirmation marked! Opening your default email app to send the message...");
-    
-    // Use a hidden anchor tag to trigger mailto reliably without popup blockers
-    const mailtoLink = `mailto:${selectedBooking.email}?subject=${subject}&body=${body}`;
-    const link = document.createElement('a');
-    link.href = mailtoLink;
-    // Some browsers need target="_blank" on the anchor
-    link.target = "_blank";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    closeConfirmationModal();
+      // Try to update using a prefix hack so the user doesn't have to alter the Supabase schema
+      await supabase
+        .from('bookings')
+        .update({ message: `[CONFIRMED]\n${selectedBooking.message || ''}` })
+        .eq('id', selectedBooking.id);
+
+      // Also attempt standard status update just in case they added the column
+      await supabase.from('bookings').update({ status: 'confirmed' }).eq('id', selectedBooking.id);
+
+      alert("Success! Confirmation email has been sent automatically.");
+      closeConfirmationModal();
+    } catch (err: any) {
+      console.error('Failed to send email:', err);
+      alert(`Automated sending failed: ${err.text || err.message || 'Unknown error'}. \n\nFalling back to manual method...`);
+      
+      // Fallback to mailto if EmailJS fails
+      const subject = encodeURIComponent("Booking Confirmation - Cloud Village");
+      const body = encodeURIComponent(confirmationMessage);
+      const mailtoLink = `mailto:${selectedBooking.email}?subject=${subject}&body=${body}`;
+      window.open(mailtoLink, '_blank');
+    } finally {
+      setSendingEmail(false);
+    }
   };
 
   useEffect(() => {
@@ -302,8 +323,7 @@ export const BookingManager = () => {
                 />
               </div>
               <p className="text-brand-cyan/80 text-sm font-medium flex items-start gap-2 bg-brand-cyan/10 p-3 rounded-xl border border-brand-cyan/20">
-                <AlertCircle size={18} className="shrink-0 mt-0.5" />
-                Clicking send will mark this booking as Confirmed and open your computer's default email app (like Outlook or Mail) with this message ready to send.
+                Clicking send will mark this booking as Confirmed and send an automated email to the guest using your EmailJS configuration.
               </p>
             </div>
 
@@ -316,10 +336,20 @@ export const BookingManager = () => {
               </button>
               <button
                 onClick={handleSendEmail}
-                className="px-6 py-3 bg-brand-cyan text-[#0f172a] rounded-xl font-bold hover:bg-[#00d4ff] transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,163,196,0.3)] hover:shadow-[0_0_30px_rgba(0,163,196,0.5)] transform hover:-translate-y-0.5"
+                disabled={sendingEmail}
+                className="px-6 py-3 bg-brand-cyan text-[#0f172a] rounded-xl font-bold hover:bg-[#00d4ff] transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,163,196,0.3)] hover:shadow-[0_0_30px_rgba(0,163,196,0.5)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Send size={18} />
-                Send Confirmation Email
+                {sendingEmail ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-[#0f172a] border-t-transparent rounded-full animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} />
+                    Send Confirmation Email
+                  </>
+                )}
               </button>
             </div>
           </div>
