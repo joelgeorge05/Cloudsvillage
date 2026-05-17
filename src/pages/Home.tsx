@@ -15,13 +15,20 @@ import heritage2 from '../assets/images/heritage2.jpeg';
 
 export const Home = ({ openLightbox }: { openLightbox: (images: string[], title: string) => void }) => {
     const [settings, setSettings] = useState<any>(null);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
         const fetchSettings = async () => {
             const { data } = await supabase.from('settings').select('*').single();
             if (data) setSettings(data);
         };
         fetchSettings();
+        
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
     const fullTitle = settings?.hero_title || "Clouds Village";
@@ -36,19 +43,28 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
         <section className="relative min-h-[100svh] md:h-[90vh] md:min-h-[700px] flex items-center justify-center overflow-hidden py-24 md:py-0">
             {/* Background Layer */}
             <div className="absolute inset-0 z-0">
-                <motion.video
-                    key={bgVideo}
-                    initial={{ scale: 1.1 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                >
-                    <source src={bgVideo} type="video/mp4" />
-                </motion.video>
+                {isMobile ? (
+                    <img 
+                        src={npool1} 
+                        alt="Clouds Village" 
+                        className="w-full h-full object-cover"
+                    />
+                ) : (
+                    <motion.video
+                        key={bgVideo}
+                        initial={{ scale: 1.1 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 1.5, ease: "easeOut" }}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover"
+                        poster={npool1}
+                    >
+                        <source src={bgVideo} type="video/mp4" />
+                    </motion.video>
+                )}
                 {/* Multi-stop cinematic gradient for better text legibility */}
                 <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/80 via-brand-dark/40 to-brand-dark opacity-90" />
 
