@@ -49,7 +49,7 @@ export const ContactUs = () => {
 
                 <div className="w-full lg:w-2/3">
                     <div className="glass rounded-[2rem] p-8 md:p-10 border border-white/10 relative overflow-hidden shadow-2xl">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-brand-cyan/10 rounded-full mix-blend-screen filter blur-3xl opacity-50 pointer-events-none" />
+                        <div className="hidden md:block absolute top-0 right-0 w-64 h-64 bg-brand-cyan/10 rounded-full mix-blend-screen filter blur-3xl opacity-50 pointer-events-none" />
 
                         {bookingStatus === 'success' ? (
                             <div className="flex flex-col items-center justify-center py-12 text-center h-full relative z-10">

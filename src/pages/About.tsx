@@ -43,7 +43,7 @@ export const About = () => {
             className="bg-brand-dark relative z-10 py-32 overflow-hidden border-y border-white/5 min-h-[100svh] flex items-center mt-20"
         >
             {/* Glow Element */}
-            <div className="absolute -left-[300px] top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full filter blur-[150px] pointer-events-none animate-blob" />
+            <div className="hidden md:block absolute -left-[300px] top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full filter blur-[150px] pointer-events-none animate-blob" />
 
             <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">

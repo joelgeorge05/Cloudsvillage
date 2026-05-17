@@ -80,7 +80,7 @@ export const Destinations = () => {
             transition={{ duration: 0.8 }}
             className="bg-brand-surface py-20 md:py-32 border-y border-white/5 min-h-[100svh] mt-16 md:mt-20 relative overflow-hidden"
         >
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-20 pointer-events-none transform translate-x-1/2 -translate-y-1/2" />
+            <div className="hidden md:block absolute top-0 right-0 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-20 pointer-events-none transform translate-x-1/2 -translate-y-1/2" />
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                     <div className="max-w-3xl">

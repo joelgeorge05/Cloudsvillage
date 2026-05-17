@@ -56,8 +56,8 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
             className="relative bg-brand-surface py-20 md:py-32 overflow-hidden border-y border-white/5 min-h-[100svh] pt-24 md:pt-32 mt-16 md:mt-20"
         >
             {/* Abstract Background Glows */}
-            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-cyan/10 rounded-full filter blur-[120px] opacity-40 pointer-events-none transform translate-x-1/3 -translate-y-1/3" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-30 pointer-events-none transform -translate-x-1/3 translate-y-1/3" />
+            <div className="hidden md:block absolute top-0 right-0 w-[800px] h-[800px] bg-brand-cyan/10 rounded-full filter blur-[120px] opacity-40 pointer-events-none transform translate-x-1/3 -translate-y-1/3" />
+            <div className="hidden md:block absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-30 pointer-events-none transform -translate-x-1/3 translate-y-1/3" />
 
             <div className="max-w-[1400px] mx-auto px-6 relative z-10">
                 <div className="text-center mb-16 md:mb-24 relative">
