@@ -144,6 +144,8 @@ export const Footer = () => {
                     </div>
                     <div className="flex items-center gap-2 text-[11px] text-white/40 uppercase tracking-widest font-bold">
                         Designed for <span className="text-brand-cyan drop-shadow-[0_0_10px_rgba(0,163,196,0.8)]">Luxury</span>
+                        <span className="text-white/20">|</span>
+                        <span>Dev: <a href="https://www.instagram.com/j_oelgeorge?igsh=MWZ3OWR5dDA4OG5qeA%3D%3D" target="_blank" rel="noopener noreferrer" className="text-brand-cyan hover:text-white transition-colors">Joel</a></span>
                     </div>
                 </div>
             </div>
