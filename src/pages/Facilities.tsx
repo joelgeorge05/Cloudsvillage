@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Maximize2 } from 'lucide-react';
+import { Maximize2, ArrowUpRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 import { INITIAL_FACILITIES } from '../data/initialData';
@@ -19,7 +19,6 @@ export const CATEGORIES = ["All Collections", "Accommodations", "Facilities", "D
 export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], title: string) => void }) => {
     const [facilities, setFacilities] = useState<GalleryItem[]>([]);
     const [activeCategory, setActiveCategory] = useState("All Collections");
-    const [selectedFacility, setSelectedFacility] = useState<GalleryItem | null>(null);
 
     useEffect(() => {
         const fetchFacilities = async () => {
@@ -36,16 +35,6 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
     const filteredGallery = activeCategory === "All Collections"
         ? facilities
         : facilities.filter(item => item.category === activeCategory);
-
-    useEffect(() => {
-        if (filteredGallery.length > 0) {
-            if (!selectedFacility || !filteredGallery.find(item => item.id === selectedFacility.id)) {
-                setSelectedFacility(filteredGallery[0]);
-            }
-        } else {
-            setSelectedFacility(null);
-        }
-    }, [activeCategory, filteredGallery, selectedFacility]);
 
     return (
         <motion.section
@@ -102,115 +91,85 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                     ))}
                 </div>
 
-                {/* Master-Detail Layout */}
+                {/* Immersive Responsive Grid Showcase */}
                 <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="flex flex-col lg:flex-row gap-6 lg:gap-10 h-auto lg:h-[480px]"
+                    layout
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                 >
-
-                    {/* Left Sidebar - Scrollable List */}
-                    <div className="w-full lg:w-1/3 flex flex-col gap-3 overflow-y-auto hide-scrollbar pr-2 pb-4 snap-y max-h-[40vh] md:max-h-[50vh] lg:max-h-none lg:h-full">
-                        {filteredGallery.map((item) => (
-                            <motion.button
+                    <AnimatePresence mode="popLayout">
+                        {filteredGallery.map((item, idx) => (
+                            <motion.div
                                 key={item.id}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.3 }}
-                                onClick={() => setSelectedFacility(item)}
-                                className={`snap-start text-left w-full p-4 rounded-2xl transition-all duration-300 border relative group overflow-hidden shrink-0 ${selectedFacility?.id === item.id
-                                    ? 'bg-brand-cyan/10 border-brand-cyan/50 shadow-[0_0_20px_rgba(0,163,196,0.15)] transform scale-[1.02] z-10'
-                                    : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20 hover:scale-[1.01]'
-                                    }`}
+                                layout
+                                initial={{ opacity: 0, y: 40 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                transition={{ duration: 0.5, delay: idx * 0.05 }}
+                                className="group relative rounded-[2.5rem] overflow-hidden border border-white/5 bg-brand-surface/30 backdrop-blur-xl hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(0,163,196,0.15)] flex flex-col h-[480px]"
                             >
-                                {selectedFacility?.id === item.id && (
-                                    <motion.div
-                                        initial={{ opacity: 0, scaleY: 0 }}
-                                        animate={{ opacity: 1, scaleY: 1 }}
-                                        className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-cyan shadow-[0_0_10px_rgba(0,163,196,0.8)] origin-center"
-                                        transition={{ duration: 0.3 }}
+                                {/* Image showcase container */}
+                                <div className="relative h-64 overflow-hidden shrink-0">
+                                    <img
+                                        src={item.image_url}
+                                        alt={item.title}
+                                        className="w-full h-full object-cover transition-transform duration-[2.5s] ease-out group-hover:scale-110"
                                     />
-                                )}
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <h4 className={`font-display font-bold text-lg transition-colors duration-300 ${selectedFacility?.id === item.id ? 'text-brand-cyan' : 'text-white'
-                                            }`}>
+                                    {/* Glass gradient protection overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/10 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-85" />
+                                    
+                                    {/* Category badge */}
+                                    <div className="absolute bottom-4 left-6 bg-brand-cyan/20 border border-brand-cyan/30 text-brand-cyan text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-md">
+                                        {item.category}
+                                    </div>
+                                    
+                                    {/* Action badges */}
+                                    {item.badge && (
+                                        <div className="absolute top-4 left-6 bg-[#D4AF37]/20 border border-[#D4AF37]/30 text-[#E5C158] text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest backdrop-blur-md shadow-lg flex items-center gap-1.5">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-[#E5C158] animate-pulse" />
+                                            {item.badge}
+                                        </div>
+                                    )}
+
+                                    {/* Floating Zoom overlay button */}
+                                    <button
+                                        onClick={() => openLightbox([item.image_url], item.title)}
+                                        className="absolute top-4 right-6 w-10 h-10 rounded-full glass border border-white/10 flex items-center justify-center text-white/60 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500 hover:bg-white hover:text-brand-dark hover:scale-110 cursor-pointer"
+                                        title="View Fullscreen"
+                                    >
+                                        <Maximize2 size={16} />
+                                    </button>
+                                </div>
+
+                                {/* Details / Card Body */}
+                                <div className="p-8 flex flex-col justify-between flex-grow bg-brand-surface/20">
+                                    <div className="space-y-3">
+                                        <h3 className="font-display font-bold text-2xl text-white group-hover:text-brand-cyan transition-colors duration-300">
                                             {item.title}
-                                        </h4>
-                                        <p className="text-white/40 text-[10px] font-bold tracking-widest uppercase mt-1">
-                                            {item.category}
+                                        </h3>
+                                        <p className="text-white/50 text-sm leading-relaxed line-clamp-3 font-light">
+                                            {item.description}
                                         </p>
                                     </div>
-                                    {item.badge && (
-                                        <span className="hidden sm:inline-block bg-brand-cyan/20 text-brand-cyan text-[9px] font-bold px-2 py-1 rounded tracking-wider uppercase">
-                                            {item.badge}
-                                        </span>
-                                    )}
-                                </div>
-                            </motion.button>
-                        ))}
-                    </div>
 
-                    {/* Right Side - Hero Display */}
-                    <div className="w-full lg:w-2/3 relative h-[400px] sm:h-[500px] lg:h-full rounded-[2rem] overflow-hidden group border-[0.5px] border-white/20 shadow-[0_30px_80px_rgba(0,0,0,0.6)] glass">
-                        <AnimatePresence mode="wait">
-                            {selectedFacility && (
-                                <motion.div
-                                    key={selectedFacility.id}
-                                    initial={{ opacity: 0, scale: 1.05 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    transition={{ duration: 0.6, ease: "easeOut" }}
-                                    className="absolute inset-0"
-                                >
-                                    <img
-                                        src={selectedFacility.image_url}
-                                        alt={selectedFacility.title}
-                                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
-                                    />
-
-                                    {/* Gradients for text legibility and cinematic depth */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/50 to-transparent opacity-90" />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/90 via-transparent to-transparent opacity-70" />
-
-                                    <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end pointer-events-none">
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 30 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.2, duration: 0.6 }}
+                                    {/* Bottom interactive row */}
+                                    <div className="flex items-center justify-between pt-6 border-t border-white/5 mt-auto">
+                                        <button
+                                            onClick={() => openLightbox([item.image_url], item.title)}
+                                            className="text-brand-cyan text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:text-white transition-colors cursor-pointer group-hover:underline decoration-brand-cyan underline-offset-4"
                                         >
-                                            {selectedFacility.badge && (
-                                                <span className="inline-block glass bg-brand-cyan/20 border border-brand-cyan/30 text-brand-cyan text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-4 backdrop-blur-md shadow-lg">
-                                                    {selectedFacility.badge}
-                                                </span>
-                                            )}
-                                            <h3 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-4 drop-shadow-lg">
-                                                {selectedFacility.title}
-                                            </h3>
-                                            <p className="text-white/70 text-base md:text-lg max-w-xl leading-relaxed drop-shadow-md">
-                                                {selectedFacility.description}
-                                            </p>
-
-                                            <motion.button
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                                className="mt-6 px-6 py-2.5 rounded-full bg-brand-cyan text-brand-dark font-bold text-sm hover:bg-white transition-all shadow-[0_0_20px_rgba(0,163,196,0.4)] pointer-events-auto flex items-center gap-2 w-fit cursor-pointer"
-                                                onClick={() => openLightbox([selectedFacility.image_url], selectedFacility.title)}
-                                            >
-                                                <Maximize2 size={16} /> Enlarge View
-                                            </motion.button>
-                                        </motion.div>
+                                            Explore Gallery
+                                        </button>
+                                        
+                                        <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 group-hover:text-brand-cyan group-hover:border-brand-cyan/30 group-hover:bg-brand-cyan/10 transition-all duration-500">
+                                            <ArrowUpRight size={18} className="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                        </div>
                                     </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-
+                                </div>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
                 </motion.div>
             </div>
         </motion.section>
-
     );
 };
