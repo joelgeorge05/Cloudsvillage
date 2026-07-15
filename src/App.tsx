@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router';
+import { Routes, Route, Navigate, Outlet } from 'react-router';
 import { AnimatePresence, motion } from 'motion/react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -48,16 +48,11 @@ function App() {
     setLightboxIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length);
   };
 
-  const PublicSite = () => (
+  const PublicLayout = () => (
     <div className="min-h-screen bg-brand-dark flex flex-col font-sans selection:bg-brand-cyan/30 selection:text-white">
       <Navbar />
       <main className="flex-grow">
-        <section id="home"><Home openLightbox={openLightbox} /></section>
-        <section id="about"><About /></section>
-        <section id="facilities"><Facilities openLightbox={openLightbox} /></section>
-        <section id="destinations"><Destinations /></section>
-        <section id="gallery"><Gallery openLightbox={openLightbox} /></section>
-        <section id="contact"><ContactUs /></section>
+        <Outlet />
       </main>
       <Footer />
     </div>
@@ -66,7 +61,18 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<PublicSite />} />
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={
+            <>
+              <Home openLightbox={openLightbox} />
+              <About />
+            </>
+          } />
+          <Route path="/facilities" element={<Facilities openLightbox={openLightbox} />} />
+          <Route path="/destinations" element={<Destinations />} />
+          <Route path="/gallery" element={<Gallery openLightbox={openLightbox} />} />
+          <Route path="/contact" element={<ContactUs />} />
+        </Route>
         <Route path="/login" element={<Login />} />
         
         {/* Admin Routes */}

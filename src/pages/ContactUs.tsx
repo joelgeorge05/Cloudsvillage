@@ -30,11 +30,14 @@ export const ContactUs = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="max-w-7xl mx-auto px-6 py-20 md:py-32 border-y border-white/5 min-h-[100svh] flex items-center mt-16 md:mt-20"
+            className="max-w-7xl mx-auto px-6 pt-32 pb-20 md:pt-40 md:pb-32 border-y border-white/5 min-h-[100svh] flex items-center"
         >
             <div className="flex flex-col lg:flex-row gap-12 items-center w-full">
                 <div className="w-full lg:w-1/3">
-                    <span className="text-brand-cyan text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Reservations</span>
+                    <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass bg-brand-cyan/5 border border-brand-cyan/20 mb-6">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse" />
+                        <span className="text-brand-cyan text-[10px] font-bold tracking-[0.3em] uppercase">Reservations</span>
+                    </div>
                     <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-4 md:mb-6">{contactTitle}</h2>
                     <p className="text-white/60 mb-6 md:mb-8 leading-relaxed text-sm md:text-base">
                         {contactSubtitle}

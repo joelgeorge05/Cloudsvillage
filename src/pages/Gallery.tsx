@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
+import { ZoomIn, Camera, Images } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-
 import { INITIAL_GALLERY } from '../data/initialData';
 
 export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], title: string) => void }) => {
@@ -25,33 +25,71 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="bg-brand-dark py-20 md:py-32 border-y border-white/5 relative overflow-hidden min-h-[100svh] mt-16 md:mt-20"
+            id="gallery"
+            className="bg-brand-dark pt-32 pb-20 md:pt-40 md:pb-32 border-y border-white/5 relative overflow-hidden min-h-[100svh]"
         >
-            <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-30 pointer-events-none transform -translate-x-1/3 -translate-y-1/3" />
+            {/* Glow — hidden on mobile for performance */}
+            <div className="hidden md:block absolute top-0 left-0 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-30 pointer-events-none transform -translate-x-1/3 -translate-y-1/3" />
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="text-center mb-16 relative">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass bg-brand-cyan/5 border border-brand-cyan/20 mb-6"
-                    >
-                        <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse" />
-                        <span className="text-brand-cyan text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase">Memories</span>
-                    </motion.div>
 
-                    <h2 className="font-display font-bold text-3xl md:text-5xl text-white mb-4 md:mb-6 drop-shadow-lg">
-                        Event Gallery
-                    </h2>
-                    <p className="text-white/50 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto font-light">
-                        Glimpses of unforgettable moments, celebrations, and events hosted at our resort.
-                    </p>
+                {/* Redesigned Section Header */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 relative">
+                    <div className="max-w-2xl">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass bg-brand-cyan/10 border border-brand-cyan/20 mb-6"
+                        >
+                            <Camera size={14} className="text-brand-cyan" />
+                            <span className="text-brand-cyan text-[10px] font-bold tracking-[0.2em] uppercase">Visual Journey</span>
+                        </motion.div>
+
+                        <motion.h2
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                            className="font-display font-bold text-4xl md:text-6xl text-white mb-6 drop-shadow-xl"
+                        >
+                            Moments <span className="italic font-light text-brand-cyan drop-shadow-[0_0_15px_rgba(0,163,196,0.6)]">Frozen</span><br />In Time
+                        </motion.h2>
+
+                        <motion.p
+                            initial={{ opacity: 0, y: 15 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="text-white/60 text-sm md:text-base leading-relaxed font-light"
+                        >
+                            Explore glimpses of unforgettable moments, celebrations, and the natural beauty that surrounds our sanctuary.
+                        </motion.p>
+                    </div>
+
+                    {images.length > 0 && (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.3 }}
+                            className="hidden md:flex items-center gap-4 bg-white/5 border border-white/10 backdrop-blur-md px-6 py-4 rounded-2xl"
+                        >
+                            <div className="w-12 h-12 rounded-full bg-brand-cyan/20 flex items-center justify-center text-brand-cyan">
+                                <Images size={24} />
+                            </div>
+                            <div>
+                                <div className="text-3xl font-display font-bold text-white">{images.length}</div>
+                                <div className="text-[10px] text-white/50 tracking-widest uppercase font-semibold">Captured Memories</div>
+                            </div>
+                        </motion.div>
+                    )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[200px] md:auto-rows-[300px]">
+                {/* Masonry Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[200px] md:auto-rows-[280px]">
                     {images.map((item, index) => {
-                        // Dynamic col/row span for visual interest
                         let spanClass = 'col-span-1 md:col-span-1 row-span-1';
                         if (index % 7 === 0) spanClass = 'col-span-1 md:col-span-2 row-span-1 md:row-span-2';
                         else if (index % 5 === 0) spanClass = 'col-span-1 md:col-span-2 row-span-1';
@@ -62,8 +100,8 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-50px" }}
-                                transition={{ duration: 0.6, delay: (index % 4) * 0.1, ease: "easeOut" }}
-                                className={`relative group rounded-[2rem] overflow-hidden cursor-pointer border-[0.5px] border-white/10 hover:border-brand-cyan/40 hover:shadow-[0_15px_40px_rgba(0,163,196,0.2)] transition-all shadow-xl ${spanClass}`}
+                                transition={{ duration: 0.5, delay: (index % 4) * 0.08, ease: "easeOut" }}
+                                className={`relative group rounded-[1.5rem] overflow-hidden cursor-pointer border-[0.5px] border-white/10 hover:border-brand-cyan/40 hover:shadow-[0_15px_40px_rgba(0,163,196,0.2)] transition-all duration-500 shadow-xl ${spanClass}`}
                                 onClick={() => openLightbox([item.url], item.title)}
                             >
                                 {item.type === 'video' ? (
@@ -77,13 +115,25 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                                     <img
                                         src={item.url}
                                         alt={item.title}
-                                        className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-110 group-hover:rotate-1"
+                                        loading={index < 4 ? 'eager' : 'lazy'}
+                                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                                     />
                                 )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-700" />
-                                <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
-                                    <h4 className="font-display font-bold text-2xl md:text-3xl text-white drop-shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">{item.title}</h4>
-                                    <div className="w-0 h-[1.5px] bg-brand-cyan mt-3 transition-all duration-700 group-hover:w-12 shadow-[0_0_15px_rgba(0,163,196,0.8)]" />
+
+                                {/* Gradient overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+
+                                {/* Zoom icon — centered on hover */}
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                                    <div className="w-12 h-12 rounded-full bg-brand-cyan/20 border border-brand-cyan/40 backdrop-blur-md flex items-center justify-center text-white shadow-[0_0_20px_rgba(0,163,196,0.4)] scale-75 group-hover:scale-100 transition-transform duration-300">
+                                        <ZoomIn size={20} />
+                                    </div>
+                                </div>
+
+                                {/* Bottom title */}
+                                <div className="absolute inset-0 p-5 md:p-7 flex flex-col justify-end z-10">
+                                    <h4 className="font-display font-bold text-lg md:text-2xl text-white drop-shadow-lg transform translate-y-3 group-hover:translate-y-0 transition-transform duration-500">{item.title}</h4>
+                                    <div className="w-0 h-[1.5px] bg-brand-cyan mt-2 transition-all duration-500 group-hover:w-10 shadow-[0_0_10px_rgba(0,163,196,0.8)]" />
                                 </div>
                             </motion.div>
                         );
