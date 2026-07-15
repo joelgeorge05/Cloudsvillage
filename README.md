@@ -1,20 +1,40 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+<img width="1200" height="475" alt="Clouds Village Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# Clouds Village Farm Resort & Spa
 
-This contains everything you need to run your app locally.
+Welcome to the official codebase for the **Clouds Village Farm Resort & Spa** website! This is a modern, premium web application built to showcase our luxury authentic farm stay nestled in the heart of Manjakkunel Farm, Thodupuzha, Kerala.
 
-View your app in AI Studio: https://ai.studio/apps/b5783d04-82f5-41d3-8e94-0b62afc117e1
+## Getting Started
 
-## Run Locally
+Follow these steps to run the website locally on your machine.
 
-**Prerequisites:**  Node.js
+**Prerequisites:** Node.js v18 or higher
 
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+2. **Configure environment:**
+   Create a `.env` file based on `.env.example` and set your Supabase API keys to connect to the backend database.
+
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+   
+   The website will be available at `http://localhost:4000` (or the default Vite port).
+
+## Key Technologies
+
+- **React** & **TypeScript** - Core UI framework
+- **Tailwind CSS** - For premium, responsive styling
+- **React Router** - Multi-page navigation and routing
+- **Framer Motion** - Elegant scroll animations and page transitions
+- **Supabase** - Backend database and API
+
+## License
+
+© 2026 CLOUDS VILLAGE RESORT & SPA. All Rights Reserved.
