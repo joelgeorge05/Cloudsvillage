@@ -304,7 +304,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.9 }}
-                    className="flex lg:hidden flex-col gap-3 w-full -mt-4"
+                    className="flex md:hidden flex-col gap-3 w-full -mt-4"
                 >
                     {amenities.map((item) => (
                         <div

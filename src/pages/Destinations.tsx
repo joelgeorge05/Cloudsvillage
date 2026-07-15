@@ -13,7 +13,7 @@ export interface Attraction {
     map_link: string;
 }
 
-const AttractionCard = ({ attraction, index }: { attraction: Attraction; index: number }) => {
+const AttractionCard: React.FC<{ attraction: Attraction; index: number }> = ({ attraction, index }) => {
     const num = String(index + 1).padStart(2, '0');
     const [imageLoaded, setImageLoaded] = useState(false);
 

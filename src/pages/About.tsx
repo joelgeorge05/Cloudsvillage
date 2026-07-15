@@ -83,7 +83,7 @@ export const About = () => {
                         </div>
 
                         {/* Stat Cards */}
-                        <div className="grid grid-cols-3 gap-4 pt-8 border-t border-white/10">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-white/10">
                             <motion.div
                                 whileHover={{ y: -4, scale: 1.02 }}
                                 className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(0,163,196,0.15)]"
