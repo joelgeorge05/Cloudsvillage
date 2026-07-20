@@ -5,6 +5,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { ScrollToTop } from './components/ScrollToTop';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Facilities } from './pages/Facilities';
@@ -50,6 +51,7 @@ function App() {
 
   const PublicLayout = () => (
     <div className="min-h-screen bg-brand-dark flex flex-col font-sans selection:bg-brand-cyan/30 selection:text-white">
+      <ScrollToTop />
       <Navbar />
       <main className="flex-grow">
         <Outlet />
