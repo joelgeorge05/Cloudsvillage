@@ -72,7 +72,7 @@ export const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="bg-brand-dark/30 border border-white/5 rounded-xl pl-12 pr-5 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all w-full backdrop-blur-md shadow-inner"
+                  className="bg-brand-dark/30 border border-white/5 rounded-xl pl-12 pr-5 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all w-full md:backdrop-blur-md shadow-inner"
                   placeholder="admin@cloudsvillage.com"
                 />
               </div>
@@ -89,7 +89,7 @@ export const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="bg-brand-dark/30 border border-white/5 rounded-xl pl-12 pr-5 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all w-full backdrop-blur-md shadow-inner"
+                  className="bg-brand-dark/30 border border-white/5 rounded-xl pl-12 pr-5 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 focus:bg-brand-dark/50 transition-all w-full md:backdrop-blur-md shadow-inner"
                   placeholder="••••••••"
                 />
               </div>

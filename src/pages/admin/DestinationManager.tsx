@@ -231,7 +231,7 @@ export const DestinationManager = () => {
               >
                 <div className="h-48 relative overflow-hidden">
                   <img src={item.image_url} alt={item.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
-                  <div className="absolute top-4 right-4 bg-brand-dark/80 backdrop-blur-xl px-3 py-1 rounded-full text-[9px] font-bold text-white tracking-wider border border-white/10">
+                  <div className="absolute top-4 right-4 bg-brand-dark/80 md:backdrop-blur-xl px-3 py-1 rounded-full text-[9px] font-bold text-white tracking-wider border border-white/10">
                     {item.distance}
                   </div>
                 </div>
@@ -266,7 +266,7 @@ export const DestinationManager = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-brand-dark/90 backdrop-blur-md"
+                className="absolute inset-0 bg-brand-dark/90 md:backdrop-blur-md"
                 onClick={() => !uploading && setIsModalOpen(false)}
               />
               <motion.div

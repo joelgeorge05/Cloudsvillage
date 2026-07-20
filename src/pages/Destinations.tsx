@@ -20,7 +20,7 @@ const AttractionCard: React.FC<{ attraction: Attraction; index: number }> = ({ a
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
             className="flex flex-col h-full bg-brand-surface/50 border border-white/5 rounded-2xl overflow-hidden group hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(212,175,55,0.15)]"
@@ -47,7 +47,7 @@ const AttractionCard: React.FC<{ attraction: Attraction; index: number }> = ({ a
                 </div>
 
                 {/* Distance badge — always visible */}
-                <div className="absolute top-4 right-4 bg-brand-dark/80 backdrop-blur-xl px-3 py-1.5 rounded-full flex items-center gap-2 border border-white/10 shadow-lg">
+                <div className="absolute top-4 right-4 bg-brand-dark/80 md:backdrop-blur-xl px-3 py-1.5 rounded-full flex items-center gap-2 border border-white/10 shadow-lg">
                     <MapPin size={11} className="text-brand-cyan" />
                     <span className="text-[10px] font-bold text-white tracking-wider">{attraction.distance}</span>
                 </div>
@@ -102,7 +102,7 @@ export const Destinations = () => {
     return (
         <motion.section
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
             id="destinations"
@@ -116,7 +116,7 @@ export const Destinations = () => {
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.7 }}
                     className="mb-14"

@@ -40,7 +40,7 @@ export const About = () => {
     return (
         <motion.section
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
             id="about"
@@ -56,7 +56,7 @@ export const About = () => {
                     {/* Left: Text Content */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
@@ -86,7 +86,7 @@ export const About = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-white/10">
                             <motion.div
                                 whileHover={{ y: -4, scale: 1.02 }}
-                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]"
+                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 md:backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]"
                             >
                                 <div className="absolute top-0 right-0 w-16 h-16 bg-brand-cyan/10 rounded-full blur-xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-cyan/20 transition-colors" />
                                 <div className="relative z-10 flex flex-col items-start gap-2">
@@ -97,7 +97,7 @@ export const About = () => {
 
                             <motion.div
                                 whileHover={{ y: -4, scale: 1.02 }}
-                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]"
+                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 md:backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]"
                             >
                                 <div className="absolute top-0 right-0 w-16 h-16 bg-brand-cyan/10 rounded-full blur-xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-cyan/20 transition-colors" />
                                 <div className="relative z-10 flex flex-col items-start gap-2">
@@ -108,7 +108,7 @@ export const About = () => {
 
                             <motion.div
                                 whileHover={{ y: -4, scale: 1.02 }}
-                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]"
+                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 md:backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]"
                             >
                                 <div className="absolute top-0 right-0 w-16 h-16 bg-brand-cyan/10 rounded-full blur-xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-cyan/20 transition-colors" />
                                 <div className="relative z-10 flex flex-col items-start gap-2">
@@ -122,7 +122,7 @@ export const About = () => {
                     {/* Right: Masonry Image Grid */}
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="relative h-[400px] sm:h-[500px] md:h-[600px] w-full mt-10 lg:mt-0"
@@ -141,7 +141,7 @@ export const About = () => {
                             <img src={pic1} alt="Farm Life" loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 to-transparent group-hover:opacity-0 transition-opacity duration-700" />
                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                <span className="text-white/90 text-[9px] font-bold tracking-[0.3em] uppercase bg-brand-dark/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">Farm Life</span>
+                                <span className="text-white/90 text-[9px] font-bold tracking-[0.3em] uppercase bg-brand-dark/60 md:backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">Farm Life</span>
                             </div>
                         </div>
                     </motion.div>
@@ -151,7 +151,7 @@ export const About = () => {
                 <div className="mt-32">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                         className="text-center mb-16"
@@ -164,7 +164,7 @@ export const About = () => {
                         {/* Card 1 */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.1 }}
                             className="bg-white/5 border border-white/10 rounded-[2rem] p-8 md:p-10 hover:bg-white/10 hover:border-brand-cyan/30 transition-all duration-500 group relative overflow-hidden"
@@ -180,7 +180,7 @@ export const About = () => {
                         {/* Card 2 */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                             className="bg-brand-cyan/10 border border-brand-cyan/30 rounded-[2rem] p-8 md:p-10 hover:bg-brand-cyan/20 hover:border-brand-cyan/50 hover:shadow-[0_10px_40px_rgba(212,175,55,0.15)] transition-all duration-500 group relative overflow-hidden transform md:-translate-y-4"
@@ -196,7 +196,7 @@ export const About = () => {
                         {/* Card 3 */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.3 }}
                             className="bg-white/5 border border-white/10 rounded-[2rem] p-8 md:p-10 hover:bg-white/10 hover:border-brand-cyan/30 transition-all duration-500 group relative overflow-hidden"
@@ -218,7 +218,7 @@ export const About = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8 }}
                         >
@@ -262,7 +262,7 @@ export const About = () => {
 
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8 }}
                             className="relative h-[400px] md:h-[500px] rounded-[2rem] overflow-hidden group"
@@ -271,7 +271,7 @@ export const About = () => {
                             <div className="absolute inset-0 bg-brand-dark/20 group-hover:bg-transparent transition-colors duration-700" />
                             
                             {/* Decorative Elements */}
-                            <div className="absolute top-6 right-6 w-24 h-24 border border-white/20 rounded-full animate-[spin_20s_linear_infinite] flex items-center justify-center backdrop-blur-sm bg-white/5">
+                            <div className="absolute top-6 right-6 w-24 h-24 border border-white/20 rounded-full animate-[spin_20s_linear_infinite] flex items-center justify-center md:backdrop-blur-sm bg-white/5">
                                 <span className="text-[10px] font-bold text-white uppercase tracking-widest text-center">100%<br/>Local</span>
                             </div>
                         </motion.div>

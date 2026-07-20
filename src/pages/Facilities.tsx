@@ -50,7 +50,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
     return (
         <motion.section
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
             className="relative bg-brand-surface pb-20 md:pb-32 overflow-hidden border-y border-white/5 min-h-[100svh] pt-32 md:pt-40"
@@ -63,7 +63,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                 <div className="text-center mb-16 md:mb-24 relative">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass bg-brand-cyan/5 border border-brand-cyan/20 mb-6 md:mb-8"
                     >
@@ -105,7 +105,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                 {/* Master-Detail Layout */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     className="flex flex-col lg:flex-row gap-6 lg:gap-10 h-auto lg:h-[480px]"
@@ -182,7 +182,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                             transition={{ delay: 0.2, duration: 0.6 }}
                                         >
                                             {selectedFacility.badge && (
-                                                <span className="inline-block glass bg-brand-cyan/20 border border-brand-cyan/30 text-brand-cyan text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-4 backdrop-blur-md shadow-lg">
+                                                <span className="inline-block glass bg-brand-cyan/20 border border-brand-cyan/30 text-brand-cyan text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-4 md:backdrop-blur-md shadow-lg">
                                                     {selectedFacility.badge}
                                                 </span>
                                             )}

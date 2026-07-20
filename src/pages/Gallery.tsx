@@ -22,7 +22,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
     return (
         <motion.section
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
             id="gallery"
@@ -38,7 +38,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                     <div className="max-w-2xl">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
                             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass bg-brand-cyan/10 border border-brand-cyan/20 mb-6"
@@ -49,7 +49,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
 
                         <motion.h2
                             initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.1 }}
                             className="font-display font-bold text-4xl md:text-6xl text-white mb-6 drop-shadow-xl"
@@ -59,7 +59,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
 
                         <motion.p
                             initial={{ opacity: 0, y: 15 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                             className="text-white/60 text-sm md:text-base leading-relaxed font-light"
@@ -71,10 +71,10 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                     {images.length > 0 && (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.3 }}
-                            className="hidden md:flex items-center gap-4 bg-white/5 border border-white/10 backdrop-blur-md px-6 py-4 rounded-2xl"
+                            className="hidden md:flex items-center gap-4 bg-white/5 border border-white/10 md:backdrop-blur-md px-6 py-4 rounded-2xl"
                         >
                             <div className="w-12 h-12 rounded-full bg-brand-cyan/20 flex items-center justify-center text-brand-cyan">
                                 <Images size={24} />
@@ -98,7 +98,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                             <motion.div
                                 key={item.id}
                                 initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-50px" }}
                                 transition={{ duration: 0.5, delay: (index % 4) * 0.08, ease: "easeOut" }}
                                 className={`relative group rounded-[1.5rem] overflow-hidden cursor-pointer border-[0.5px] border-white/10 hover:border-brand-cyan/40 hover:shadow-[0_15px_40px_rgba(212,175,55,0.2)] transition-all duration-500 shadow-xl ${spanClass}`}
@@ -125,7 +125,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
 
                                 {/* Zoom icon — centered on hover */}
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-                                    <div className="w-12 h-12 rounded-full bg-brand-cyan/20 border border-brand-cyan/40 backdrop-blur-md flex items-center justify-center text-white shadow-[0_0_20px_rgba(212,175,55,0.4)] scale-75 group-hover:scale-100 transition-transform duration-300">
+                                    <div className="w-12 h-12 rounded-full bg-brand-cyan/20 border border-brand-cyan/40 md:backdrop-blur-md flex items-center justify-center text-white shadow-[0_0_20px_rgba(212,175,55,0.4)] scale-75 group-hover:scale-100 transition-transform duration-300">
                                         <ZoomIn size={20} />
                                     </div>
                                 </div>

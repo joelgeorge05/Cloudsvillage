@@ -232,11 +232,11 @@ export const FacilityManager = () => {
                 <div className="h-48 relative overflow-hidden">
                   <img src={item.image_url} alt={item.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
                   {item.badge && (
-                    <div className="absolute top-4 right-4 bg-brand-cyan/80 backdrop-blur-xl px-3 py-1 rounded-full text-[9px] font-bold text-brand-dark tracking-wider shadow-lg">
+                    <div className="absolute top-4 right-4 bg-brand-cyan/80 md:backdrop-blur-xl px-3 py-1 rounded-full text-[9px] font-bold text-brand-dark tracking-wider shadow-lg">
                       {item.badge}
                     </div>
                   )}
-                  <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded text-[8px] font-bold text-white/70 uppercase tracking-[0.2em]">
+                  <div className="absolute bottom-4 left-4 bg-black/50 md:backdrop-blur-md px-2 py-0.5 rounded text-[8px] font-bold text-white/70 uppercase tracking-[0.2em]">
                     {item.category}
                   </div>
                 </div>
@@ -271,7 +271,7 @@ export const FacilityManager = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-brand-dark/90 backdrop-blur-md"
+                className="absolute inset-0 bg-brand-dark/90 md:backdrop-blur-md"
                 onClick={() => !uploading && setIsModalOpen(false)}
               />
               <motion.div

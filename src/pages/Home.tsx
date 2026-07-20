@@ -68,7 +68,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
         <section ref={sectionRef} className="relative min-h-[100svh] flex items-center justify-center overflow-x-clip">
 
             {/* ── Parallax Background ── */}
-            <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
+            <motion.div className="absolute inset-0 z-0" style={{ y: isMobile ? 0 : bgY }}>
                 {isMobile ? (
                     <img src={npool1} alt="Clouds Village" className="w-full h-full object-cover scale-110" />
                 ) : (
@@ -95,7 +95,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
             {/* ── Main Content ── */}
             <motion.div
                 className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12 pt-36 pb-12 md:pt-40 md:pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8 items-center min-h-[100svh]"
-                style={{ y: contentY, opacity }}
+                style={{ y: isMobile ? 0 : contentY, opacity }}
             >
                 {/* LEFT: Text column */}
                 <div className="flex flex-col items-start">
@@ -209,7 +209,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                     <div className="relative w-full max-w-[420px] h-[300px]">
 
                         {/* Background stacked cards for depth */}
-                        <div className="absolute inset-0 top-3 left-3 rounded-[1.8rem] bg-brand-cyan/10 border border-brand-cyan/20 backdrop-blur-sm" />
+                        <div className="absolute inset-0 top-3 left-3 rounded-[1.8rem] bg-brand-cyan/10 border border-brand-cyan/20 md:backdrop-blur-sm" />
                         <div className="absolute inset-0 top-1.5 left-1.5 rounded-[1.9rem] bg-white/5 border border-white/10" />
 
                         {/* Gradient border wrapper */}
@@ -261,7 +261,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                                 </div>
 
                                 {/* Photo counter — top right */}
-                                <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-dark/70 backdrop-blur-md border border-white/10">
+                                <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-dark/70 md:backdrop-blur-md border border-white/10">
                                     <div className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse" />
                                     <span className="text-white/80 text-[9px] font-bold tracking-widest">{activeImage + 1}/{previewImages.length}</span>
                                 </div>

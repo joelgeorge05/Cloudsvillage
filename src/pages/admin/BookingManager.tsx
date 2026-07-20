@@ -289,7 +289,7 @@ export const BookingManager = () => {
       {/* Bulletproof Modal Overlay */}
       {selectedBooking && (
         <div 
-          className="fixed inset-0 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md z-[99999]"
+          className="fixed inset-0 flex items-center justify-center p-4 bg-black/80 md:backdrop-blur-md z-[99999]"
           style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
           onClick={closeConfirmationModal}
         >

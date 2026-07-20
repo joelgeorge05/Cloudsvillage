@@ -64,7 +64,7 @@ export const Navbar = () => {
                 </motion.div>
 
                 {/* Center: Floating Navigation Pill (Links Only) */}
-                <div className={`hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-2 xl:gap-6 px-8 py-3.5 rounded-full transition-all duration-700 ease-out border ${scrolled ? 'bg-[#0f172a]/80 backdrop-blur-xl border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]' : 'bg-brand-surface/40 backdrop-blur-lg border-white/10 shadow-2xl hover:bg-brand-surface/50'} `}>
+                <div className={`hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-2 xl:gap-6 px-8 py-3.5 rounded-full transition-all duration-700 ease-out border ${scrolled ? 'bg-[#0f172a]/80 md:backdrop-blur-xl border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]' : 'bg-brand-surface/40 md:backdrop-blur-lg border-white/10 shadow-2xl hover:bg-brand-surface/50'} `}>
                     {navLinks.map((item) => (
                         <Link
                             key={item.name}
@@ -119,7 +119,7 @@ export const Navbar = () => {
                         initial={{ opacity: 0, y: -20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                        className="lg:hidden absolute top-[110px] left-4 right-4 md:left-6 md:right-6 bg-brand-dark/95 backdrop-blur-3xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl pointer-events-auto"
+                        className="lg:hidden absolute top-[110px] left-4 right-4 md:left-6 md:right-6 bg-brand-dark/95 md:backdrop-blur-3xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl pointer-events-auto"
                     >
                         <div className="p-6 md:p-8 flex flex-col gap-4">
                             {navLinks.map((item, i) => (

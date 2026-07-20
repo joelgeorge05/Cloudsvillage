@@ -277,7 +277,7 @@ export const GalleryManager = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-brand-dark/90 backdrop-blur-md"
+                className="absolute inset-0 bg-brand-dark/90 md:backdrop-blur-md"
                 onClick={() => !uploading && setIsModalOpen(false)}
               />
               <motion.div
@@ -329,7 +329,7 @@ export const GalleryManager = () => {
                       onChange={(e) => setTitle(e.target.value)}
                       required
                       placeholder="e.g. Resort Sunset"
-                      className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 transition-all w-full backdrop-blur-md"
+                      className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-brand-cyan/50 transition-all w-full md:backdrop-blur-md"
                     />
                   </div>
 
@@ -338,7 +338,7 @@ export const GalleryManager = () => {
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full backdrop-blur-md appearance-none"
+                      className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full md:backdrop-blur-md appearance-none"
                     >
                       <option value="General">General</option>
                       <option value="Events">Events</option>
