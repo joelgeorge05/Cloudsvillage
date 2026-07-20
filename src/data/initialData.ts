@@ -11,10 +11,10 @@ import npool1 from '../assets/images/npool1.webp';
 import npool2 from '../assets/images/npool2.webp';
 import npool3 from '../assets/images/npool3.webp';
 
-import gal1 from '../assets/gallery/IMG_2325.JPG';
-import gal2 from '../assets/gallery/IMG_2331.JPG';
-import gal3 from '../assets/gallery/IMG_2561.JPG';
-import gal4 from '../assets/gallery/IMG_2666.JPG';
+import gal1 from '../assets/gallery/IMG_2325.webp';
+import gal2 from '../assets/gallery/IMG_2331.webp';
+import gal3 from '../assets/gallery/IMG_2561.webp';
+import gal4 from '../assets/gallery/IMG_2666.webp';
 
 import kottapparaImg from '../assets/destinations/Kottappara.webp';
 import kattadikadavuImg from '../assets/destinations/Kattadikadavu.webp';
