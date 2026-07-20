@@ -12,8 +12,17 @@ export const Navbar = () => {
     const location = useLocation();
 
     useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 50);
-        window.addEventListener('scroll', handleScroll);
+        let ticking = false;
+        const handleScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    setScrolled(window.scrollY > 50);
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
@@ -45,11 +54,11 @@ export const Navbar = () => {
                         <motion.img
                             src={logoImg}
                             alt="Clouds Village Logo"
-                            className={`object-contain drop-shadow-[0_0_15px_rgba(212,175,55,0.6)] transition-all duration-500 ${scrolled || location.pathname !== '/' ? 'w-16 h-16 md:w-24 md:h-24' : 'w-20 h-20 md:w-40 md:h-40'}`}
+                            className={`object-contain transition-all duration-500 ${scrolled || location.pathname !== '/' ? 'w-16 h-16 md:w-24 md:h-24' : 'w-20 h-20 md:w-40 md:h-40'}`}
                             initial={{ scale: 0, rotate: -90 }}
                             animate={{ scale: 1, rotate: 0 }}
                             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
-                            whileHover={{ scale: 1.1, filter: "drop-shadow(0 0 25px rgba(212,175,55,0.9))" }}
+                            whileHover={{ scale: 1.1 }}
                         />
                     </Link>
                 </motion.div>
