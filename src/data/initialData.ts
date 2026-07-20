@@ -1,30 +1,30 @@
-import pic1 from '../assets/images/pic1.jpeg';
-import pic2 from '../assets/images/pic2.jpeg';
-import pic3 from '../assets/images/pic3.jpeg';
-import pic4 from '../assets/images/pic4.jpeg';
-import pic5 from '../assets/images/pic5.jpeg';
-import suite1Img from '../assets/images/suite1.jpeg';
-import dormitoryImg from '../assets/images/dormitory.jpeg';
-import heritage1 from '../assets/images/heritage1.jpeg';
-import heritage2 from '../assets/images/heritage2.jpeg';
-import npool1 from '../assets/images/npool1.jpeg';
-import npool2 from '../assets/images/npool2.jpeg';
-import npool3 from '../assets/images/npool3.jpeg';
+import pic1 from '../assets/images/pic1.webp';
+import pic2 from '../assets/images/pic2.webp';
+import pic3 from '../assets/images/pic3.webp';
+import pic4 from '../assets/images/pic4.webp';
+import pic5 from '../assets/images/pic5.webp';
+import suite1Img from '../assets/images/suite1.webp';
+import dormitoryImg from '../assets/images/dormitory.webp';
+import heritage1 from '../assets/images/heritage1.webp';
+import heritage2 from '../assets/images/heritage2.webp';
+import npool1 from '../assets/images/npool1.webp';
+import npool2 from '../assets/images/npool2.webp';
+import npool3 from '../assets/images/npool3.webp';
 
 import gal1 from '../assets/gallery/IMG_2325.JPG';
 import gal2 from '../assets/gallery/IMG_2331.JPG';
 import gal3 from '../assets/gallery/IMG_2561.JPG';
 import gal4 from '../assets/gallery/IMG_2666.JPG';
 
-import kottapparaImg from '../assets/destinations/Kottappara.jpg';
-import kattadikadavuImg from '../assets/destinations/Kattadikadavu.jpg';
-import anayadikuthuImg from '../assets/destinations/Anayadikuthu.jpg';
-import thommankuthuImg from '../assets/destinations/Thommankuthu.jpg';
-import meenuliyanparaImg from '../assets/destinations/Meenuliyanpara.jpg';
-import palkulameduImg from '../assets/destinations/Palkulamedu.jpg';
-import malankaraImg from '../assets/destinations/Malankara.jpg';
-import munnarImg from '../assets/destinations/Munnar.jpg';
-import vagamonImg from '../assets/destinations/Vagamon.jpg';
+import kottapparaImg from '../assets/destinations/Kottappara.webp';
+import kattadikadavuImg from '../assets/destinations/Kattadikadavu.webp';
+import anayadikuthuImg from '../assets/destinations/Anayadikuthu.webp';
+import thommankuthuImg from '../assets/destinations/Thommankuthu.webp';
+import meenuliyanparaImg from '../assets/destinations/Meenuliyanpara.webp';
+import palkulameduImg from '../assets/destinations/Palkulamedu.webp';
+import malankaraImg from '../assets/destinations/Malankara.webp';
+import munnarImg from '../assets/destinations/Munnar.webp';
+import vagamonImg from '../assets/destinations/Vagamon.webp';
 
 export const INITIAL_GALLERY = [
     { id: 's1', url: pic1, title: 'Resort Weddings' },

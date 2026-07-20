@@ -3,14 +3,14 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, Waves, Compass, Landmark, Star, ChevronDown } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-import npool1 from '../assets/images/npool1.jpeg';
-import npool3 from '../assets/images/npool3.jpeg';
-import npool4 from '../assets/images/npool4.jpeg';
-import npool5 from '../assets/images/npool5.jpeg';
-import npool6 from '../assets/images/npool6.jpeg';
-import npool7 from '../assets/images/npool7.jpeg';
-import heritage1 from '../assets/images/heritage1.jpeg';
-import pic1 from '../assets/images/pic1.jpeg';
+import npool1 from '../assets/images/npool1.webp';
+import npool3 from '../assets/images/npool3.webp';
+import npool4 from '../assets/images/npool4.webp';
+import npool5 from '../assets/images/npool5.webp';
+import npool6 from '../assets/images/npool6.webp';
+import npool7 from '../assets/images/npool7.webp';
+import heritage1 from '../assets/images/heritage1.webp';
+import pic1 from '../assets/images/pic1.webp';
 
 export const Home = ({ openLightbox }: { openLightbox: (images: string[], title: string) => void }) => {
     const [settings, setSettings] = useState<any>(null);

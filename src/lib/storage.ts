@@ -22,7 +22,7 @@ export const uploadMedia = async (file: File, path: string) => {
 
 export const deleteMedia = async (url: string) => {
   // Extract path from public URL
-  // Example: https://xxx.supabase.co/storage/v1/object/public/media/gallery/abc.jpg
+  // Example: https://xxx.supabase.co/storage/v1/object/public/media/gallery/abc.webp
   const path = url.split('/media/')[1];
   if (!path) return;
 

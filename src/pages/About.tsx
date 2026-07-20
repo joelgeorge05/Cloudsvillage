@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Leaf, Sprout, TreePine, Droplets, MapPin, Wind } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import heritage1 from '../assets/images/heritage1.jpeg';
-import npool1 from '../assets/images/npool1.jpeg';
-import pic1 from '../assets/images/pic1.jpeg';
+import heritage1 from '../assets/images/heritage1.webp';
+import npool1 from '../assets/images/npool1.webp';
+import pic1 from '../assets/images/pic1.webp';
 
 export const About = () => {
     const [content, setContent] = useState({

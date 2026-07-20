@@ -3,8 +3,8 @@ import { Link, useLocation } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowRight } from 'lucide-react';
 
-import logoImg from '../assets/images/logo.png';
-import logo2Img from '../assets/images/logo2.png';
+import logoImg from '../assets/images/logo.webp';
+import logo2Img from '../assets/images/logo2.webp';
 
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);

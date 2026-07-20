@@ -3,7 +3,7 @@ import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, ChevronRight, Send }
 import { supabase } from '../lib/supabase';
 import { Link } from 'react-router';
 
-import logoImg from '../assets/images/logo.png';
+import logoImg from '../assets/images/logo.webp';
 
 export const Footer = () => {
     const [settings, setSettings] = React.useState<any>(null);
