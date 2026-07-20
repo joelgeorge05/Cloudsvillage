@@ -45,11 +45,11 @@ export const Navbar = () => {
                         <motion.img
                             src={logoImg}
                             alt="Clouds Village Logo"
-                            className={`object-contain drop-shadow-[0_0_15px_rgba(0,163,196,0.6)] transition-all duration-500 ${scrolled || location.pathname !== '/' ? 'w-16 h-16 md:w-24 md:h-24' : 'w-20 h-20 md:w-40 md:h-40'}`}
+                            className={`object-contain drop-shadow-[0_0_15px_rgba(212,175,55,0.6)] transition-all duration-500 ${scrolled || location.pathname !== '/' ? 'w-16 h-16 md:w-24 md:h-24' : 'w-20 h-20 md:w-40 md:h-40'}`}
                             initial={{ scale: 0, rotate: -90 }}
                             animate={{ scale: 1, rotate: 0 }}
                             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
-                            whileHover={{ scale: 1.1, filter: "drop-shadow(0 0 25px rgba(0,163,196,0.9))" }}
+                            whileHover={{ scale: 1.1, filter: "drop-shadow(0 0 25px rgba(212,175,55,0.9))" }}
                         />
                     </Link>
                 </motion.div>
@@ -60,10 +60,10 @@ export const Navbar = () => {
                         <Link
                             key={item.name}
                             to={item.path}
-                            className={`group relative px-2 py-1 text-[11px] xl:text-[13px] font-semibold uppercase tracking-[0.2em] transition-all whitespace-nowrap ${location.pathname === item.path ? 'text-brand-cyan drop-shadow-[0_0_8px_rgba(0,163,196,0.8)]' : 'text-white/70 hover:text-white'}`}
+                            className={`group relative px-2 py-1 text-[11px] xl:text-[13px] font-semibold uppercase tracking-[0.2em] transition-all whitespace-nowrap ${location.pathname === item.path ? 'text-brand-cyan drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]' : 'text-white/70 hover:text-white'}`}
                         >
                             {item.name}
-                            <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full transition-all duration-300 ${location.pathname === item.path ? 'bg-brand-cyan shadow-[0_0_8px_rgba(0,163,196,1)] opacity-100' : 'bg-white/50 opacity-0 group-hover:opacity-100 group-hover:-bottom-1'}`} />
+                            <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full transition-all duration-300 ${location.pathname === item.path ? 'bg-brand-cyan shadow-[0_0_8px_rgba(212,175,55,1)] opacity-100' : 'bg-white/50 opacity-0 group-hover:opacity-100 group-hover:-bottom-1'}`} />
                         </Link>
                     ))}
                 </div>
@@ -87,7 +87,7 @@ export const Navbar = () => {
                     {/* Book Now Button */}
                     <Link
                         to="/contact"
-                        className="hidden md:flex relative group overflow-hidden bg-brand-cyan text-brand-dark px-7 py-3 rounded-full font-bold text-[11px] xl:text-xs tracking-widest uppercase transition-all shadow-[0_0_15px_rgba(0,163,196,0.4)] hover:shadow-[0_0_30px_rgba(0,163,196,0.7)] hover:scale-105 whitespace-nowrap"
+                        className="hidden md:flex relative group overflow-hidden bg-brand-cyan text-brand-dark px-7 py-3 rounded-full font-bold text-[11px] xl:text-xs tracking-widest uppercase transition-all shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.7)] hover:scale-105 whitespace-nowrap"
                     >
                         <span className="relative z-10 flex items-center gap-2">Book Now</span>
                         <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
@@ -95,7 +95,7 @@ export const Navbar = () => {
 
                     {/* Mobile Menu Toggle - visible on mobile/tablet */}
                     <button
-                        className="lg:hidden w-10 md:w-12 h-10 md:h-12 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan hover:bg-brand-cyan/20 transition-colors pointer-events-auto shadow-[0_0_15px_rgba(0,163,196,0.2)]"
+                        className="lg:hidden w-10 md:w-12 h-10 md:h-12 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan hover:bg-brand-cyan/20 transition-colors pointer-events-auto shadow-[0_0_15px_rgba(212,175,55,0.2)]"
                         onClick={() => setIsOpen(!isOpen)}
                     >
                         {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -136,7 +136,7 @@ export const Navbar = () => {
                             >
                                 <Link
                                     to="/contact"
-                                    className="w-full flex justify-center bg-gradient-to-r from-brand-cyan to-[#00d4ff] text-brand-dark py-4 rounded-xl font-bold text-lg md:text-xl shadow-[0_0_20px_rgba(0,163,196,0.3)] mt-6 uppercase tracking-wider text-center"
+                                    className="w-full flex justify-center bg-gradient-to-r from-brand-cyan to-[#e2c275] text-brand-dark py-4 rounded-xl font-bold text-lg md:text-xl shadow-[0_0_20px_rgba(212,175,55,0.3)] mt-6 uppercase tracking-wider text-center"
                                 >
                                     Reserve Stay
                                 </Link>

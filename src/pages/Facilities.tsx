@@ -86,14 +86,14 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                             key={category}
                             onClick={() => setActiveCategory(category)}
                             className={`snap-center shrink-0 px-6 md:px-8 py-3 rounded-full font-bold text-xs tracking-widest uppercase transition-all duration-500 border relative overflow-hidden group ${activeCategory === category
-                                ? 'text-brand-dark border-brand-cyan shadow-[0_0_20px_rgba(0,163,196,0.3)]'
+                                ? 'text-brand-dark border-brand-cyan shadow-[0_0_20px_rgba(212,175,55,0.3)]'
                                 : 'text-white/40 border-white/5 bg-white/[0.02] hover:border-white/20 hover:text-white hover:bg-white/5 hover:-translate-y-1'
                                 }`}
                         >
                             {activeCategory === category && (
                                 <motion.div
                                     layoutId="activeCategory"
-                                    className="absolute inset-0 bg-gradient-to-r from-brand-cyan/80 via-[#00d4ff]/80 to-brand-cyan/80 bg-[length:200%_auto] animate-[gradient_3s_linear_infinite] -z-10"
+                                    className="absolute inset-0 bg-gradient-to-r from-brand-cyan/80 via-[#e2c275]/80 to-brand-cyan/80 bg-[length:200%_auto] animate-[gradient_3s_linear_infinite] -z-10"
                                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                                 />
                             )}
@@ -121,7 +121,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                 transition={{ duration: 0.3 }}
                                 onClick={() => setSelectedFacility(item)}
                                 className={`snap-start text-left w-full p-4 rounded-2xl transition-all duration-300 border relative group overflow-hidden shrink-0 ${selectedFacility?.id === item.id
-                                    ? 'bg-brand-cyan/10 border-brand-cyan/50 shadow-[0_0_20px_rgba(0,163,196,0.15)] transform scale-[1.02] z-10'
+                                    ? 'bg-brand-cyan/10 border-brand-cyan/50 shadow-[0_0_20px_rgba(212,175,55,0.15)] transform scale-[1.02] z-10'
                                     : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20 hover:scale-[1.01]'
                                     }`}
                             >
@@ -129,7 +129,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                     <motion.div
                                         initial={{ opacity: 0, scaleY: 0 }}
                                         animate={{ opacity: 1, scaleY: 1 }}
-                                        className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-cyan shadow-[0_0_10px_rgba(0,163,196,0.8)] origin-center"
+                                        className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-cyan shadow-[0_0_10px_rgba(212,175,55,0.8)] origin-center"
                                         transition={{ duration: 0.3 }}
                                     />
                                 )}
@@ -196,7 +196,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                             <motion.button
                                                 whileHover={{ scale: 1.05 }}
                                                 whileTap={{ scale: 0.95 }}
-                                                className="mt-6 px-6 py-2.5 rounded-full bg-brand-cyan text-brand-dark font-bold text-sm hover:bg-white transition-all shadow-[0_0_20px_rgba(0,163,196,0.4)] pointer-events-auto flex items-center gap-2 w-fit cursor-pointer"
+                                                className="mt-6 px-6 py-2.5 rounded-full bg-brand-cyan text-brand-dark font-bold text-sm hover:bg-white transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)] pointer-events-auto flex items-center gap-2 w-fit cursor-pointer"
                                                 onClick={() => openLightbox([selectedFacility.image_url], selectedFacility.title)}
                                             >
                                                 <Maximize2 size={16} /> Enlarge View

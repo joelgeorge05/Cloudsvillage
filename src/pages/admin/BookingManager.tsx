@@ -294,7 +294,7 @@ export const BookingManager = () => {
           onClick={closeConfirmationModal}
         >
           <div 
-            className="bg-[#0f172a] w-full max-w-2xl rounded-3xl border border-brand-cyan/30 overflow-hidden shadow-[0_0_50px_rgba(0,163,196,0.2)]"
+            className="bg-[#0f172a] w-full max-w-2xl rounded-3xl border border-brand-cyan/30 overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.2)]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
@@ -337,7 +337,7 @@ export const BookingManager = () => {
               <button
                 onClick={handleSendEmail}
                 disabled={sendingEmail}
-                className="px-6 py-3 bg-brand-cyan text-[#0f172a] rounded-xl font-bold hover:bg-[#00d4ff] transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,163,196,0.3)] hover:shadow-[0_0_30px_rgba(0,163,196,0.5)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-3 bg-brand-cyan text-[#0f172a] rounded-xl font-bold hover:bg-[#e2c275] transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {sendingEmail ? (
                   <>

@@ -54,7 +54,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                             transition={{ duration: 0.6, delay: 0.1 }}
                             className="font-display font-bold text-4xl md:text-6xl text-white mb-6 drop-shadow-xl"
                         >
-                            Moments <span className="italic font-light text-brand-cyan drop-shadow-[0_0_15px_rgba(0,163,196,0.6)]">Frozen</span><br />In Time
+                            Moments <span className="italic font-light text-brand-cyan drop-shadow-[0_0_15px_rgba(212,175,55,0.6)]">Frozen</span><br />In Time
                         </motion.h2>
 
                         <motion.p
@@ -101,7 +101,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-50px" }}
                                 transition={{ duration: 0.5, delay: (index % 4) * 0.08, ease: "easeOut" }}
-                                className={`relative group rounded-[1.5rem] overflow-hidden cursor-pointer border-[0.5px] border-white/10 hover:border-brand-cyan/40 hover:shadow-[0_15px_40px_rgba(0,163,196,0.2)] transition-all duration-500 shadow-xl ${spanClass}`}
+                                className={`relative group rounded-[1.5rem] overflow-hidden cursor-pointer border-[0.5px] border-white/10 hover:border-brand-cyan/40 hover:shadow-[0_15px_40px_rgba(212,175,55,0.2)] transition-all duration-500 shadow-xl ${spanClass}`}
                                 onClick={() => openLightbox([item.url], item.title)}
                             >
                                 {item.type === 'video' ? (
@@ -125,7 +125,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
 
                                 {/* Zoom icon — centered on hover */}
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-                                    <div className="w-12 h-12 rounded-full bg-brand-cyan/20 border border-brand-cyan/40 backdrop-blur-md flex items-center justify-center text-white shadow-[0_0_20px_rgba(0,163,196,0.4)] scale-75 group-hover:scale-100 transition-transform duration-300">
+                                    <div className="w-12 h-12 rounded-full bg-brand-cyan/20 border border-brand-cyan/40 backdrop-blur-md flex items-center justify-center text-white shadow-[0_0_20px_rgba(212,175,55,0.4)] scale-75 group-hover:scale-100 transition-transform duration-300">
                                         <ZoomIn size={20} />
                                     </div>
                                 </div>
@@ -133,7 +133,7 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                                 {/* Bottom title */}
                                 <div className="absolute inset-0 p-5 md:p-7 flex flex-col justify-end z-10">
                                     <h4 className="font-display font-bold text-lg md:text-2xl text-white drop-shadow-lg transform translate-y-3 group-hover:translate-y-0 transition-transform duration-500">{item.title}</h4>
-                                    <div className="w-0 h-[1.5px] bg-brand-cyan mt-2 transition-all duration-500 group-hover:w-10 shadow-[0_0_10px_rgba(0,163,196,0.8)]" />
+                                    <div className="w-0 h-[1.5px] bg-brand-cyan mt-2 transition-all duration-500 group-hover:w-10 shadow-[0_0_10px_rgba(212,175,55,0.8)]" />
                                 </div>
                             </motion.div>
                         );

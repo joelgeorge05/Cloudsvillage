@@ -185,7 +185,7 @@ function App() {
                         setLightboxDirection(idx > lightboxIndex ? 1 : -1);
                         setLightboxIndex(idx);
                       }}
-                      className={`h-2 rounded-full transition-all duration-300 ${idx === lightboxIndex ? 'w-10 bg-brand-cyan shadow-[0_0_10px_rgba(0,163,196,0.8)]' : 'w-3 bg-white/30 hover:bg-white/60'}`}
+                      className={`h-2 rounded-full transition-all duration-300 ${idx === lightboxIndex ? 'w-10 bg-brand-cyan shadow-[0_0_10px_rgba(212,175,55,0.8)]' : 'w-3 bg-white/30 hover:bg-white/60'}`}
                     />
                   ))}
                 </div>

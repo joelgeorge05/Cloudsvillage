@@ -23,7 +23,7 @@ const AttractionCard: React.FC<{ attraction: Attraction; index: number }> = ({ a
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="flex flex-col h-full bg-brand-surface/50 border border-white/5 rounded-2xl overflow-hidden group hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(0,163,196,0.15)]"
+            className="flex flex-col h-full bg-brand-surface/50 border border-white/5 rounded-2xl overflow-hidden group hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(212,175,55,0.15)]"
         >
             <div className="relative h-64 overflow-hidden shrink-0 bg-brand-dark/50">
                 {/* Skeleton Loader */}
@@ -65,7 +65,7 @@ const AttractionCard: React.FC<{ attraction: Attraction; index: number }> = ({ a
                     href={attraction.map_link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-auto w-full py-3.5 rounded-xl text-brand-dark text-sm font-bold tracking-wide uppercase flex items-center justify-center gap-2 bg-brand-cyan hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,163,196,0.3)] hover:shadow-[0_0_30px_rgba(0,163,196,0.5)]"
+                    className="mt-auto w-full py-3.5 rounded-xl text-brand-dark text-sm font-bold tracking-wide uppercase flex items-center justify-center gap-2 bg-brand-cyan hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)]"
                 >
                     View on Map <ArrowUpRight size={16} />
                 </a>

@@ -56,7 +56,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   if (loading) {
     return (
       <div className="min-h-screen bg-brand-dark flex flex-col items-center justify-center gap-6">
-        <div className="w-16 h-16 border-4 border-brand-cyan border-t-transparent rounded-full animate-spin shadow-[0_0_20px_rgba(0,163,196,0.5)]" />
+        <div className="w-16 h-16 border-4 border-brand-cyan border-t-transparent rounded-full animate-spin shadow-[0_0_20px_rgba(212,175,55,0.5)]" />
         <div className="flex flex-col items-center gap-1">
           <p className="text-white font-display font-bold text-xl tracking-widest uppercase">Clouds Village</p>
           <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.3em]">Connecting to backend...</p>

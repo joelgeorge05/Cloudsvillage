@@ -134,7 +134,7 @@ export const AdminDashboard = () => {
           <button 
             onClick={handleSync}
             disabled={syncing}
-            className="flex items-center gap-2 px-6 py-3 bg-brand-cyan text-brand-dark font-bold rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,163,196,0.3)] disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-3 bg-brand-cyan text-brand-dark font-bold rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)] disabled:opacity-50"
           >
             <RefreshCw size={18} className={syncing ? 'animate-spin' : ''} />
             {syncing ? 'Syncing...' : 'Sync from Website'}
