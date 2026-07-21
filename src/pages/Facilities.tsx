@@ -64,7 +64,6 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
                         className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass bg-brand-cyan/5 border border-brand-cyan/20 mb-6 md:mb-8"
                     >
                         <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-brand-cyan animate-pulse" />
@@ -213,4 +212,4 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
         </motion.section>
 
     );
-};
+};

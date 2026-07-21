@@ -3,7 +3,6 @@ import { motion } from 'motion/react';
 import { MapPin, ArrowUpRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { INITIAL_ATTRACTIONS } from '../data/initialData';
-
 export interface Attraction {
     id: string | number;
     title: string;
@@ -12,11 +11,9 @@ export interface Attraction {
     distance: string;
     map_link: string;
 }
-
 const AttractionCard: React.FC<{ attraction: Attraction; index: number }> = ({ attraction, index }) => {
     const num = String(index + 1).padStart(2, '0');
     const [imageLoaded, setImageLoaded] = useState(false);
-
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -40,23 +37,19 @@ const AttractionCard: React.FC<{ attraction: Attraction; index: number }> = ({ a
                     referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/30 to-transparent opacity-80 transition-opacity duration-300 pointer-events-none" />
-
                 {/* Card number label — top left */}
                 <div className="absolute top-4 left-4 text-white/20 font-display font-bold text-4xl leading-none select-none group-hover:text-brand-cyan/30 transition-colors duration-500">
                     {num}
                 </div>
-
                 {/* Distance badge — always visible */}
                 <div className="absolute top-4 right-4 bg-brand-dark/80 md:backdrop-blur-xl px-3 py-1.5 rounded-full flex items-center gap-2 border border-white/10 shadow-lg">
                     <MapPin size={11} className="text-brand-cyan" />
                     <span className="text-[10px] font-bold text-white tracking-wider">{attraction.distance}</span>
                 </div>
             </div>
-
             <div className="p-6 md:p-8 flex flex-col flex-grow relative">
                 {/* Animated top line on hover */}
                 <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-brand-cyan/40 to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
-
                 <h4 className="font-display font-bold text-xl md:text-2xl text-white mb-3 group-hover:text-brand-cyan transition-colors">{attraction.title}</h4>
                 <p className="text-white/50 text-sm mb-8 leading-relaxed line-clamp-3 flex-grow">
                     {attraction.description}
@@ -73,10 +66,8 @@ const AttractionCard: React.FC<{ attraction: Attraction; index: number }> = ({ a
         </motion.div>
     );
 };
-
 export const Destinations = () => {
     const [attractions, setAttractions] = useState<Attraction[]>([]);
-
     useEffect(() => {
         const fetchAttractions = async () => {
             const { data } = await supabase.from('destinations').select('*').order('created_at', { ascending: false });
@@ -98,7 +89,6 @@ export const Destinations = () => {
         };
         fetchAttractions();
     }, []);
-
     return (
         <motion.section
             initial={{ opacity: 0 }}
@@ -110,14 +100,11 @@ export const Destinations = () => {
         >
             {/* Glow — hidden on mobile */}
             <div className="hidden md:block absolute top-0 right-0 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-20 pointer-events-none transform translate-x-1/2 -translate-y-1/2" />
-
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
                     transition={{ duration: 0.7 }}
                     className="mb-14"
                 >
@@ -132,7 +119,6 @@ export const Destinations = () => {
                         The resort sits in Vannappuram near Thodupuzha, close to attractions like Thommankuthu Waterfall, Kattadikadavu trekking point, and Idukki Dam. Guests enjoy proximity to Munnar and Wagamon for day trips.
                     </p>
                 </motion.div>
-
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {attractions.map((attr, idx) => (
                         <AttractionCard key={attr.id} attraction={attr} index={idx} />
