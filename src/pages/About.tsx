@@ -170,9 +170,6 @@ export const About = () => {
                             className="bg-white/5 border border-white/10 rounded-[2rem] p-8 md:p-10 hover:bg-white/10 hover:border-brand-cyan/30 transition-all duration-500 group relative overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 w-32 h-32 bg-brand-cyan/10 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-cyan/20 transition-all duration-700" />
-                            <div className="w-14 h-14 rounded-2xl bg-brand-cyan/10 flex items-center justify-center text-brand-cyan mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                                <TreePine size={28} />
-                            </div>
                             <h4 className="text-2xl font-display font-bold text-white mb-3">Harmony with Nature</h4>
                             <p className="text-white/60 font-light leading-relaxed text-sm">Wake up to the sounds of tropical birds and explore our vast rubber plantations. We preserve the natural ecosystem, allowing you to truly disconnect from city life.</p>
                         </motion.div>
@@ -186,9 +183,6 @@ export const About = () => {
                             className="bg-brand-cyan/10 border border-brand-cyan/30 rounded-[2rem] p-8 md:p-10 hover:bg-brand-cyan/20 hover:border-brand-cyan/50 hover:shadow-[0_10px_40px_rgba(212,175,55,0.15)] transition-all duration-500 group relative overflow-hidden transform md:-translate-y-4"
                         >
                             <div className="absolute top-0 right-0 w-32 h-32 bg-brand-cyan/20 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-cyan/30 transition-all duration-700" />
-                            <div className="w-14 h-14 rounded-2xl bg-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-6 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500">
-                                <Leaf size={28} />
-                            </div>
                             <h4 className="text-2xl font-display font-bold text-white mb-3">Eco-Conscious Living</h4>
                             <p className="text-white/80 font-light leading-relaxed text-sm">From 100% organic farming practices to sustainable architectural designs, every aspect of our resort is built to protect and nourish the earth.</p>
                         </motion.div>
@@ -202,9 +196,6 @@ export const About = () => {
                             className="bg-white/5 border border-white/10 rounded-[2rem] p-8 md:p-10 hover:bg-white/10 hover:border-brand-cyan/30 transition-all duration-500 group relative overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 w-32 h-32 bg-brand-cyan/10 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-cyan/20 transition-all duration-700" />
-                            <div className="w-14 h-14 rounded-2xl bg-brand-cyan/10 flex items-center justify-center text-brand-cyan mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                                <MapPin size={28} />
-                            </div>
                             <h4 className="text-2xl font-display font-bold text-white mb-3">Authentic Heritage</h4>
                             <p className="text-white/60 font-light leading-relaxed text-sm">Experience true Kerala hospitality. Our spaces are inspired by traditional architecture, offering a genuine connection to the local culture and history.</p>
                         </motion.div>
@@ -229,9 +220,6 @@ export const About = () => {
                             
                             <div className="space-y-6">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-brand-cyan/10 flex items-center justify-center text-brand-cyan shrink-0">
-                                        <Leaf size={20} />
-                                    </div>
                                     <div>
                                         <h5 className="text-white font-bold text-lg mb-1">Spice Garden Walks</h5>
                                         <p className="text-white/50 text-sm font-light">Breathe in the aroma of cardamom, pepper, and nutmeg cultivated right on our grounds.</p>
@@ -239,9 +227,6 @@ export const About = () => {
                                 </div>
                                 
                                 <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-brand-cyan/10 flex items-center justify-center text-brand-cyan shrink-0">
-                                        <TreePine size={20} />
-                                    </div>
                                     <div>
                                         <h5 className="text-white font-bold text-lg mb-1">Rubber Tapping Experience</h5>
                                         <p className="text-white/50 text-sm font-light">Learn the traditional art of rubber tapping from our expert local farmers.</p>
@@ -249,9 +234,6 @@ export const About = () => {
                                 </div>
                                 
                                 <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-brand-cyan/10 flex items-center justify-center text-brand-cyan shrink-0">
-                                        <Droplets size={20} />
-                                    </div>
                                     <div>
                                         <h5 className="text-white font-bold text-lg mb-1">Private Waterfall</h5>
                                         <p className="text-white/50 text-sm font-light">Relax by our serene, natural waterfall—a hidden gem within the estate.</p>
