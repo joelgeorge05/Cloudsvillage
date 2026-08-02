@@ -55,14 +55,11 @@ export const About = () => {
                         transition={{ duration: 0.8 }}
                     >
                         {/* Section pill */}
-                        <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass bg-brand-cyan/5 border border-brand-cyan/20 mb-8">
-                            <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse" />
-                            <span className="text-brand-cyan text-[10px] font-bold tracking-[0.3em] uppercase">Our Story</span>
-                        </div>
+
                         {/* Heading */}
                         <h2 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 md:mb-8 leading-tight drop-shadow-xl">
                             {content.title} <br />
-                            <span className="text-brand-cyan italic font-light drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]">{content.subtitle}</span>
+                            <span className="text-brand-cyan italic font-light drop-shadow-[0_0_15px_rgba(0, 180, 216,0.5)]">{content.subtitle}</span>
                         </h2>
                         {/* Body text with left accent */}
                         <div className="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed mb-10">
@@ -77,7 +74,7 @@ export const About = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-white/10">
                             <motion.div
                                 whileHover={{ y: -4, scale: 1.02 }}
-                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 md:backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]"
+                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 md:backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(0, 180, 216,0.15)]"
                             >
                                 <div className="absolute top-0 right-0 w-16 h-16 bg-brand-cyan/10 rounded-full blur-xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-cyan/20 transition-colors" />
                                 <div className="relative z-10 flex flex-col items-start gap-2">
@@ -87,7 +84,7 @@ export const About = () => {
                             </motion.div>
                             <motion.div
                                 whileHover={{ y: -4, scale: 1.02 }}
-                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 md:backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]"
+                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 md:backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(0, 180, 216,0.15)]"
                             >
                                 <div className="absolute top-0 right-0 w-16 h-16 bg-brand-cyan/10 rounded-full blur-xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-cyan/20 transition-colors" />
                                 <div className="relative z-10 flex flex-col items-start gap-2">
@@ -97,7 +94,7 @@ export const About = () => {
                             </motion.div>
                             <motion.div
                                 whileHover={{ y: -4, scale: 1.02 }}
-                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 md:backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]"
+                                className="group relative p-4 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/5 md:backdrop-blur-sm overflow-hidden cursor-default transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 hover:shadow-[0_0_30px_rgba(0, 180, 216,0.15)]"
                             >
                                 <div className="absolute top-0 right-0 w-16 h-16 bg-brand-cyan/10 rounded-full blur-xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-cyan/20 transition-colors" />
                                 <div className="relative z-10 flex flex-col items-start gap-2">
@@ -114,15 +111,15 @@ export const About = () => {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="relative h-[400px] sm:h-[500px] md:h-[600px] w-full mt-10 lg:mt-0"
                     >
-                        <div className="absolute top-0 right-0 w-[60%] h-[55%] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-10 border border-white/5 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(212,175,55,0.2)] transition-all duration-700 group">
+                        <div className="absolute top-0 right-0 w-[60%] h-[55%] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-10 border border-white/5 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(0, 180, 216,0.2)] transition-all duration-700 group">
                             <img src={heritage1} alt="Heritage" loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/50 to-transparent group-hover:opacity-0 transition-opacity duration-700" />
                         </div>
-                        <div className="absolute bottom-0 left-0 w-[55%] h-[60%] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-20 border border-white/5 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(212,175,55,0.2)] transition-all duration-700 group">
+                        <div className="absolute bottom-0 left-0 w-[55%] h-[60%] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-20 border border-white/5 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(0, 180, 216,0.2)] transition-all duration-700 group">
                             <img src={npool1} alt="Natural Pool" loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/50 to-transparent group-hover:opacity-0 transition-opacity duration-700" />
                         </div>
-                        <div className="absolute top-1/2 left-1/2 w-[45%] h-[45%] rounded-[2rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] z-30 border border-brand-cyan/20 transform -translate-x-[40%] -translate-y-1/2 hover:scale-105 hover:shadow-[0_30px_60px_rgba(212,175,55,0.25)] transition-all duration-700 group">
+                        <div className="absolute top-1/2 left-1/2 w-[45%] h-[45%] rounded-[2rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] z-30 border border-brand-cyan/20 transform -translate-x-[40%] -translate-y-1/2 hover:scale-105 hover:shadow-[0_30px_60px_rgba(0, 180, 216,0.25)] transition-all duration-700 group">
                             <img src={pic1} alt="Farm Life" loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 to-transparent group-hover:opacity-0 transition-opacity duration-700" />
                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -159,7 +156,7 @@ export const About = () => {
                             initial={{ opacity: 0, y: 30 }}
                             viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
-                            className="bg-brand-cyan/10 border border-brand-cyan/30 rounded-[2rem] p-8 md:p-10 hover:bg-brand-cyan/20 hover:border-brand-cyan/50 hover:shadow-[0_10px_40px_rgba(212,175,55,0.15)] transition-all duration-500 group relative overflow-hidden transform md:-translate-y-4"
+                            className="bg-brand-cyan/10 border border-brand-cyan/30 rounded-[2rem] p-8 md:p-10 hover:bg-brand-cyan/20 hover:border-brand-cyan/50 hover:shadow-[0_10px_40px_rgba(0, 180, 216,0.15)] transition-all duration-500 group relative overflow-hidden transform md:-translate-y-4"
                         >
                             <div className="absolute top-0 right-0 w-32 h-32 bg-brand-cyan/20 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-cyan/30 transition-all duration-700" />
                             <h4 className="text-2xl font-display font-bold text-white mb-3">Eco-Conscious Living</h4>

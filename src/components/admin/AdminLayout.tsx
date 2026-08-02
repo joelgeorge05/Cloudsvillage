@@ -83,7 +83,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
               onClick={() => setIsMobileMenuOpen(false)}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
                 location.pathname === item.path
-                  ? 'bg-brand-cyan text-brand-dark shadow-[0_0_20px_rgba(212,175,55,0.2)]'
+                  ? 'bg-brand-cyan text-brand-dark shadow-[0_0_20px_rgba(0, 180, 216,0.2)]'
                   : 'text-white/50 hover:bg-white/5 hover:text-white'
               }`}
             >

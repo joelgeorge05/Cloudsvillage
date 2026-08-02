@@ -39,7 +39,7 @@ export const Footer = () => {
                         <div className="flex items-center gap-4">
                             <div className="relative group cursor-pointer">
                                 <div className="absolute inset-0 bg-brand-cyan/30 blur-2xl rounded-full group-hover:bg-brand-cyan/40 transition-colors duration-700" />
-                                <img src={logoImg} alt="Clouds Village Logo" className="w-20 h-20 object-contain relative z-10 drop-shadow-[0_0_20px_rgba(212,175,55,0.5)] group-hover:scale-105 transition-transform duration-500" />
+                                <img src={logoImg} alt="Clouds Village Logo" className="w-20 h-20 object-contain relative z-10 drop-shadow-[0_0_20px_rgba(0, 180, 216,0.5)] group-hover:scale-105 transition-transform duration-500" />
                             </div>
                             <div className="flex flex-col">
                                 <span className="font-display font-black text-white text-3xl tracking-widest uppercase mb-1 drop-shadow-md">Clouds Village</span>
@@ -124,7 +124,7 @@ export const Footer = () => {
                                 placeholder="Your email address" 
                                 className="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-brand-cyan/50 focus:bg-white/10 transition-all"
                             />
-                            <button type="submit" className="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-brand-cyan text-brand-dark flex items-center justify-center hover:scale-105 hover:bg-white transition-all shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                            <button type="submit" className="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-brand-cyan text-brand-dark flex items-center justify-center hover:scale-105 hover:bg-white transition-all shadow-[0_0_15px_rgba(0, 180, 216,0.3)]">
                                 <Send size={14} className="-ml-0.5" />
                             </button>
                         </form>
@@ -143,7 +143,7 @@ export const Footer = () => {
                     </div>
 
                     <div className="flex items-center gap-2 text-[10px] text-white/40 uppercase tracking-widest font-bold">
-                        Designed for <span className="text-brand-cyan drop-shadow-[0_0_10px_rgba(212,175,55,0.8)]">Luxury</span>
+                        Designed for <span className="text-brand-cyan drop-shadow-[0_0_10px_rgba(0, 180, 216,0.8)]">Luxury</span>
                         <span className="text-white/20">|</span>
                         <span>Dev: <a href="https://www.instagram.com/j_oelgeorge?igsh=MWZ3OWR5dDA4OG5qeA%3D%3D" target="_blank" rel="noopener noreferrer" className="text-brand-cyan hover:text-white transition-colors">Joel</a></span>
                     </div>

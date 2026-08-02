@@ -161,7 +161,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                                 e.preventDefault();
                                 document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
                             }}
-                            className="group relative overflow-hidden flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-brand-cyan text-brand-dark font-bold text-sm tracking-wider uppercase shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:shadow-[0_0_50px_rgba(212,175,55,0.7)] transition-all duration-500 hover:-translate-y-0.5"
+                            className="group relative overflow-hidden flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-brand-cyan text-brand-dark font-bold text-sm tracking-wider uppercase shadow-[0_0_30px_rgba(0, 180, 216,0.4)] hover:shadow-[0_0_50px_rgba(0, 180, 216,0.7)] transition-all duration-500 hover:-translate-y-0.5"
                         >
                             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
                             Book Your Stay
@@ -214,7 +214,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
 
                         {/* Gradient border wrapper */}
                         <div className="absolute inset-0 rounded-[2rem] p-[1.5px] z-10"
-                            style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.8) 0%, rgba(255,255,255,0.05) 40%, rgba(212,175,55,0.4) 70%, rgba(226,194,117,0.6) 100%)' }}
+                            style={{ background: 'linear-gradient(135deg, rgba(0, 180, 216,0.8) 0%, rgba(255,255,255,0.05) 40%, rgba(0, 180, 216,0.4) 70%, rgba(72, 202, 228,0.6) 100%)' }}
                         >
                             {/* Main image card */}
                             <div className="relative w-full h-full rounded-[1.9rem] overflow-hidden bg-brand-dark shadow-[0_30px_80px_rgba(0,0,0,0.8)]">
@@ -254,7 +254,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                                             <button
                                                 key={i}
                                                 onClick={() => setActiveImage(i)}
-                                                className={`rounded-full transition-all duration-300 ${i === activeImage ? 'w-5 h-1.5 bg-brand-cyan shadow-[0_0_6px_rgba(212,175,55,0.8)]' : 'w-1.5 h-1.5 bg-white/30 hover:bg-white/60'}`}
+                                                className={`rounded-full transition-all duration-300 ${i === activeImage ? 'w-5 h-1.5 bg-brand-cyan shadow-[0_0_6px_rgba(0, 180, 216,0.8)]' : 'w-1.5 h-1.5 bg-white/30 hover:bg-white/60'}`}
                                             />
                                         ))}
                                     </div>
