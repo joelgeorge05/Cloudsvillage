@@ -136,7 +136,7 @@ export const About = () => {
                         transition={{ duration: 0.8 }}
                         className="text-center mb-16"
                     >
-                        <h3 className="font-display font-bold text-3xl md:text-5xl text-white mb-4">Our <span className="italic font-light text-brand-cyan">Philosophy</span></h3>
+                        <h3 className="font-display font-bold text-3xl md:text-5xl text-white mb-4">Our <span className="italic font-light text-brand-cyan">Legacy</span></h3>
                         <p className="text-white/50 text-sm md:text-base max-w-2xl mx-auto font-light">Built on three core pillars, our farm stay is designed to provide a holistic, sustainable, and unforgettable experience.</p>
                     </motion.div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
