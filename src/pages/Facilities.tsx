@@ -55,38 +55,42 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
             <div className="hidden md:block absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-30 pointer-events-none transform -translate-x-1/3 translate-y-1/3" />
 
             <div className="max-w-[1400px] mx-auto px-6 relative z-10">
-                <div className="text-center mb-16 md:mb-24 relative">
-
-
-                    <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-white mb-4 md:mb-6 drop-shadow-2xl">
-                        Facilities <span className="text-white/30 italic font-light">&</span> Experiences
+                <div className="text-center mb-12 relative flex flex-col items-center">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 mb-6">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse"></span>
+                        <span className="text-brand-cyan text-[10px] font-bold tracking-[0.2em] uppercase">Explore The Village</span>
+                    </div>
+                    <h2 className="font-display font-light text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 tracking-tight">
+                        Facilities <span className="italic text-brand-cyan font-serif">&</span> Experiences
                     </h2>
-                    <p className="text-white/50 text-base md:text-xl leading-relaxed max-w-2xl mx-auto font-light">
+                    <p className="text-white/60 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto font-light">
                         Immerse yourself in our carefully curated amenities designed for ultimate comfort, thrilling adventure, and pure relaxation.
                     </p>
                 </div>
 
-                {/* Interactive Category Carousel Tabs */}
-                <div className="flex overflow-x-auto hide-scrollbar justify-start md:justify-center gap-3 md:gap-5 mb-12 md:mb-16 pb-4 px-2 snap-x">
-                    {CATEGORIES.map((category) => (
-                        <button
-                            key={category}
-                            onClick={() => setActiveCategory(category)}
-                            className={`snap-center shrink-0 px-6 md:px-8 py-3 rounded-full font-bold text-xs tracking-widest uppercase transition-all duration-500 border relative overflow-hidden group ${activeCategory === category
-                                ? 'text-brand-dark border-brand-cyan shadow-[0_0_20px_rgba(0, 180, 216,0.3)]'
-                                : 'text-white/40 border-white/5 bg-white/[0.02] hover:border-white/20 hover:text-white hover:bg-white/5 hover:-translate-y-1'
-                                }`}
-                        >
-                            {activeCategory === category && (
-                                <motion.div
-                                    layoutId="activeCategory"
-                                    className="absolute inset-0 bg-gradient-to-r from-brand-cyan/80 via-[#48CAE4]/80 to-brand-cyan/80 bg-[length:200%_auto] animate-[gradient_3s_linear_infinite] -z-10"
-                                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                                />
-                            )}
-                            <span className="relative z-10 block">{category}</span>
-                        </button>
-                    ))}
+                {/* Interactive Category Tabs - Frosted Glass Container */}
+                <div className="w-full flex justify-start md:justify-center overflow-x-auto hide-scrollbar mb-16 pb-2 px-2">
+                    <div className="flex items-center p-1.5 bg-white/5 border border-white/10 backdrop-blur-md rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.3)] min-w-max">
+                        {CATEGORIES.map((category) => (
+                            <button
+                                key={category}
+                                onClick={() => setActiveCategory(category)}
+                                className={`relative px-5 md:px-8 py-2.5 rounded-full font-medium text-[10px] md:text-xs tracking-[0.15em] uppercase transition-colors duration-500 ${activeCategory === category
+                                    ? 'text-brand-dark font-bold'
+                                    : 'text-white/50 hover:text-white'
+                                    }`}
+                            >
+                                {activeCategory === category && (
+                                    <motion.div
+                                        layoutId="activeCategory"
+                                        className="absolute inset-0 bg-gradient-to-r from-brand-cyan to-[#48CAE4] rounded-full shadow-[0_0_15px_rgba(0,180,216,0.3)]"
+                                        transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                                    />
+                                )}
+                                <span className="relative z-10 block">{category}</span>
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {/* Responsive Grid Layout */}
