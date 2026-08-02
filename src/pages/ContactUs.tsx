@@ -28,7 +28,6 @@ export const ContactUs = () => {
         <motion.section
             initial={{ opacity: 0, scale: 0.95 }}
             viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
             className="max-w-7xl mx-auto px-6 pt-32 pb-20 md:pt-40 md:pb-32 border-y border-white/5 min-h-[100svh] flex items-center"
         >

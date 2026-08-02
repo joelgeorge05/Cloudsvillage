@@ -38,7 +38,6 @@ export const About = () => {
         <motion.section
             initial={{ opacity: 0 }}
             viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
             id="about"
             className="bg-brand-dark relative z-10 py-24 md:py-32 overflow-hidden border-y border-white/5 min-h-[100svh] flex items-center"

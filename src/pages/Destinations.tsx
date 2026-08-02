@@ -18,7 +18,6 @@ const AttractionCard: React.FC<{ attraction: Attraction; index: number }> = ({ a
         <motion.div
             initial={{ opacity: 0, y: 30 }}
             viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
             className="flex flex-col h-full bg-brand-surface/50 border border-white/5 rounded-2xl overflow-hidden group hover:border-brand-cyan/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(0, 180, 216,0.15)]"
         >
@@ -95,7 +94,6 @@ export const Destinations = () => {
         <motion.section
             initial={{ opacity: 0 }}
             viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
             id="destinations"
             className="bg-brand-surface pt-32 pb-20 md:pt-40 md:pb-32 border-y border-white/5 min-h-[100svh] relative overflow-hidden"

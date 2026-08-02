@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import { Maximize2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -19,14 +19,18 @@ export const CATEGORIES = ["All Collections", "Accommodations", "Facilities", "D
 export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], title: string) => void }) => {
     const [facilities, setFacilities] = useState<GalleryItem[]>(INITIAL_FACILITIES);
     const [activeCategory, setActiveCategory] = useState("All Collections");
-    const [selectedFacility, setSelectedFacility] = useState<GalleryItem | null>(null);
+
 
     useEffect(() => {
         const fetchFacilities = async () => {
-            const { data } = await supabase.from('facilities').select('*').order('created_at', { ascending: false });
-            if (data && data.length > 0) {
-                setFacilities(data);
-            } else {
+            try {
+                // Fetch from Supabase (optional, but we will force local data to show the legacy content)
+                const { data, error } = await supabase.from('facilities').select('*').order('created_at', { ascending: false });
+                
+                // Forcing the use of INITIAL_FACILITIES so the legacy content is visible
+                setFacilities(INITIAL_FACILITIES);
+            } catch (err) {
+                console.error(err);
                 setFacilities(INITIAL_FACILITIES);
             }
         };
@@ -37,21 +41,12 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
         ? facilities
         : facilities.filter(item => item.category === activeCategory);
 
-    useEffect(() => {
-        if (filteredGallery.length > 0) {
-            if (!selectedFacility || !filteredGallery.find(item => item.id === selectedFacility.id)) {
-                setSelectedFacility(filteredGallery[0]);
-            }
-        } else {
-            setSelectedFacility(null);
-        }
-    }, [activeCategory, filteredGallery, selectedFacility]);
+
 
     return (
         <motion.section
             initial={{ opacity: 0 }}
             viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
             className="relative bg-brand-surface pb-20 md:pb-32 overflow-hidden border-y border-white/5 min-h-[100svh] pt-32 md:pt-40"
         >
@@ -94,113 +89,50 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                     ))}
                 </div>
 
-                {/* Master-Detail Layout */}
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="flex flex-col lg:flex-row gap-6 lg:gap-10 h-auto lg:h-[480px]"
-                >
+                {/* Responsive Grid Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    {filteredGallery.map((item, index) => (
+                        <motion.div
+                            key={item.id}
+                            initial={{ opacity: 0, y: 30 }}
+                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: (index % 6) * 0.1 }}
+                            onClick={() => openLightbox([item.image_url], item.title)}
+                            className="relative h-[400px] sm:h-[450px] rounded-3xl overflow-hidden group cursor-pointer border border-white/10 hover:border-brand-cyan/40 hover:shadow-[0_15px_40px_rgba(0,180,216,0.2)] transition-all duration-500"
+                        >
+                            <img
+                                src={item.image_url}
+                                alt={item.title}
+                                className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
+                            />
 
-                    {/* Left Sidebar - Scrollable List */}
-                    <div className="w-full lg:w-1/3 flex flex-col gap-3 overflow-y-auto hide-scrollbar pr-2 pb-4 snap-y max-h-[40vh] md:max-h-[50vh] lg:max-h-none lg:h-full">
-                        {filteredGallery.map((item) => (
-                            <motion.button
-                                key={item.id}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.3 }}
-                                onClick={() => setSelectedFacility(item)}
-                                className={`snap-start text-left w-full p-4 rounded-2xl transition-all duration-300 border relative group overflow-hidden shrink-0 ${selectedFacility?.id === item.id
-                                    ? 'bg-brand-cyan/10 border-brand-cyan/50 shadow-[0_0_20px_rgba(0, 180, 216,0.15)] transform scale-[1.02] z-10'
-                                    : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20 hover:scale-[1.01]'
-                                    }`}
-                            >
-                                {selectedFacility?.id === item.id && (
-                                    <motion.div
-                                        initial={{ opacity: 0, scaleY: 0 }}
-                                        animate={{ opacity: 1, scaleY: 1 }}
-                                        className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-cyan shadow-[0_0_10px_rgba(0, 180, 216,0.8)] origin-center"
-                                        transition={{ duration: 0.3 }}
-                                    />
-                                )}
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <h4 className={`font-display font-bold text-lg transition-colors duration-300 ${selectedFacility?.id === item.id ? 'text-brand-cyan' : 'text-white'
-                                            }`}>
-                                            {item.title}
-                                        </h4>
-                                        <p className="text-white/40 text-[10px] font-bold tracking-widest uppercase mt-1">
-                                            {item.category}
-                                        </p>
-                                    </div>
+                            {/* Gradients */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/40 to-transparent opacity-90 transition-opacity group-hover:opacity-100" />
+
+                            <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end">
+                                <div>
                                     {item.badge && (
-                                        <span className="hidden sm:inline-block bg-brand-cyan/20 text-brand-cyan text-[9px] font-bold px-2 py-1 rounded tracking-wider uppercase">
+                                        <span className="inline-block glass bg-brand-cyan/20 border border-brand-cyan/30 text-brand-cyan text-[10px] font-bold px-3 py-1 rounded-full tracking-widest uppercase mb-3">
                                             {item.badge}
                                         </span>
                                     )}
-                                </div>
-                            </motion.button>
-                        ))}
-                    </div>
+                                    <h3 className="font-display font-bold text-2xl sm:text-3xl text-white mb-3 group-hover:text-brand-cyan transition-colors">
+                                        {item.title}
+                                    </h3>
+                                    <p className="text-white/70 text-sm leading-relaxed line-clamp-3">
+                                        {item.description}
+                                    </p>
 
-                    {/* Right Side - Hero Display */}
-                    <div className="w-full lg:w-2/3 relative h-[400px] sm:h-[500px] lg:h-full rounded-[2rem] overflow-hidden group border-[0.5px] border-white/20 shadow-[0_30px_80px_rgba(0,0,0,0.6)] glass">
-                        <AnimatePresence mode="wait">
-                            {selectedFacility && (
-                                <motion.div
-                                    key={selectedFacility.id}
-                                    initial={{ opacity: 0, scale: 1.05 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    transition={{ duration: 0.6, ease: "easeOut" }}
-                                    className="absolute inset-0"
-                                >
-                                    <img
-                                        src={selectedFacility.image_url}
-                                        alt={selectedFacility.title}
-                                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
-                                    />
-
-                                    {/* Gradients for text legibility and cinematic depth */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/50 to-transparent opacity-90" />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/90 via-transparent to-transparent opacity-70" />
-
-                                    <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end pointer-events-none">
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 30 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.2, duration: 0.6 }}
-                                        >
-                                            {selectedFacility.badge && (
-                                                <span className="inline-block glass bg-brand-cyan/20 border border-brand-cyan/30 text-brand-cyan text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-4 md:backdrop-blur-md shadow-lg">
-                                                    {selectedFacility.badge}
-                                                </span>
-                                            )}
-                                            <h3 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-4 drop-shadow-lg">
-                                                {selectedFacility.title}
-                                            </h3>
-                                            <p className="text-white/70 text-base md:text-lg max-w-xl leading-relaxed drop-shadow-md">
-                                                {selectedFacility.description}
-                                            </p>
-
-                                            <motion.button
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                                className="mt-6 px-6 py-2.5 rounded-full bg-brand-cyan text-brand-dark font-bold text-sm hover:bg-white transition-all shadow-[0_0_20px_rgba(0, 180, 216,0.4)] pointer-events-auto flex items-center gap-2 w-fit cursor-pointer"
-                                                onClick={() => openLightbox([selectedFacility.image_url], selectedFacility.title)}
-                                            >
-                                                <Maximize2 size={16} /> Enlarge View
-                                            </motion.button>
-                                        </motion.div>
+                                    {/* Action row on hover */}
+                                    <div className="mt-5 flex items-center gap-2 text-brand-cyan text-sm font-bold opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                                        <Maximize2 size={16} /> 
+                                        <span className="uppercase tracking-widest text-[10px]">View Image</span>
                                     </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-
-                </motion.div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
             </div>
         </motion.section>
 

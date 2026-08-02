@@ -22,7 +22,6 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
         <motion.section
             initial={{ opacity: 0 }}
             viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
             id="gallery"
             className="bg-brand-dark pt-32 pb-20 md:pt-40 md:pb-32 border-y border-white/5 relative overflow-hidden min-h-[100svh]"
@@ -87,7 +86,6 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
                                 key={item.id}
                                 initial={{ opacity: 0, y: 20 }}
                                 viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-50px" }}
                                 transition={{ duration: 0.5, delay: (index % 4) * 0.08, ease: "easeOut" }}
                                 className={`relative group rounded-[1.5rem] overflow-hidden cursor-pointer border-[0.5px] border-white/10 hover:border-brand-cyan/40 hover:shadow-[0_15px_40px_rgba(0, 180, 216,0.2)] transition-all duration-500 shadow-xl ${spanClass}`}
                                 onClick={() => openLightbox([item.url], item.title)}
