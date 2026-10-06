@@ -4,7 +4,7 @@
 
 # Clouds Village Farm Resort & Spa
 
-Welcome to the official codebase for the **Clouds Village Farm Resort & Spa** website! This is a modern, premium web application built to showcase our luxury authentic farm stay nestled in the heart of Manjakkunel Farm, Thodupuzha, Kerala.
+Welcome to the official codebase for the **Clouds Village Farm Resort & Spa** website! This is a modern, premium web application built to showcase our luxury authentic farm stay nestled in the heart of Manjakunnel Farm, Thodupuzha, Kerala.
 
 ## Getting Started
 

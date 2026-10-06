@@ -76,48 +76,57 @@ export const AdminDashboard = () => {
   }, []);
 
   const handleSync = async () => {
-    if (!confirm('This will copy all existing website images and data to your admin panel. Continue?')) return;
+    if (!confirm('This will synchronize website content into your admin panel without creating duplicates. Continue?')) return;
     
     setSyncing(true);
     try {
       // 1. Sync Gallery
-      const { count: galCount } = await supabase.from('gallery').select('*', { count: 'exact', head: true });
-      if (galCount === 0) {
-        const galData = INITIAL_GALLERY.map(img => ({ title: img.title, url: img.url }));
+      const { data: existingGal } = await supabase.from('gallery').select('title');
+      const galTitles = new Set((existingGal || []).map((g: any) => (g.title || '').trim().toLowerCase()));
+      const galData = INITIAL_GALLERY
+        .filter(img => !galTitles.has((img.title || '').trim().toLowerCase()))
+        .map(img => ({ title: img.title, url: img.url, type: 'image', category: 'General' }));
+      if (galData.length > 0) {
         await supabase.from('gallery').insert(galData);
       }
 
       // 2. Sync Destinations
-      const { count: destCount } = await supabase.from('destinations').select('*', { count: 'exact', head: true });
-      if (destCount === 0) {
-        const destData = INITIAL_ATTRACTIONS.map(attr => ({
+      const { data: existingDest } = await supabase.from('destinations').select('title');
+      const destTitles = new Set((existingDest || []).map((d: any) => (d.title || '').trim().toLowerCase()));
+      const destData = INITIAL_ATTRACTIONS
+        .filter(attr => !destTitles.has((attr.title || '').trim().toLowerCase()))
+        .map(attr => ({
           title: attr.title,
           description: attr.description,
           image_url: attr.image_url,
           distance: attr.distance,
           map_link: attr.map_link
         }));
+      if (destData.length > 0) {
         await supabase.from('destinations').insert(destData);
       }
 
       // 3. Sync Facilities
-      const { count: facCount } = await supabase.from('facilities').select('*', { count: 'exact', head: true });
-      if (facCount === 0) {
-        const facData = INITIAL_FACILITIES.map(fac => ({
+      const { data: existingFac } = await supabase.from('facilities').select('title');
+      const facTitles = new Set((existingFac || []).map((f: any) => (f.title || '').trim().toLowerCase()));
+      const facData = INITIAL_FACILITIES
+        .filter(fac => !facTitles.has((fac.title || '').trim().toLowerCase()))
+        .map(fac => ({
           title: fac.title,
           description: fac.description,
           image_url: fac.image_url,
           category: fac.category,
           badge: fac.badge
         }));
+      if (facData.length > 0) {
         await supabase.from('facilities').insert(facData);
       }
 
       await fetchStats();
-      alert('Database synchronized successfully!');
-    } catch (err) {
+      alert('Content synchronized successfully without duplicates!');
+    } catch (err: any) {
       console.error('Sync failed:', err);
-      alert('Failed to sync database. Please ensure your Supabase tables are created.');
+      alert(`Sync error: ${err.message || 'Please check your connection.'}`);
     } finally {
       setSyncing(false);
     }
@@ -129,7 +138,7 @@ export const AdminDashboard = () => {
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
           <div>
             <h1 className="font-display font-bold text-4xl text-white mb-2">Dashboard Overview</h1>
-            <p className="text-white/40 text-sm">Welcome back! Here's what's happening with Cloud Village today.</p>
+            <p className="text-white/40 text-sm">Welcome back! Here's what's happening with Clouds Village today.</p>
           </div>
           <button 
             onClick={handleSync}

@@ -15,6 +15,7 @@ import { supabase } from '../../lib/supabase';
 import { uploadMedia, deleteMedia } from '../../lib/storage';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { INITIAL_FACILITIES } from '../../data/initialData';
+import { resolveAssetUrl, handleImageFallback } from '../../utils/assetResolver';
 
 export const FacilityManager = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -47,7 +48,11 @@ export const FacilityManager = () => {
       if (error) {
         console.error('Error fetching facilities:', error);
       } else {
-        setItems(data || []);
+        const resolved = (data || []).map((item: any) => ({
+          ...item,
+          image_url: resolveAssetUrl(item.image_url, item.title)
+        }));
+        setItems(resolved);
       }
     } catch (err) {
       console.error('Unexpected error fetching facilities:', err);
@@ -154,23 +159,73 @@ export const FacilityManager = () => {
   const handleSync = async () => {
     setSyncing(true);
     try {
-      const facData = INITIAL_FACILITIES.map(fac => ({
-        title: fac.title,
-        description: fac.description,
-        image_url: fac.image_url,
-        category: fac.category,
-        badge: fac.badge
-      }));
+      const { data: existing } = await supabase.from('facilities').select('title');
+      const existingTitles = new Set((existing || []).map((f: any) => (f.title || '').trim().toLowerCase()));
+
+      const facData = INITIAL_FACILITIES
+        .filter(fac => !existingTitles.has((fac.title || '').trim().toLowerCase()))
+        .map(fac => ({
+          title: fac.title,
+          description: fac.description,
+          image_url: fac.image_url,
+          category: fac.category,
+          badge: fac.badge
+        }));
+
+      if (facData.length === 0) {
+        alert('All facilities from the website are already present in the database.');
+        return;
+      }
+
       const { error } = await supabase.from('facilities').insert(facData);
       if (error) throw error;
+      alert(`Successfully added ${facData.length} new facility/experience(s).`);
       fetchItems();
-    } catch (err) {
+    } catch (err: any) {
       console.error('Sync failed:', err);
-      alert('Failed to sync. Please try again.');
+      alert(`Failed to sync: ${err.message || 'Please try again.'}`);
     } finally {
       setSyncing(false);
     }
   };
+
+  const handleCleanDuplicates = async () => {
+    if (!confirm('This will find duplicate facility records and delete redundant copies, keeping only 1 copy per title. Proceed?')) return;
+    
+    setSyncing(true);
+    try {
+      const seen = new Set<string>();
+      const duplicateIds: string[] = [];
+
+      for (const item of items) {
+        const key = (item.title || '').trim().toLowerCase();
+        if (seen.has(key)) {
+          duplicateIds.push(item.id);
+        } else {
+          seen.add(key);
+        }
+      }
+
+      if (duplicateIds.length === 0) {
+        alert('No duplicate facilities found.');
+        return;
+      }
+
+      for (const id of duplicateIds) {
+        await supabase.from('facilities').delete().eq('id', id);
+      }
+
+      alert(`Successfully cleaned up ${duplicateIds.length} duplicate facility(ies).`);
+      fetchItems();
+    } catch (err: any) {
+      console.error('Cleanup failed:', err);
+      alert(`Cleanup failed: ${err.message || 'Unknown error'}`);
+    } finally {
+      setSyncing(false);
+    }
+  };
+
+  const hasDuplicates = items.length > 0 && new Set(items.map(i => (i.title || '').trim().toLowerCase())).size < items.length;
 
   return (
     <AdminLayout>
@@ -180,7 +235,17 @@ export const FacilityManager = () => {
             <h1 className="font-display font-bold text-4xl text-white mb-2">Facilities & Experiences</h1>
             <p className="text-white/40 text-sm">Manage resort amenities and activities.</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            {hasDuplicates && (
+              <button
+                onClick={handleCleanDuplicates}
+                disabled={syncing}
+                className="flex items-center gap-2 px-5 py-3 bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 rounded-xl font-bold text-sm transition-all border border-amber-500/30"
+              >
+                <Trash2 size={16} />
+                {syncing ? 'Cleaning...' : 'Remove Duplicates'}
+              </button>
+            )}
             {items.length > 0 && (
               <button
                 onClick={handleSync}
@@ -230,7 +295,12 @@ export const FacilityManager = () => {
                 className="group glass rounded-2xl overflow-hidden border border-white/5 hover:border-brand-cyan/30 transition-all flex flex-col"
               >
                 <div className="h-48 relative overflow-hidden">
-                  <img src={item.image_url} alt={item.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                  <img 
+                    src={item.image_url} 
+                    alt={item.title} 
+                    onError={handleImageFallback}
+                    className="w-full h-full object-cover transition-transform group-hover:scale-110" 
+                  />
                   {item.badge && (
                     <div className="absolute top-4 right-4 bg-brand-cyan/80 md:backdrop-blur-xl px-3 py-1 rounded-full text-[9px] font-bold text-brand-dark tracking-wider shadow-lg">
                       {item.badge}
@@ -312,10 +382,11 @@ export const FacilityManager = () => {
                         className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full appearance-none"
                       >
                         <option value="Accommodations">Accommodations</option>
-                        <option value="Facilities">Facilities</option>
+                        <option value="Natural Pools & Water">Natural Pools & Water</option>
+                        <option value="Farm Experiences">Farm Experiences</option>
                         <option value="Dining">Dining</option>
-                        <option value="Wellness">Wellness</option>
-                        <option value="Activities">Activities</option>
+                        <option value="Events & Celebrations">Events & Celebrations</option>
+                        <option value="Facilities">Facilities</option>
                       </select>
                     </div>
                   </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Calendar, Phone } from 'lucide-react';
 
 import logoImg from '../assets/images/logo.webp';
 import logo2Img from '../assets/images/logo2.webp';
@@ -12,148 +12,218 @@ export const Navbar = () => {
     const location = useLocation();
 
     useEffect(() => {
-        let ticking = false;
         const handleScroll = () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    setScrolled(window.scrollY > 50);
-                    ticking = false;
-                });
-                ticking = true;
-            }
+            setScrolled(window.scrollY > 20);
         };
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close mobile menu on route change
     useEffect(() => {
         setIsOpen(false);
     }, [location.pathname]);
 
     const navLinks = [
-        { name: "About", path: "/#about" },
+        { name: "Stays", path: "/#stays" },
         { name: "Facilities", path: "/facilities" },
         { name: "Destinations", path: "/destinations" },
         { name: "Gallery", path: "/gallery" },
-        { name: "Contact Us", path: "/contact" }
+        { name: "Story", path: "/about" },
+        { name: "Contact", path: "/contact" }
     ];
 
-    return (
-        <nav className="fixed top-0 left-0 right-0 z-50 pt-4 px-4 md:px-6 pointer-events-none transition-all duration-500">
-            <div className="max-w-7xl mx-auto flex items-center justify-between pointer-events-auto">
+    const handleNavClick = (path: string, e: React.MouseEvent) => {
+        if (path === "/#stays") {
+            if (location.pathname === "/") {
+                e.preventDefault();
+                const staysEl = document.getElementById("stays");
+                if (staysEl) {
+                    staysEl.scrollIntoView({ behavior: "smooth" });
+                }
+            }
+        }
+    };
 
-                {/* Left: Main Brand Logo */}
-                <motion.div
-                    className="flex-shrink-0 relative z-10"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8 }}
-                >
-                    <Link to="/">
-                        <motion.img
+    return (
+        <>
+            {/* ══════════════════════════════════════════════════════════
+                ARCHITECTURAL FULL-WIDTH LUXURY HEADER (Aman / Soneva Standard)
+            ══════════════════════════════════════════════════════════ */}
+            <header 
+                className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${
+                    scrolled 
+                        ? 'bg-[#070B19]/90 backdrop-blur-2xl py-3.5 md:py-4 border-b border-brand-cyan/20 shadow-[0_15px_40px_rgba(0,0,0,0.6)]' 
+                        : 'bg-gradient-to-b from-black/80 via-black/30 to-transparent py-5 md:py-7 border-b border-white/5'
+                }`}
+            >
+                <div className="w-full max-w-[2200px] 2xl:max-w-[2560px] mx-auto px-4 sm:px-6 md:px-8 lg:px-5 xl:px-8 2xl:px-14 flex items-center justify-between">
+
+                    {/* Left: Brand Identity */}
+                    <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+                        <img
                             src={logoImg}
                             alt="Clouds Village Logo"
-                            className={`object-contain transition-all duration-500 ${scrolled || location.pathname !== '/' ? 'w-16 h-16 md:w-24 md:h-24' : 'w-20 h-20 md:w-40 md:h-40'}`}
-                            initial={{ scale: 0, rotate: -90 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
-                            whileHover={{ scale: 1.1 }}
+                            className="h-8 sm:h-9 md:h-9 xl:h-10 w-auto object-contain relative z-10 transition-transform duration-500 group-hover:scale-105"
                         />
+                        <div className="hidden sm:flex flex-col">
+                            <span 
+                                className="text-white text-[15px] xl:text-base 2xl:text-lg font-light tracking-[0.16em] xl:tracking-[0.2em] uppercase leading-none group-hover:text-brand-cyan-light transition-colors whitespace-nowrap"
+                                style={{ fontFamily: "var(--font-display)" }}
+                            >
+                                Clouds Village
+                            </span>
+                            <span className="text-brand-cyan-light/70 text-[8px] xl:text-[8.5px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-medium mt-1 whitespace-nowrap hidden xl:block">
+                                Farm Sanctuary • Idukki
+                            </span>
+                        </div>
                     </Link>
-                </motion.div>
 
-                {/* Center: Floating Navigation Pill (Links Only) */}
-                <div className={`hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-2 xl:gap-6 px-8 py-3.5 rounded-full transition-all duration-700 ease-out border ${scrolled ? 'bg-[#0f172a]/80 md:backdrop-blur-xl border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]' : 'bg-brand-surface/40 md:backdrop-blur-lg border-white/10 shadow-2xl hover:bg-brand-surface/50'} `}>
-                    {navLinks.map((item) => (
-                        <Link
-                            key={item.name}
-                            to={item.path}
-                            className={`group relative px-2 py-1 text-[11px] xl:text-[13px] font-semibold uppercase tracking-[0.2em] transition-all whitespace-nowrap ${location.pathname === item.path ? 'text-brand-cyan drop-shadow-[0_0_8px_rgba(0, 180, 216,0.8)]' : 'text-white/70 hover:text-white'}`}
+                    {/* Center: Breathable Navigation Links */}
+                    <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 2xl:gap-2.5 shrink-0" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+                        {navLinks.map((item) => {
+                            const isActive = item.path === '/#stays'
+                                ? (location.pathname === '/' && (!location.hash || location.hash === '#stays'))
+                                : location.pathname === item.path;
+
+                            return (
+                                <Link
+                                    key={item.name}
+                                    to={item.path}
+                                    onClick={(e) => handleNavClick(item.path, e)}
+                                    className={`relative px-2 xl:px-2.5 2xl:px-3.5 py-1.5 xl:py-2 text-[11.5px] xl:text-[12.5px] 2xl:text-[13.5px] tracking-[0.14em] xl:tracking-[0.18em] 2xl:tracking-[0.22em] uppercase transition-colors duration-300 font-semibold whitespace-nowrap group ${
+                                        isActive
+                                            ? 'text-white font-bold'
+                                            : 'text-white/80 hover:text-white'
+                                    }`}
+                                >
+                                    <span className="relative z-10">{item.name}</span>
+                                    
+                                    {/* Active Selected Page Animation: Sliding Frosted Cyan Capsule */}
+                                    {isActive ? (
+                                        <motion.div
+                                            layoutId="header-active-pill"
+                                            className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-cyan/20 via-brand-cyan/25 to-brand-cyan-dark/20 border border-brand-cyan/40 backdrop-blur-md shadow-[0_0_20px_rgba(0,180,216,0.25)]"
+                                            transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                                        />
+                                    ) : (
+                                        <span className="absolute inset-0 rounded-full bg-white/[0.04] border border-transparent group-hover:border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                                    )}
+                                </Link>
+                            );
+                        })}
+                    </nav>
+
+                    {/* Right: Balanced Actions */}
+                    <div className="flex items-center gap-2 xl:gap-2.5 2xl:gap-3.5 shrink-0">
+                        {/* Manjakunnel Farm Logo */}
+                        <div className="hidden lg:flex items-center justify-center hover:scale-105 transition-transform duration-300 shrink-0">
+                            <img
+                                src={logo2Img}
+                                alt="Manjakunnel Integrated Farm"
+                                className="h-9 xl:h-10 2xl:h-11 w-auto object-contain filter drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] transition-transform duration-300"
+                            />
+                        </div>
+
+                        {/* Discreet Phone Contact Button */}
+                        <a
+                            href="tel:+919645464747"
+                            aria-label="Call Reception"
+                            title="Call Reception: +91 9645464747"
+                            className="hidden xl:flex w-8.5 h-8.5 rounded-full items-center justify-center bg-white/[0.06] border border-white/10 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 text-brand-cyan hover:text-white transition-all duration-300 shrink-0"
+                            style={{ fontFamily: "var(--font-nav)" }}
                         >
-                            {item.name}
-                            <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full transition-all duration-300 ${location.pathname === item.path ? 'bg-brand-cyan shadow-[0_0_8px_rgba(0, 180, 216,1)] opacity-100' : 'bg-white/50 opacity-0 group-hover:opacity-100 group-hover:-bottom-1'}`} />
+                            <Phone size={13} className="text-brand-cyan" />
+                        </a>
+
+                        {/* Signature "Book Stay" CTA */}
+                        <Link
+                            to="/booking"
+                            style={{ fontFamily: "var(--font-nav)" }}
+                            className="relative group overflow-hidden flex items-center gap-1.5 px-3.5 xl:px-4 2xl:px-5 py-2 xl:py-2.5 rounded-full bg-gradient-to-r from-brand-cyan to-brand-cyan-dark text-brand-dark font-bold text-[10.5px] xl:text-xs tracking-[0.14em] xl:tracking-[0.18em] uppercase shadow-[0_0_20px_rgba(0,180,216,0.35)] hover:shadow-[0_0_35px_rgba(0,180,216,0.7)] hover:scale-105 transition-all duration-300 shrink-0 whitespace-nowrap"
+                        >
+                            <Calendar size={13} className="text-brand-dark shrink-0" />
+                            <span className="whitespace-nowrap">Book Stay</span>
                         </Link>
-                    ))}
+
+                        {/* Mobile Hamburger Toggle */}
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="lg:hidden w-10 h-10 rounded-full flex items-center justify-center bg-white/[0.06] border border-white/10 text-white hover:text-brand-cyan hover:border-brand-cyan/40 transition-colors"
+                            aria-label="Toggle Navigation Menu"
+                        >
+                            {isOpen ? <X size={20} /> : <Menu size={20} />}
+                        </button>
+                    </div>
                 </div>
+            </header>
 
-                {/* Right Actions */}
-                <div className="flex items-center gap-4">
-                    {/* Secondary Logo (Optional/Branding) */}
-                    <motion.div
-                        className={`hidden md:flex items-center justify-center bg-white/95 h-10 md:h-12 px-4 rounded-full shadow-lg border border-white/20 hover:bg-white transition-all cursor-pointer group ${scrolled ? 'opacity-100' : 'opacity-90'}`}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.3 }}
-                    >
-                        <img
-                            src={logo2Img}
-                            alt="Clouds Village Special Edition"
-                            className="h-5 md:h-7 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
-                        />
-                    </motion.div>
-
-                    {/* Book Now Button */}
-                    <Link
-                        to="/contact"
-                        className="hidden md:flex relative group overflow-hidden bg-brand-cyan text-brand-dark px-7 py-3 rounded-full font-bold text-[11px] xl:text-xs tracking-widest uppercase transition-all shadow-[0_0_15px_rgba(0, 180, 216,0.4)] hover:shadow-[0_0_30px_rgba(0, 180, 216,0.7)] hover:scale-105 whitespace-nowrap"
-                    >
-                        <span className="relative z-10 flex items-center gap-2">Book Now</span>
-                        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-                    </Link>
-
-                    {/* Mobile Menu Toggle - visible on mobile/tablet */}
-                    <button
-                        className="lg:hidden w-10 md:w-12 h-10 md:h-12 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan hover:bg-brand-cyan/20 transition-colors pointer-events-auto shadow-[0_0_15px_rgba(0, 180, 216,0.2)]"
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
-                        {isOpen ? <X size={20} /> : <Menu size={20} />}
-                    </button>
-                </div>
-            </div>
-
-            {/* Mobile Nav */}
+            {/* Mobile Navigation Drawer with Deep Midnight Sapphire Atmosphere */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                        className="lg:hidden absolute top-[110px] left-4 right-4 md:left-6 md:right-6 bg-brand-dark/95 md:backdrop-blur-3xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl pointer-events-auto"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                        className="fixed inset-0 z-40 bg-[#070B19]/98 backdrop-blur-3xl flex flex-col justify-between p-6 sm:p-10 pt-32 lg:hidden"
                     >
-                        <div className="p-6 md:p-8 flex flex-col gap-4">
-                            {navLinks.map((item, i) => (
-                                <motion.div
-                                    key={item.name}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.05 }}
-                                >
-                                    <Link
-                                        to={item.path}
-                                        className={`text-lg md:text-xl font-display font-medium transition-colors flex items-center justify-between group py-3 border-b border-white/5 ${location.pathname === item.path ? 'text-brand-cyan' : 'text-white/80 hover:text-brand-cyan'}`}
+                        {/* Ambient Background Cyan Glows */}
+                        <div className="absolute top-1/3 right-0 w-80 h-80 bg-brand-cyan/15 rounded-full blur-[100px] pointer-events-none" />
+                        <div className="absolute bottom-10 left-0 w-72 h-72 bg-brand-cyan/10 rounded-full blur-[90px] pointer-events-none" />
+
+                        <div className="flex flex-col gap-6 relative z-10">
+                            <div className="flex items-center justify-between pb-4 border-b border-brand-cyan/20">
+                                <span className="text-brand-cyan text-[10px] tracking-[0.35em] uppercase font-bold">
+                                    Sanctuary Navigation
+                                </span>
+                                <span className="text-white/40 text-[10px] tracking-widest uppercase">
+                                    Vannappuram, Idukki
+                                </span>
+                            </div>
+
+                            <div className="flex flex-col gap-3">
+                                {navLinks.map((item, idx) => (
+                                    <motion.div
+                                        key={item.name}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: idx * 0.04 + 0.05 }}
                                     >
-                                        {item.name}
-                                        <ArrowRight size={18} className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-brand-cyan" />
-                                    </Link>
-                                </motion.div>
-                            ))}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 }}
+                                        <Link
+                                            to={item.path}
+                                            onClick={(e) => {
+                                                handleNavClick(item.path, e);
+                                                setIsOpen(false);
+                                            }}
+                                            className="font-serif text-3xl text-white/90 hover:text-brand-cyan flex items-center justify-between py-2.5 border-b border-white/5 transition-colors group"
+                                            style={{ fontFamily: "var(--font-display)" }}
+                                        >
+                                            <span className="group-hover:translate-x-2 transition-transform">{item.name}</span>
+                                            <ArrowUpRight size={20} className="text-brand-cyan/50 group-hover:text-brand-cyan transition-colors" />
+                                        </Link>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Mobile Drawer Bottom Info */}
+                        <div className="flex flex-col gap-4 pt-6 border-t border-brand-cyan/20 relative z-10">
+                            <div className="flex items-center justify-between text-xs text-white/70">
+                                <span>Reservations Desk</span>
+                                <a href="tel:+919645464747" className="text-brand-cyan font-bold tracking-wider">+91 9645464747</a>
+                            </div>
+                            <Link
+                                to="/booking"
+                                onClick={() => setIsOpen(false)}
+                                style={{ fontFamily: "var(--font-nav)" }}
+                                className="w-full py-4 rounded-full bg-gradient-to-r from-brand-cyan to-brand-cyan-light text-brand-dark font-bold text-xs tracking-[0.2em] uppercase text-center shadow-[0_0_30px_rgba(0,180,216,0.45)]"
                             >
-                                <Link
-                                    to="/contact"
-                                    className="w-full flex justify-center bg-gradient-to-r from-brand-cyan to-[#48CAE4] text-brand-dark py-4 rounded-xl font-bold text-lg md:text-xl shadow-[0_0_20px_rgba(0, 180, 216,0.3)] mt-6 uppercase tracking-wider text-center"
-                                >
-                                    Reserve Stay
-                                </Link>
-                            </motion.div>
+                                Reserve Your Stay Now
+                            </Link>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </nav>
+        </>
     );
 };

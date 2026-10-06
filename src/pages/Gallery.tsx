@@ -1,16 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
-import { ZoomIn, Camera, Images } from 'lucide-react';
+import React, { useEffect, useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ZoomIn, Camera, Sparkles } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { INITIAL_GALLERY } from '../data/initialData';
+import { resolveAssetUrl, handleImageFallback } from '../utils/assetResolver';
+
 export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], title: string) => void }) => {
-    const [images, setImages] = useState<any[]>(INITIAL_GALLERY);
+    const [images, setImages] = useState<any[]>(() =>
+        INITIAL_GALLERY.map(item => ({
+            ...item,
+            url: resolveAssetUrl(item.url, item.title)
+        }))
+    );
+    const [activeFilter, setActiveFilter] = useState('All');
+
     useEffect(() => {
         const fetchImages = async () => {
             try {
                 const { data, error } = await supabase.from('gallery').select('*').order('created_at', { ascending: false });
                 if (data && data.length > 0 && !error) {
-                    setImages(data);
+                    const resolved = data.map((item: any) => ({
+                        ...item,
+                        url: resolveAssetUrl(item.url, item.title)
+                    }));
+                    setImages(resolved);
                 }
             } catch (err) {
                 console.warn("DB error, fallback to local data");
@@ -18,111 +31,156 @@ export const Gallery = ({ openLightbox }: { openLightbox: (images: string[], tit
         };
         fetchImages();
     }, []);
+
+    const categories = ['All', 'Sanctuary', 'Spring Pool', 'Highlands', 'Stays'];
+
+    const categoryCounts = useMemo(() => {
+        const counts: Record<string, number> = { All: images.length };
+        categories.forEach((cat) => {
+            if (cat !== 'All') {
+                counts[cat] = images.filter((img) => img.category?.toLowerCase().includes(cat.toLowerCase())).length;
+            }
+        });
+        return counts;
+    }, [images]);
+
+    const filteredImages = useMemo(() => {
+        if (activeFilter === 'All') return images;
+        return images.filter((img) => {
+            if (!img.category) return true;
+            return img.category.toLowerCase().includes(activeFilter.toLowerCase());
+        });
+    }, [activeFilter, images]);
+
     return (
-        <motion.section
-            initial={{ opacity: 0 }}
-            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            id="gallery"
-            className="bg-brand-dark pt-32 pb-20 md:pt-40 md:pb-32 border-y border-white/5 relative overflow-hidden min-h-[100svh]"
-        >
-            {/* Glow — hidden on mobile for performance */}
-            <div className="hidden md:block absolute top-0 left-0 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full filter blur-[100px] opacity-30 pointer-events-none transform -translate-x-1/3 -translate-y-1/3" />
-            <div className="max-w-7xl mx-auto px-6 relative z-10">
-                {/* Redesigned Section Header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 relative">
-                    <div className="max-w-2xl">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6 }}
-                            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass bg-brand-cyan/10 border border-brand-cyan/20 mb-6"
+        <section id="gallery" className="bg-brand-dark pt-24 sm:pt-28 md:pt-32 pb-24 md:pb-36 min-h-[100svh] relative overflow-hidden">
+            {/* Ambient Background Radial Glows */}
+            <div 
+                className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] pointer-events-none opacity-40"
+                style={{ background: 'radial-gradient(circle, rgba(197, 168, 128, 0.1) 0%, rgba(3, 4, 94, 0.05) 50%, transparent 70%)' }}
+            />
+
+            {/* Dynamic Full-Width Container synchronized with screen ratios */}
+            <div className="w-full max-w-[2200px] 2xl:max-w-[2560px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 2xl:px-20 relative z-10">
+                
+                {/* Responsive Header: Compact, majestic & balanced */}
+                <div className="text-center max-w-4xl mx-auto mb-8 sm:mb-12">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 mb-4 sm:mb-5">
+                        <Camera size={13} className="text-[#C5A880]" />
+                        <span 
+                            className="text-[#C5A880] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase"
+                            style={{ fontFamily: "var(--font-nav)" }}
                         >
-                            <Camera size={14} className="text-brand-cyan" />
-                            <span className="text-brand-cyan text-[10px] font-bold tracking-[0.2em] uppercase">Visual Journey</span>
-                        </motion.div>
-                        <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
-                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                            className="font-display font-bold text-4xl md:text-6xl text-white mb-6 drop-shadow-xl"
-                        >
-                            Moments <span className="italic font-light text-brand-cyan drop-shadow-[0_0_15px_rgba(0, 180, 216,0.6)]">Frozen</span><br />In Time
-                        </motion.h2>
-                        <motion.p
-                            initial={{ opacity: 0, y: 15 }}
-                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="text-white/60 text-sm md:text-base leading-relaxed font-light"
-                        >
-                            Explore glimpses of unforgettable moments, celebrations, and the natural beauty that surrounds our sanctuary.
-                        </motion.p>
+                            Visual Chronicles • Clouds Village
+                        </span>
                     </div>
-                    {images.length > 0 && (
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.6, delay: 0.3 }}
-                            className="hidden md:flex items-center gap-4 bg-white/5 border border-white/10 md:backdrop-blur-md px-6 py-4 rounded-2xl"
-                        >
-                            <div className="w-12 h-12 rounded-full bg-brand-cyan/20 flex items-center justify-center text-brand-cyan">
-                                <Images size={24} />
-                            </div>
-                            <div>
-                                <div className="text-3xl font-display font-bold text-white">{images.length}</div>
-                                <div className="text-[10px] text-white/50 tracking-widest uppercase font-semibold">Captured Memories</div>
-                            </div>
-                        </motion.div>
-                    )}
+
+                    <h1 
+                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 2xl:text-7xl font-light text-white leading-tight mb-4 tracking-tight drop-shadow-xl"
+                        style={{ fontFamily: "var(--font-display)" }}
+                    >
+                        Moments Captured <br className="hidden sm:inline" />
+                        <span className="italic font-normal gradient-title">In the Mist</span>
+                    </h1>
+
+                    <p className="text-white/65 text-xs sm:text-sm md:text-base font-light leading-relaxed max-w-xl mx-auto">
+                        An uncurated glimpse into morning fog across cardamom fields, cold spring waters, and starlit campfire nights.
+                    </p>
                 </div>
-                {/* Masonry Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[200px] md:auto-rows-[280px]">
-                    {images.map((item, index) => {
-                        let spanClass = 'col-span-1 md:col-span-1 row-span-1';
-                        if (index % 7 === 0) spanClass = 'col-span-1 md:col-span-2 row-span-1 md:row-span-2';
-                        else if (index % 5 === 0) spanClass = 'col-span-1 md:col-span-2 row-span-1';
-                        return (
-                            <motion.div
-                                key={item.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                viewport={{ once: true, margin: "-50px" }} whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: (index % 4) * 0.08, ease: "easeOut" }}
-                                className={`relative group rounded-[1.5rem] overflow-hidden cursor-pointer border-[0.5px] border-white/10 hover:border-brand-cyan/40 hover:shadow-[0_15px_40px_rgba(0, 180, 216,0.2)] transition-all duration-500 shadow-xl ${spanClass}`}
-                                onClick={() => openLightbox([item.url], item.title)}
-                            >
-                                {item.type === 'video' ? (
-                                    <div className="w-full h-full bg-brand-surface flex items-center justify-center">
-                                        <video src={item.url} className="w-full h-full object-cover" muted loop onMouseOver={e => e.currentTarget.play()} onMouseOut={e => e.currentTarget.pause()} />
-                                        <div className="absolute top-4 right-4 w-8 h-8 rounded-full glass flex items-center justify-center text-white/50">
-                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" /></svg>
-                                        </div>
+
+                {/* Filter Tabs with Counters */}
+                <div className="flex justify-center mb-8 sm:mb-12 overflow-x-auto hide-scrollbar">
+                    <div className="flex items-center gap-1.5 sm:gap-2 p-1.5 rounded-full bg-[#0B1226]/80 border border-white/10 max-w-full shadow-2xl">
+                        {categories.map((cat) => {
+                            const isSelected = activeFilter === cat;
+                            const count = categoryCounts[cat] ?? 0;
+                            return (
+                                <button
+                                    key={cat}
+                                    onClick={() => setActiveFilter(cat)}
+                                    className={`relative px-4 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs tracking-[0.14em] uppercase transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+                                        isSelected
+                                            ? 'bg-[#C5A880] text-[#0B0E14] font-bold shadow-[0_0_20px_rgba(197,168,128,0.35)]'
+                                            : 'text-white/60 hover:text-white hover:bg-white/5'
+                                    }`}
+                                    style={{ fontFamily: "var(--font-nav)" }}
+                                >
+                                    <span>{cat}</span>
+                                    {count > 0 && (
+                                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                                            isSelected ? 'bg-black/20 text-[#0B0E14] font-bold' : 'bg-white/10 text-white/50'
+                                        }`}>
+                                            {count}
+                                        </span>
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Dynamic Screen-Synchronized Masonry Grid */}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeFilter}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -15 }}
+                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-5 lg:gap-6 auto-rows-[250px] sm:auto-rows-[270px] lg:auto-rows-[300px] 2xl:auto-rows-[340px] grid-flow-dense"
+                    >
+                        {filteredImages.map((item, index) => {
+                            let spanClass = 'col-span-1 row-span-1';
+                            if (index % 7 === 0) spanClass = 'sm:col-span-2 sm:row-span-2';
+                            else if (index % 5 === 0) spanClass = 'sm:col-span-2 sm:row-span-1';
+
+                            return (
+                                <div
+                                    key={item.id || index}
+                                    onClick={() => openLightbox([item.url], item.title || "Clouds Village Moment")}
+                                    style={{ contentVisibility: 'auto', containIntrinsicSize: '300px' }}
+                                    className={`relative rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer group border border-white/10 bg-brand-surface shadow-xl transform-gpu ${spanClass}`}
+                                >
+                                    {item.type === 'video' ? (
+                                        <video 
+                                            src={item.url} 
+                                            className="w-full h-full object-cover" 
+                                            muted 
+                                            loop 
+                                            onMouseOver={e => e.currentTarget.play()} 
+                                            onMouseOut={e => e.currentTarget.pause()} 
+                                        />
+                                    ) : (
+                                        <img
+                                            src={item.url}
+                                            alt={item.title || "Clouds Village"}
+                                            onError={handleImageFallback}
+                                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                            loading={index < 6 ? "eager" : "lazy"}
+                                            decoding="async"
+                                        />
+                                    )}
+
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-60 group-hover:opacity-85 transition-opacity duration-300" />
+
+                                    <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-end z-10">
+                                        <h4 
+                                            className="text-lg sm:text-xl lg:text-2xl text-white font-medium drop-shadow-md group-hover:text-[#C5A880] transition-colors"
+                                            style={{ fontFamily: "var(--font-display)" }}
+                                        >
+                                            {item.title}
+                                        </h4>
                                     </div>
-                                ) : (
-                                    <img
-                                        src={item.url}
-                                        alt={item.title}
-                                        loading={index < 4 ? 'eager' : 'lazy'}
-                                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                                    />
-                                )}
-                                {/* Gradient overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
-                                {/* Zoom icon — centered on hover */}
-                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-                                    <div className="w-12 h-12 rounded-full bg-brand-cyan/20 border border-brand-cyan/40 md:backdrop-blur-md flex items-center justify-center text-white shadow-[0_0_20px_rgba(0, 180, 216,0.4)] scale-75 group-hover:scale-100 transition-transform duration-300">
-                                        <ZoomIn size={20} />
+
+                                    <div className="absolute top-4 right-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/70 border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-md">
+                                        <ZoomIn size={16} />
                                     </div>
                                 </div>
-                                {/* Bottom title */}
-                                <div className="absolute inset-0 p-5 md:p-7 flex flex-col justify-end z-10">
-                                    <h4 className="font-display font-bold text-lg md:text-2xl text-white drop-shadow-lg transform translate-y-3 group-hover:translate-y-0 transition-transform duration-500">{item.title}</h4>
-                                    <div className="w-0 h-[1.5px] bg-brand-cyan mt-2 transition-all duration-500 group-hover:w-10 shadow-[0_0_10px_rgba(0, 180, 216,0.8)]" />
-                                </div>
-                            </motion.div>
-                        );
-                    })}
-                </div>
+                            );
+                        })}
+                    </motion.div>
+                </AnimatePresence>
             </div>
-        </motion.section>
+        </section>
     );
 };

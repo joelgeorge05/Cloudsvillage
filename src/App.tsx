@@ -12,6 +12,7 @@ import { Facilities } from './pages/Facilities';
 import { Destinations } from './pages/Destinations';
 import { Gallery } from './pages/Gallery';
 import { ContactUs } from './pages/ContactUs';
+import { Booking } from './pages/Booking';
 import { Login } from './pages/Login';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { GalleryManager } from './pages/admin/GalleryManager';
@@ -64,16 +65,13 @@ function App() {
     <>
       <Routes>
         <Route element={<PublicLayout />}>
-          <Route path="/" element={
-            <>
-              <Home openLightbox={openLightbox} />
-              <About />
-            </>
-          } />
+          <Route path="/" element={<Home openLightbox={openLightbox} />} />
+          <Route path="/about" element={<About />} />
           <Route path="/facilities" element={<Facilities openLightbox={openLightbox} />} />
           <Route path="/destinations" element={<Destinations />} />
           <Route path="/gallery" element={<Gallery openLightbox={openLightbox} />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/booking" element={<Booking />} />
         </Route>
         <Route path="/login" element={<Login />} />
         

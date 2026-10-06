@@ -67,34 +67,34 @@ export const HomeManager = () => {
     } else if (data) {
       setHeroTitle(data.hero_title || '');
       setHeroSubtitle(data.hero_subtitle || '');
-      setAboutTitle(data.about_title || '');
-      setAboutSubtitle(data.about_subtitle || '');
-      setAboutContent(data.about_content || '');
+      setAboutTitle(data.about_title || 'Authentic Farm Stay');
+      setAboutSubtitle(data.about_subtitle || 'Untouched by Time');
+      setAboutContent(data.about_content || 'Clouds Village is nestled within the historic 15-acre Manjakunnel Farm in Vannappuram, near Thodupuzha. Rooted in traditional agrarian values, our highland estate is embraced by undulating spice plantation hills, untouched forest canopies, and living mountain streams flowing year-round from the Western Ghats.');
       setBgVideoUrl(data.bg_video_url || '');
 
       setAboutStat1Value(data.about_stat1_value || '15+');
-      setAboutStat1Label(data.about_stat1_label || 'Acres of Nature');
+      setAboutStat1Label(data.about_stat1_label || 'Acres Plantation');
       setAboutStat2Value(data.about_stat2_value || '100%');
-      setAboutStat2Label(data.about_stat2_label || 'Organic Farm');
+      setAboutStat2Label(data.about_stat2_label || 'Spring Water');
 
-      setContactTitle(data.contact_title || 'Book Your Stay');
-      setContactSubtitle(data.contact_subtitle || 'Ready for your luxury escape? Select your dates, guests, and preferred room type to check availability instantly. We guarantee the best rates when booking direct.');
-      setContactHighlight(data.contact_highlight || 'Breakfast included with all direct bookings');
+      setContactTitle(data.contact_title || 'Your Cottage in the Clouds');
+      setContactSubtitle(data.contact_subtitle || 'Escape the city rush. Step into 15 pristine acres of organic spice groves, living mountain spring rock pools, and handcrafted Kerala timber verandahs. A secluded highland haven where time gently stands still.');
+      setContactHighlight(data.contact_highlight || 'Direct Rate Guarantee & Complimentary Breakfast');
 
       setContactPhone(data.contact_phone || '+91 9645464747, +91 9446506075');
       setContactEmail(data.contact_email || 'cloudsvillage@gmail.com');
-      setContactAddress(data.contact_address || 'Clouds Village Farm Resort, Manjakkunel Farm, Thodupuzha, Idukki, Kerala');
-      setContactLocationUrl(data.contact_location_url || 'https://google.com/maps/place/Clouds+Village+Farm+Resort/@9.9797876,76.8016067,17z');
+      setContactAddress(data.contact_address || 'Clouds Village Farm Resort, Manjakunnel Farm, Vannappuram, Thodupuzha, Idukki, Kerala - 685607');
+      setContactLocationUrl(data.contact_location_url || 'https://share.google/DB1mdQaBldvZ9oumC');
       setFacebookUrl(data.facebook_url || 'https://www.facebook.com/CloudsVillageResort/');
-      setInstagramUrl(data.instagram_url || 'https://www.instagram.com/cloudsvillagefarmresort');
+      setInstagramUrl(data.instagram_url || 'https://www.instagram.com/cloudsvillagefarmstay/');
       setYoutubeUrl(data.youtube_url || 'https://www.youtube.com/channel/UCc94gpmGBGYSEpCx8sCWmbA');
 
-      setAmenity1Label(data.amenity1_label || 'Natural Pool');
-      setAmenity1Desc(data.amenity1_desc || 'Crystal Clear');
-      setAmenity2Label(data.amenity2_label || 'Safari');
-      setAmenity2Desc(data.amenity2_desc || 'Wild Encounters');
-      setAmenity3Label(data.amenity3_label || 'Heritage');
-      setAmenity3Desc(data.amenity3_desc || 'Local Culture');
+      setAmenity1Label(data.amenity1_label || 'Natural Rock Pool');
+      setAmenity1Desc(data.amenity1_desc || 'Cascading Springs');
+      setAmenity2Label(data.amenity2_label || 'Organic Spice Farm');
+      setAmenity2Desc(data.amenity2_desc || '15-Acre Groves');
+      setAmenity3Label(data.amenity3_label || 'Kottappara Viewpoint');
+      setAmenity3Desc(data.amenity3_desc || 'Misty Cloud Sea');
     }
     setLoading(false);
   };
@@ -213,7 +213,7 @@ export const HomeManager = () => {
                   value={heroSubtitle}
                   onChange={(e) => setHeroSubtitle(e.target.value)}
                   rows={3}
-                  placeholder="Escape the ordinary. Experience luxury woven into nature..."
+                  placeholder="An untamed 15-acre organic farm sanctuary in the mountains of Kerala. Living spring rock pools, heritage timber cottages, and unhurried stillness."
                   className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full resize-none"
                 />
               </div>
@@ -225,14 +225,14 @@ export const HomeManager = () => {
                     type="text"
                     value={amenity1Label}
                     onChange={(e) => setAmenity1Label(e.target.value)}
-                    placeholder="Natural Pool"
+                    placeholder="Natural Rock Pool"
                     className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-2 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full text-xs"
                   />
                   <input
                     type="text"
                     value={amenity1Desc}
                     onChange={(e) => setAmenity1Desc(e.target.value)}
-                    placeholder="Crystal Clear"
+                    placeholder="Cascading Springs"
                     className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-2 text-white/60 focus:outline-none focus:border-brand-cyan/50 transition-all w-full text-[10px]"
                   />
                 </div>
@@ -242,14 +242,14 @@ export const HomeManager = () => {
                     type="text"
                     value={amenity2Label}
                     onChange={(e) => setAmenity2Label(e.target.value)}
-                    placeholder="Safari"
+                    placeholder="Organic Spice Farm"
                     className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-2 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full text-xs"
                   />
                   <input
                     type="text"
                     value={amenity2Desc}
                     onChange={(e) => setAmenity2Desc(e.target.value)}
-                    placeholder="Wild Encounters"
+                    placeholder="15-Acre Groves"
                     className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-2 text-white/60 focus:outline-none focus:border-brand-cyan/50 transition-all w-full text-[10px]"
                   />
                 </div>
@@ -259,14 +259,14 @@ export const HomeManager = () => {
                     type="text"
                     value={amenity3Label}
                     onChange={(e) => setAmenity3Label(e.target.value)}
-                    placeholder="Heritage"
+                    placeholder="Kottappara Viewpoint"
                     className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-2 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full text-xs"
                   />
                   <input
                     type="text"
                     value={amenity3Desc}
                     onChange={(e) => setAmenity3Desc(e.target.value)}
-                    placeholder="Local Culture"
+                    placeholder="Misty Cloud Sea"
                     className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-2 text-white/60 focus:outline-none focus:border-brand-cyan/50 transition-all w-full text-[10px]"
                   />
                 </div>
@@ -298,7 +298,7 @@ export const HomeManager = () => {
                     type="text"
                     value={aboutSubtitle}
                     onChange={(e) => setAboutSubtitle(e.target.value)}
-                    placeholder="in Kerala's Heart"
+                    placeholder="Untouched by Time"
                     className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full"
                   />
                 </div>
@@ -310,7 +310,7 @@ export const HomeManager = () => {
                   value={aboutContent}
                   onChange={(e) => setAboutContent(e.target.value)}
                   rows={4}
-                  placeholder="Clouds Village Farm Resort is an authentic farm stay..."
+                  placeholder="Clouds Village is nestled within the historic 15-acre Manjakunnel Farm in Vannappuram, near Thodupuzha..."
                   className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full resize-none"
                 />
               </div>
@@ -334,7 +334,7 @@ export const HomeManager = () => {
                       type="text"
                       value={aboutStat1Label}
                       onChange={(e) => setAboutStat1Label(e.target.value)}
-                      placeholder="Acres of Nature"
+                      placeholder="Acres Plantation"
                       className="bg-brand-dark/30 border border-white/5 rounded-xl px-4 py-2 text-white/60 focus:outline-none focus:border-brand-cyan/50 transition-all w-full text-xs"
                     />
                   </div>
@@ -356,7 +356,7 @@ export const HomeManager = () => {
                       type="text"
                       value={aboutStat2Label}
                       onChange={(e) => setAboutStat2Label(e.target.value)}
-                      placeholder="Organic Farm"
+                      placeholder="Spring Water"
                       className="bg-brand-dark/30 border border-white/5 rounded-xl px-4 py-2 text-white/60 focus:outline-none focus:border-brand-cyan/50 transition-all w-full text-xs"
                     />
                   </div>
@@ -378,7 +378,7 @@ export const HomeManager = () => {
                     type="text"
                     value={contactTitle}
                     onChange={(e) => setContactTitle(e.target.value)}
-                    placeholder="Book Your Stay"
+                    placeholder="Your Cottage in the Clouds"
                     className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full"
                   />
                 </div>
@@ -388,7 +388,7 @@ export const HomeManager = () => {
                     type="text"
                     value={contactHighlight}
                     onChange={(e) => setContactHighlight(e.target.value)}
-                    placeholder="Breakfast included..."
+                    placeholder="Direct Rate Guarantee & Complimentary Breakfast"
                     className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full"
                   />
                 </div>
@@ -400,7 +400,7 @@ export const HomeManager = () => {
                   value={contactSubtitle}
                   onChange={(e) => setContactSubtitle(e.target.value)}
                   rows={3}
-                  placeholder="Ready for your luxury escape?..."
+                  placeholder="Escape the city rush. Step into 15 pristine acres of organic spice groves..."
                   className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full resize-none"
                 />
               </div>
@@ -442,7 +442,7 @@ export const HomeManager = () => {
                   type="text"
                   value={contactAddress}
                   onChange={(e) => setContactAddress(e.target.value)}
-                  placeholder="Clouds Village Farm Resort, Manjakkunel Farm..."
+                  placeholder="Clouds Village Farm Resort, Manjakunnel Farm..."
                   className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full"
                 />
               </div>
@@ -453,7 +453,7 @@ export const HomeManager = () => {
                   type="text"
                   value={contactLocationUrl}
                   onChange={(e) => setContactLocationUrl(e.target.value)}
-                  placeholder="https://google.com/maps/..."
+                  placeholder="https://share.google/DB1mdQaBldvZ9oumC"
                   className="bg-brand-dark/30 border border-white/5 rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full"
                 />
               </div>
@@ -474,6 +474,7 @@ export const HomeManager = () => {
                     type="text"
                     value={instagramUrl}
                     onChange={(e) => setInstagramUrl(e.target.value)}
+                    placeholder="https://www.instagram.com/cloudsvillagefarmstay/"
                     className="bg-brand-dark/30 border border-white/5 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-brand-cyan/50 transition-all w-full text-xs"
                   />
                 </div>

@@ -40,7 +40,7 @@ export const BookingManager = () => {
       }
     }
 
-    setConfirmationMessage(`Dear ${booking.name},\n\nYour booking request for ${formattedDate} has been successfully confirmed!\n\nBooking Details:\n${booking.message}\n\nWe look forward to hosting you.\n\nBest regards,\nCloud Village`);
+    setConfirmationMessage(`Dear ${booking.name},\n\nYour booking request for ${formattedDate} has been successfully confirmed!\n\nBooking Details:\n${booking.message}\n\nWe look forward to hosting you.\n\nBest regards,\nClouds Village`);
   };
 
   const closeConfirmationModal = () => {
@@ -58,11 +58,11 @@ export const BookingManager = () => {
         to_name: selectedBooking.name,
         to_email: selectedBooking.email,
         message: confirmationMessage,
-        subject: "Booking Confirmation - Cloud Village",
+        subject: "Booking Confirmation - Clouds Village",
         // These fields are standard in many templates
         guest_name: selectedBooking.name,
         booking_details: selectedBooking.message,
-        reply_to: 'cloudvillage@gmail.com' // Adjust if you have a business email
+        reply_to: 'cloudsvillage@gmail.com'
       };
 
       await emailjs.send(
@@ -92,7 +92,7 @@ export const BookingManager = () => {
       alert(`Automated sending failed: ${err.text || err.message || 'Unknown error'}. \n\nFalling back to manual method...`);
       
       // Fallback to mailto if EmailJS fails
-      const subject = encodeURIComponent("Booking Confirmation - Cloud Village");
+      const subject = encodeURIComponent("Booking Confirmation - Clouds Village");
       const body = encodeURIComponent(confirmationMessage);
       const mailtoLink = `mailto:${selectedBooking.email}?subject=${subject}&body=${body}`;
       window.open(mailtoLink, '_blank');

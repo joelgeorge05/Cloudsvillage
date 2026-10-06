@@ -70,7 +70,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
             Clouds <span className="text-brand-cyan italic font-light">Village</span>
           </Link>
           <div className="mt-2 flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-green-500" />
             <span className="text-[10px] text-white/40 font-bold tracking-[0.2em] uppercase">Admin Online</span>
           </div>
         </div>

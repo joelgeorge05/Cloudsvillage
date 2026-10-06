@@ -15,6 +15,7 @@ import { supabase } from '../../lib/supabase';
 import { uploadMedia, deleteMedia } from '../../lib/storage';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { INITIAL_ATTRACTIONS } from '../../data/initialData';
+import { resolveAssetUrl, handleImageFallback } from '../../utils/assetResolver';
 
 export const DestinationManager = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -47,7 +48,11 @@ export const DestinationManager = () => {
       if (error) {
         console.error('Error fetching destinations:', error);
       } else {
-        setItems(data || []);
+        const resolved = (data || []).map((item: any) => ({
+          ...item,
+          image_url: resolveAssetUrl(item.image_url, item.title)
+        }));
+        setItems(resolved);
       }
     } catch (err) {
       console.error('Unexpected error fetching destinations:', err);
@@ -154,23 +159,71 @@ export const DestinationManager = () => {
   const handleSync = async () => {
     setSyncing(true);
     try {
-      const destData = INITIAL_ATTRACTIONS.map(attr => ({
-        title: attr.title,
-        description: attr.description,
-        image_url: attr.image_url,
-        distance: attr.distance,
-        map_link: attr.map_link
-      }));
+      const existingTitles = new Set((items || []).map(i => (i.title || '').trim().toLowerCase()));
+      const destData = INITIAL_ATTRACTIONS
+        .filter(attr => !existingTitles.has(attr.title.trim().toLowerCase()))
+        .map(attr => ({
+          title: attr.title,
+          description: attr.description,
+          image_url: attr.image_url,
+          distance: attr.distance,
+          map_link: attr.map_link
+        }));
+
+      if (destData.length === 0) {
+        alert('All attractions from the website are already present in the database.');
+        return;
+      }
+
       const { error } = await supabase.from('destinations').insert(destData);
       if (error) throw error;
+      alert(`Successfully added ${destData.length} new destination(s).`);
       fetchItems();
-    } catch (err) {
+    } catch (err: any) {
       console.error('Sync failed:', err);
-      alert('Failed to sync. Please try again.');
+      alert(`Failed to sync: ${err.message || 'Please try again.'}`);
     } finally {
       setSyncing(false);
     }
   };
+
+  const handleCleanDuplicates = async () => {
+    if (!confirm('This will find duplicate destination records and delete redundant copies, keeping only 1 copy per title. Proceed?')) return;
+    
+    setSyncing(true);
+    try {
+      const seen = new Set<string>();
+      const duplicateIds: string[] = [];
+
+      for (const item of items) {
+        const key = (item.title || '').trim().toLowerCase();
+        if (seen.has(key)) {
+          duplicateIds.push(item.id);
+        } else {
+          seen.add(key);
+        }
+      }
+
+      if (duplicateIds.length === 0) {
+        alert('No duplicate destinations found.');
+        return;
+      }
+
+      for (const id of duplicateIds) {
+        await supabase.from('destinations').delete().eq('id', id);
+      }
+
+      alert(`Successfully cleaned up ${duplicateIds.length} duplicate destination(s).`);
+      fetchItems();
+    } catch (err: any) {
+      console.error('Cleanup failed:', err);
+      alert(`Cleanup failed: ${err.message || 'Unknown error'}`);
+    } finally {
+      setSyncing(false);
+    }
+  };
+
+  const hasDuplicates = items.length > 0 && new Set(items.map(i => (i.title || '').trim().toLowerCase())).size < items.length;
 
   return (
     <AdminLayout>
@@ -180,7 +233,17 @@ export const DestinationManager = () => {
             <h1 className="font-display font-bold text-4xl text-white mb-2">Destinations</h1>
             <p className="text-white/40 text-sm">Manage local attractions and surroundings.</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            {hasDuplicates && (
+              <button
+                onClick={handleCleanDuplicates}
+                disabled={syncing}
+                className="flex items-center gap-2 px-5 py-3 bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 rounded-xl font-bold text-sm transition-all border border-amber-500/30"
+              >
+                <Trash2 size={16} />
+                {syncing ? 'Cleaning...' : 'Remove Duplicates'}
+              </button>
+            )}
             {items.length > 0 && (
               <button
                 onClick={handleSync}
@@ -230,7 +293,12 @@ export const DestinationManager = () => {
                 className="group glass rounded-2xl overflow-hidden border border-white/5 hover:border-brand-cyan/30 transition-all flex flex-col"
               >
                 <div className="h-48 relative overflow-hidden">
-                  <img src={item.image_url} alt={item.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                  <img 
+                    src={item.image_url} 
+                    alt={item.title} 
+                    onError={handleImageFallback}
+                    className="w-full h-full object-cover transition-transform group-hover:scale-110" 
+                  />
                   <div className="absolute top-4 right-4 bg-brand-dark/80 md:backdrop-blur-xl px-3 py-1 rounded-full text-[9px] font-bold text-white tracking-wider border border-white/10">
                     {item.distance}
                   </div>
