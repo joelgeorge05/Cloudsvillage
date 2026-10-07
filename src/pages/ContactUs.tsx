@@ -82,8 +82,8 @@ export const ContactUs = () => {
             {/* ══════════════════════════════════════════════════════════
                 1. EDITORIAL HEADER (Quiet Luxury Standard)
             ══════════════════════════════════════════════════════════ */}
-            <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 mb-14 md:mb-20">
-                <div className="max-w-3xl">
+            <div className="w-full max-w-[2200px] 2xl:max-w-[2560px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-20 mb-14 md:mb-20">
+                <div className="max-w-4xl">
                     <div className="inline-flex items-center gap-2 mb-4">
                         <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan" />
                         <span 
@@ -102,7 +102,7 @@ export const ContactUs = () => {
                     </h1>
 
                     <p 
-                        className="text-white/70 text-base sm:text-lg font-light leading-relaxed max-w-2xl"
+                        className="text-white/70 text-base sm:text-lg font-light leading-relaxed max-w-3xl"
                         style={{ fontFamily: "'Outfit', sans-serif" }}
                     >
                         We welcome you to reach out for room bookings, customized group retreats, destination celebrations, or personal travel guidance to our sanctuary in Idukki.
@@ -113,11 +113,11 @@ export const ContactUs = () => {
             {/* ══════════════════════════════════════════════════════════
                 2. MAIN CONTACT MATRIX (Direct Channels + Inquiry Form)
             ══════════════════════════════════════════════════════════ */}
-            <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 mb-20 md:mb-28">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+            <div className="w-full max-w-[2200px] 2xl:max-w-[2560px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-20 mb-20 md:mb-28">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 2xl:gap-16 items-start">
                     
-                    {/* Left Column (5 Cols): Direct Estate Information */}
-                    <div className="lg:col-span-5 flex flex-col gap-6">
+                    {/* Left Column: Direct Estate Information */}
+                    <div className="lg:col-span-5 xl:col-span-4 2xl:col-span-4 flex flex-col gap-6">
                         
                         {/* Physical Address Card */}
                         <div className="p-6 sm:p-7 rounded-2xl bg-[#0B1226]/90 border border-white/10 shadow-lg">
@@ -273,9 +273,9 @@ export const ContactUs = () => {
                         </div>
                     </div>
 
-                    {/* Right Column (7 Cols): Bespoke Hospitality Inquiry Form */}
-                    <div className="lg:col-span-7">
-                        <div className="p-7 sm:p-9 lg:p-11 rounded-3xl bg-[#0B1226]/95 border border-white/10 shadow-2xl relative">
+                    {/* Right Column: Bespoke Hospitality Inquiry Form */}
+                    <div className="lg:col-span-7 xl:col-span-8 2xl:col-span-8">
+                        <div className="p-7 sm:p-9 lg:p-12 2xl:p-14 rounded-3xl bg-[#0B1226]/95 border border-white/10 shadow-2xl relative">
                             
                             <div className="mb-7">
                                 <span 
@@ -458,10 +458,10 @@ export const ContactUs = () => {
             {/* ══════════════════════════════════════════════════════════
                 3. HOW TO REACH & MAP SECTION (Authentic Travel Guidance)
             ══════════════════════════════════════════════════════════ */}
-            <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12">
+            <div className="w-full max-w-[2200px] 2xl:max-w-[2560px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-20">
                 <div className="border-t border-white/10 pt-16 md:pt-20">
                     
-                    <div className="max-w-2xl mb-10">
+                    <div className="max-w-4xl mb-10">
                         <span 
                             className="text-xs uppercase tracking-[0.2em] text-brand-cyan font-semibold block mb-2"
                             style={{ fontFamily: "var(--font-nav)" }}
@@ -480,7 +480,7 @@ export const ContactUs = () => {
                     </div>
 
                     {/* Transit Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 2xl:gap-10 mb-12">
                         {/* By Air */}
                         <div className="p-6 rounded-2xl bg-[#0B1226]/80 border border-white/10 flex flex-col">
                             <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-4">
@@ -566,7 +566,7 @@ export const ContactUs = () => {
                             </a>
                         </div>
 
-                        <div className="w-full h-[380px] sm:h-[440px] relative">
+                        <div className="w-full h-[400px] sm:h-[480px] lg:h-[540px] relative">
                             <iframe
                                 title="Clouds Village Location Map"
                                 src="https://maps.google.com/maps?q=Clouds%20Village%20Farm%20Resort,%20Vannappuram,%20Idukki&t=&z=14&ie=UTF8&iwloc=&output=embed"
