@@ -22,6 +22,7 @@ import pic5 from '../assets/images/pic5.webp';
 import kottappara from '../assets/destinations/Kottappara.webp';
 import kattadikadavu from '../assets/destinations/Kattadikadavu.webp';
 import thommankuthu from '../assets/destinations/Thommankuthu.webp';
+import campfireNight from '../assets/images/campfire_night.webp';
 
 export const Home = ({ openLightbox }: { openLightbox: (images: string[], title: string) => void }) => {
     const [settings, setSettings] = useState<any>(null);
@@ -215,9 +216,9 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
             title: 'Campfire & Night Safari',
             subtitle: 'Under Western Ghats Stars',
             desc: 'Gather around the roaring fire under misty skies, followed by a guided night walk through the quiet plantation trails.',
-            image: heritage2,
+            image: campfireNight,
             icon: Flame,
-            images: [heritage2, heritage1]
+            images: [campfireNight, heritage2]
         },
         {
             title: 'Surrounding Highlands',
