@@ -67,12 +67,15 @@ export const Navbar = () => {
                         />
                         <div className="hidden sm:flex flex-col">
                             <span 
-                                className="text-white text-[15px] xl:text-base 2xl:text-lg font-light tracking-[0.16em] xl:tracking-[0.2em] uppercase leading-none group-hover:text-brand-cyan-light transition-colors whitespace-nowrap"
-                                style={{ fontFamily: "var(--font-display)" }}
+                                className="text-white text-[16px] xl:text-[18px] 2xl:text-[20px] font-extrabold tracking-[0.18em] uppercase leading-none group-hover:text-brand-cyan-light transition-colors whitespace-nowrap drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
+                                style={{ fontFamily: "var(--font-nav)" }}
                             >
                                 Clouds Village
                             </span>
-                            <span className="text-brand-cyan-light/70 text-[8px] xl:text-[8.5px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-medium mt-1 whitespace-nowrap hidden xl:block">
+                            <span 
+                                className="text-brand-cyan text-[8.5px] xl:text-[9.5px] tracking-[0.32em] uppercase font-bold mt-1.5 whitespace-nowrap hidden xl:block drop-shadow-[0_2px_8px_rgba(0,180,216,0.3)]"
+                                style={{ fontFamily: "var(--font-nav)" }}
+                            >
                                 Farm Sanctuary • Idukki
                             </span>
                         </div>

@@ -171,7 +171,6 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
             tagline: 'Kerala Vernacular Architecture',
             desc: 'Traditional wood-and-stone cottage nestled under the forest canopy. Features a private lounging verandah and open-air rain shower.',
             specs: ['2 Guests', 'King Bed', 'Forest Verandah', 'Mountain Stream View'],
-            price: '₹4,500',
             image: heritage1,
             images: [heritage1, heritage2, pic1]
         },
@@ -181,7 +180,6 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
             tagline: 'Panoramic Glass & Mist Views',
             desc: 'Contemporary suite perched on the estate ridge with floor-to-ceiling glass offering uninterrupted vistas of the Western Ghats.',
             specs: ['4 Guests', '2 Queen Beds', 'Private Deck', 'Soaking Tub'],
-            price: '₹7,500',
             image: suite1,
             images: [suite1, pic4, npool1]
         },
@@ -191,7 +189,6 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
             tagline: 'Estate Retreat for Groups',
             desc: 'A spacious estate home equipped with dedicated living quarters, open dining, and private campfire clearing amidst pepper groves.',
             specs: ['Up to 12 Guests', 'Multiple Bedrooms', 'Private Dining', 'Exclusive Campfire'],
-            price: '₹12,000',
             image: dormitory,
             images: [dormitory, pic1, heritage1]
         }
@@ -610,7 +607,7 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                                 className="w-full h-[64px] rounded-xl bg-gradient-to-r from-brand-cyan via-[#00B4D8] to-brand-cyan-light text-brand-dark font-bold text-xs tracking-[0.22em] uppercase flex items-center justify-center gap-2.5 shadow-[0_0_25px_rgba(0,180,216,0.35)] hover:shadow-[0_0_35px_rgba(0,180,216,0.6)] hover:scale-[1.02] active:scale-[0.99] transition-all duration-300 group cursor-pointer"
                                 style={{ fontFamily: "var(--font-nav)" }}
                             >
-                                <span>Check Rates</span>
+                                <span>Check Availability</span>
                                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
@@ -775,12 +772,6 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#0B1226] via-transparent to-transparent opacity-90" />
                                     
-                                    {/* Price Badge */}
-                                    <div className="absolute top-4 right-4 bg-[#070B19]/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-brand-cyan/30 shadow-lg">
-                                        <span className="text-brand-cyan-light text-xs font-semibold">{room.price}</span>
-                                        <span className="text-white/50 text-[10px] ml-1">/ night</span>
-                                    </div>
-
                                     {/* Expand Lightbox Button */}
                                     <button
                                         onClick={() => openLightbox(room.images, room.title)}
@@ -840,29 +831,23 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                                         ))}
                                     </div>
 
-                                    {/* Luxury Action Bar: Tariff + Reserve Button */}
+                                    {/* Luxury Action Bar: Reserve Button */}
                                     <div className="mt-auto pt-5 border-t border-white/[0.08] flex items-center justify-between gap-3">
                                         <div className="flex flex-col">
                                             <span 
-                                                className="text-[9px] uppercase tracking-[0.2em] text-white/45 font-medium"
+                                                className="text-[10px] uppercase tracking-[0.22em] text-brand-cyan-light font-semibold"
                                                 style={{ fontFamily: "var(--font-nav)" }}
                                             >
-                                                Tariff / Night
+                                                Sanctuary Living
                                             </span>
-                                            <div className="flex items-baseline gap-1">
-                                                <span 
-                                                    className="text-xl sm:text-2xl font-bold text-white tracking-tight"
-                                                    style={{ fontFamily: "var(--font-display)" }}
-                                                >
-                                                    {room.price}
-                                                </span>
-                                                <span className="text-[10px] text-white/40 font-light">/ night</span>
-                                            </div>
+                                            <span className="text-[11px] text-white/50 font-light tracking-wide">
+                                                Rates on Request
+                                            </span>
                                         </div>
 
                                         <Link
                                             to={`/booking?room=${room.id}`}
-                                            className="group/btn relative inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-full bg-gradient-to-r from-brand-cyan via-[#00B4D8] to-brand-cyan-light text-brand-dark font-bold text-[11px] tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(0,180,216,0.35)] hover:shadow-[0_0_30px_rgba(0,180,216,0.65)] hover:scale-105 active:scale-[0.98] transition-all duration-300 shrink-0 cursor-pointer"
+                                            className="group/btn relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-brand-cyan via-[#00B4D8] to-brand-cyan-light text-brand-dark font-bold text-[11px] tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(0,180,216,0.35)] hover:shadow-[0_0_30px_rgba(0,180,216,0.65)] hover:scale-105 active:scale-[0.98] transition-all duration-300 shrink-0 cursor-pointer"
                                             style={{ fontFamily: "var(--font-nav)" }}
                                         >
                                             <span>Reserve Stay</span>

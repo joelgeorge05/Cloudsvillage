@@ -10,6 +10,10 @@ import heritage2 from '../assets/images/heritage2.webp';
 import npool1 from '../assets/images/npool1.webp';
 import npool2 from '../assets/images/npool2.webp';
 import npool3 from '../assets/images/npool3.webp';
+import birdWatchingImg from '../assets/images/bird_watching.webp';
+import campfireImg from '../assets/images/campfire_night.webp';
+import trekkingTrailImg from '../assets/images/trekking_trail.webp';
+import trekkingPeakImg from '../assets/images/trekking_peak.webp';
 
 import gal1 from '../assets/gallery/IMG_2325.webp';
 import gal2 from '../assets/gallery/IMG_2331.webp';
@@ -251,10 +255,11 @@ export const INITIAL_FACILITIES = [
     },
     {
         id: 'f11',
-        title: "Campfire & Barbecue Nights",
-        description: "Gather around crackling mountain wood fires under chilly highland night skies. Complete with sizzling barbecue grills, stargazing, and soothing agrarian serenity.",
-        image_url: pic2,
-        category: "Events & Celebrations",
+        title: "Campfire",
+        description: "Gather around crackling mountain wood fires under chilly highland night skies with music, dancing, and joyful celebrations under the stars.",
+        image_url: campfireImg,
+        images: [campfireImg],
+        category: "Activities",
         badge: "STARLIT EVENING",
     },
     {
@@ -264,5 +269,23 @@ export const INITIAL_FACILITIES = [
         image_url: gal4,
         category: "Events & Celebrations",
         badge: "FESTIVE GALA",
+    },
+    {
+        id: 'f13',
+        title: "Bird Watching",
+        description: "Spot endemic Western Ghats birds and colourful migratory species in their natural lush habitats, flowering canopies, and landscaped relaxation lawns.",
+        image_url: birdWatchingImg,
+        images: [birdWatchingImg],
+        category: "Activities",
+        badge: "NATURE RETREAT",
+    },
+    {
+        id: 'f14',
+        title: "Trekking",
+        description: "Guided forest expeditions through lush green canopies, bamboo railings, and ancient rock trails culminating in panoramic mountain views.",
+        image_url: trekkingTrailImg,
+        images: [trekkingTrailImg, trekkingPeakImg],
+        category: "Activities",
+        badge: "MOUNTAIN ADVENTURE",
     }
 ];

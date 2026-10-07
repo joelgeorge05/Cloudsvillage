@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Maximize2, ArrowRight } from 'lucide-react';
+import { Maximize2, ArrowRight, Images } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { INITIAL_FACILITIES } from '../data/initialData';
 import { resolveAssetUrl, handleImageFallback } from '../utils/assetResolver';
@@ -10,6 +10,7 @@ export interface GalleryItem {
     title: string;
     description: string;
     image_url: string;
+    images?: string[];
     category: string;
     badge?: string;
 }
@@ -18,6 +19,7 @@ export const CATEGORIES = [
     "All Features", 
     "Accommodations", 
     "Natural Pools & Water", 
+    "Activities",
     "Farm Experiences", 
     "Dining", 
     "Events & Celebrations", 
@@ -38,11 +40,19 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
             try {
                 const { data } = await supabase.from('facilities').select('*').order('created_at', { ascending: false });
                 if (data && data.length > 0) {
-                    // Filter out non-attractive generic office features (e.g. WiFi, Business Centre)
-                    const attractiveDbItems = data.filter((item: any) => {
-                        const titleLower = (item.title || '').toLowerCase();
-                        return !titleLower.includes('wifi') && !titleLower.includes('business');
-                    });
+                    // Filter out non-attractive or excluded features (e.g. WiFi, Business Centre, Massage Centre)
+                    const isExcluded = (item: any) => {
+                        const titleLower = (item.title || '').toLowerCase().trim();
+                        const catLower = (item.category || '').toLowerCase().trim();
+                        return (
+                            titleLower.includes('wifi') ||
+                            titleLower.includes('business') ||
+                            titleLower.includes('massage') ||
+                            catLower.includes('wellness')
+                        );
+                    };
+
+                    const attractiveDbItems = data.filter((item: any) => !isExcluded(item));
 
                     // Merge while strictly preserving curated luxury features, rich descriptions & gallery photos
                     const merged = INITIAL_FACILITIES.map(curated => {
@@ -53,7 +63,8 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                             ...curated,
                             ...(dbMatch || {}),
                             // Guarantee valid high-resolution asset URL
-                            image_url: resolveAssetUrl(dbMatch?.image_url || curated.image_url, curated.title)
+                            image_url: resolveAssetUrl(curated.image_url || dbMatch?.image_url, curated.title),
+                            images: curated.images || (dbMatch?.image_url ? [resolveAssetUrl(dbMatch.image_url, dbMatch.title)] : undefined)
                         };
                     });
 
@@ -184,7 +195,7 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                 {filteredGallery.map((item) => (
                                     <div
                                         key={item.id}
-                                        onClick={() => openLightbox([item.image_url], item.title)}
+                                        onClick={() => openLightbox(item.images && item.images.length > 0 ? item.images : [item.image_url], item.title)}
                                         className="group relative rounded-3xl overflow-hidden border border-white/15 bg-brand-surface hover:border-brand-cyan/40 transition-all duration-500 cursor-pointer shadow-2xl min-h-[420px] sm:min-h-[480px] lg:min-h-[520px] flex flex-col justify-end p-6 sm:p-10 lg:p-14 transform-gpu"
                                     >
                                         <img
@@ -206,6 +217,15 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                                 >
                                                     {item.category}
                                                 </span>
+                                                {item.images && item.images.length > 1 && (
+                                                    <span 
+                                                        className="inline-flex items-center gap-1.5 bg-[#070B19]/90 border border-white/20 text-white/90 text-[10px] sm:text-xs font-medium px-3 py-1.5 rounded-full tracking-wider uppercase shadow-md"
+                                                        style={{ fontFamily: "var(--font-nav)" }}
+                                                    >
+                                                        <Images size={13} className="text-brand-cyan" />
+                                                        <span>{item.images.length} Photos</span>
+                                                    </span>
+                                                )}
                                             </div>
                                             <div className="w-11 h-11 rounded-full bg-black/70 border border-white/25 flex items-center justify-center text-white/80 group-hover:text-white group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/50 group-hover:scale-110 transition-all duration-300 shadow-lg">
                                                 <Maximize2 size={18} />
@@ -242,17 +262,38 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                 {filteredGallery.map((item, idx) => (
                                     <div
                                         key={item.id}
-                                        onClick={() => openLightbox([item.image_url], item.title)}
+                                        onClick={() => openLightbox(item.images && item.images.length > 0 ? item.images : [item.image_url], item.title)}
                                         className="group relative rounded-3xl overflow-hidden border border-white/10 bg-brand-surface hover:border-brand-cyan/40 transition-all duration-500 cursor-pointer shadow-xl h-[420px] sm:h-[460px] lg:h-[500px] flex flex-col justify-end p-6 sm:p-8 transform-gpu"
                                     >
-                                        <img
-                                            src={item.image_url}
-                                            alt={item.title}
-                                            loading="eager"
-                                            decoding="async"
-                                            onError={handleImageFallback}
-                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                                        />
+                                        {item.images && item.images.length > 1 ? (
+                                            <>
+                                                <img
+                                                    src={item.images[0]}
+                                                    alt={item.title}
+                                                    loading="eager"
+                                                    decoding="async"
+                                                    onError={handleImageFallback}
+                                                    className="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out group-hover:opacity-0"
+                                                />
+                                                <img
+                                                    src={item.images[1]}
+                                                    alt={`${item.title} Panorama`}
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                    onError={handleImageFallback}
+                                                    className="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 ease-out group-hover:opacity-100 group-hover:scale-105"
+                                                />
+                                            </>
+                                        ) : (
+                                            <img
+                                                src={item.image_url}
+                                                alt={item.title}
+                                                loading="eager"
+                                                decoding="async"
+                                                onError={handleImageFallback}
+                                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                            />
+                                        )}
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 via-50% to-black/20 group-hover:from-black/98 transition-colors duration-500" />
                                         
                                         <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
@@ -263,6 +304,15 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                                 >
                                                     {item.category}
                                                 </span>
+                                                {item.images && item.images.length > 1 && (
+                                                    <span 
+                                                        className="inline-flex items-center gap-1 bg-[#070B19]/90 border border-white/20 text-white/90 text-[10px] font-medium px-2.5 py-1 rounded-full tracking-wider uppercase shadow-sm"
+                                                        style={{ fontFamily: "var(--font-nav)" }}
+                                                    >
+                                                        <Images size={11} className="text-brand-cyan" />
+                                                        <span>{item.images.length} Photos</span>
+                                                    </span>
+                                                )}
                                             </div>
                                             <div className="w-10 h-10 rounded-full bg-black/70 border border-white/20 flex items-center justify-center text-white/70 group-hover:text-white group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/40 group-hover:scale-110 transition-all duration-300 shadow-md">
                                                 <Maximize2 size={16} />
@@ -309,25 +359,48 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                             spanClass = "sm:col-span-2 xl:col-span-2 sm:row-span-1"; // Wide Panoramic 2: Estate Welcome Gateway (gal1)
                                         } else if (index === 11) {
                                             spanClass = "sm:col-span-2 lg:col-span-2 sm:row-span-2"; // Featured 3: Open-Air Gala Celebrations Pavilion (gal4)
+                                        } else if (index === 13) {
+                                            spanClass = "sm:col-span-2 xl:col-span-2 sm:row-span-1"; // Wide Panoramic 3: Highland Trekking & Peaks
                                         }
                                     }
 
                                     return (
                                         <div
                                             key={item.id}
-                                            onClick={() => openLightbox([item.image_url], item.title)}
+                                            onClick={() => openLightbox(item.images && item.images.length > 0 ? item.images : [item.image_url], item.title)}
                                             style={{ contentVisibility: 'auto', containIntrinsicSize: '350px' }}
                                             className={`relative rounded-2xl md:rounded-3xl overflow-hidden group cursor-pointer border border-white/10 bg-brand-surface hover:border-brand-cyan/40 transition-all duration-500 shadow-lg transform-gpu ${spanClass}`}
                                         >
-                                            {/* Photo with Hardware-Accelerated Smooth Ken Burns Hover */}
-                                            <img
-                                                src={item.image_url}
-                                                alt={item.title}
-                                                loading={index < 5 ? "eager" : "lazy"}
-                                                decoding="async"
-                                                onError={handleImageFallback}
-                                                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                                            />
+                                            {/* Photo with Hardware-Accelerated Smooth Ken Burns Hover & Multi-Photo Crossfade */}
+                                            {item.images && item.images.length > 1 ? (
+                                                <>
+                                                    <img
+                                                        src={item.images[0]}
+                                                        alt={item.title}
+                                                        loading={index < 5 ? "eager" : "lazy"}
+                                                        decoding="async"
+                                                        onError={handleImageFallback}
+                                                        className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:opacity-0"
+                                                    />
+                                                    <img
+                                                        src={item.images[1]}
+                                                        alt={`${item.title} Panorama`}
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        onError={handleImageFallback}
+                                                        className="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 ease-out group-hover:opacity-100 group-hover:scale-105"
+                                                    />
+                                                </>
+                                            ) : (
+                                                <img
+                                                    src={item.image_url}
+                                                    alt={item.title}
+                                                    loading={index < 5 ? "eager" : "lazy"}
+                                                    decoding="async"
+                                                    onError={handleImageFallback}
+                                                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                                />
+                                            )}
 
                                             {/* High-contrast multi-stop luxury gradient */}
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 via-50% to-black/15 group-hover:from-black/98 transition-colors duration-500" />
@@ -341,6 +414,15 @@ export const Facilities = ({ openLightbox }: { openLightbox: (images: string[], 
                                                     >
                                                         {item.category}
                                                     </span>
+                                                    {item.images && item.images.length > 1 && (
+                                                        <span 
+                                                            className="inline-flex items-center gap-1 bg-[#070B19]/90 border border-white/20 text-white/90 text-[9px] sm:text-[10px] font-medium px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full tracking-wider uppercase shadow-sm"
+                                                            style={{ fontFamily: "var(--font-nav)" }}
+                                                        >
+                                                            <Images size={11} className="text-brand-cyan" />
+                                                            <span>{item.images.length} Photos</span>
+                                                        </span>
+                                                    )}
                                                 </div>
 
                                                 <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/70 border border-white/20 flex items-center justify-center text-white/70 group-hover:text-white group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/40 group-hover:scale-110 transition-all duration-300 shadow-md">

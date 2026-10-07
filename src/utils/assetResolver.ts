@@ -15,6 +15,10 @@ import npool4 from '../assets/images/npool4.webp';
 import npool5 from '../assets/images/npool5.webp';
 import npool6 from '../assets/images/npool6.webp';
 import npool7 from '../assets/images/npool7.webp';
+import birdWatching from '../assets/images/bird_watching.webp';
+import campfireNight from '../assets/images/campfire_night.webp';
+import trekkingTrail from '../assets/images/trekking_trail.webp';
+import trekkingPeak from '../assets/images/trekking_peak.webp';
 
 import gal1 from '../assets/gallery/IMG_2325.webp';
 import gal2 from '../assets/gallery/IMG_2331.webp';
@@ -50,6 +54,10 @@ export const ASSET_MAP: Record<string, string> = {
     npool5,
     npool6,
     npool7,
+    bird_watching: birdWatching,
+    campfire_night: campfireNight,
+    trekking_trail: trekkingTrail,
+    trekking_peak: trekkingPeak,
 
     // Gallery
     img_2325: gal1,
@@ -98,9 +106,14 @@ export const FACILITY_TITLE_MAP: Record<string, string> = {
     'boating': npool2,
     'angling & fish pond experience': npool3,
     'fishing': npool3,
-    'campfire & barbecue nights': pic2,
-    'campfire': pic2,
-    'camp fire': pic2,
+    'campfire & barbecue nights': campfireNight,
+    'campfire': campfireNight,
+    'camp fire': campfireNight,
+    'bird watching': birdWatching,
+    'birdwatching': birdWatching,
+    'trekking': trekkingTrail,
+    'highland trekking': trekkingTrail,
+    'trekking trails': trekkingTrail,
     'open-air gala celebrations pavilion': gal4,
     'gala celebrations': gal4,
     'nature escapes': gal4,
