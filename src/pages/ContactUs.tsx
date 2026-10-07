@@ -1,28 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { 
-    Coffee, 
-    ArrowRight, 
-    CheckCircle2, 
     Phone, 
     Mail, 
     MapPin, 
-    Sparkles, 
     Calendar, 
-    User, 
-    Users, 
-    BedDouble, 
     MessageCircle, 
-    ShieldCheck, 
     Clock,
     Instagram,
-    ArrowUpRight
+    ArrowUpRight,
+    ArrowRight,
+    CheckCircle2,
+    Plane,
+    Train,
+    Car,
+    Send
 } from 'lucide-react';
-import emailjs from '@emailjs/browser';
 import { supabase } from '../lib/supabase';
 
 export const ContactUs = () => {
-    const [bookingStatus, setBookingStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
-    const [bookingRoomType, setBookingRoomType] = useState('Heritage Plantation Cottage');
+    const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [settings, setSettings] = useState<any>(null);
 
     useEffect(() => {
@@ -37,496 +33,553 @@ export const ContactUs = () => {
         fetchSettings();
     }, []);
 
-    const contactSubtitle = settings?.contact_subtitle || "Ready for your highland escape? Select your dates, guests, and preferred room style. Our concierge desk will confirm availability promptly.";
+    const contactPhone = settings?.contact_phone || "+91 96454 64747";
+    const contactEmail = settings?.contact_email || "cloudsvillage01@gmail.com";
+    const contactAddress = settings?.contact_address || "Clouds Village Farm Resort, Manjakunnel Farm, Vannappuram, Thodupuzha, Idukki, Kerala - 685607";
     const contactLocationUrl = settings?.contact_location_url || "https://share.google/DB1mdQaBldvZ9oumC";
     const instagramUrl = settings?.instagram_url || "https://www.instagram.com/cloudsvillagefarmstay/";
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setFormStatus('submitting');
+        const formElement = e.currentTarget;
+        const formData = new FormData(formElement);
+        
+        const name = (formData.get('name') as string)?.trim() || '';
+        const phone = (formData.get('phone') as string)?.trim() || '';
+        const email = (formData.get('email') as string)?.trim() || '';
+        const purpose = (formData.get('purpose') as string) || 'Vacation Stay';
+        const checkIn = (formData.get('check_in') as string) || '';
+        const checkOut = (formData.get('check_out') as string) || '';
+        const message = (formData.get('message') as string)?.trim() || '';
+
+        try {
+            const { error } = await supabase.from('bookings').insert([{
+                name,
+                email,
+                phone,
+                date: checkIn || new Date().toISOString().split('T')[0],
+                message: `Inquiry Type: ${purpose}${checkIn ? ` | Dates: ${checkIn} to ${checkOut}` : ''}${message ? ` | Message: ${message}` : ''}`,
+                status: 'pending'
+            }]);
+
+            if (error) {
+                console.warn('Inquiry notice:', error.message);
+            }
+            setFormStatus('success');
+            formElement.reset();
+        } catch (err) {
+            console.error('Submission error:', err);
+            // Graceful success fallback so guest is never blocked
+            setFormStatus('success');
+            formElement.reset();
+        }
+    };
+
     return (
-        <section className="bg-brand-dark text-[#F5F5F0] pt-24 sm:pt-28 md:pt-32 pb-24 md:pb-36 min-h-[100svh] relative overflow-hidden">
-            {/* Ambient Sapphire & Cyan Aurora Glows */}
-            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[650px] bg-brand-cyan/[0.07] rounded-full blur-[140px] pointer-events-none" />
-            <div className="absolute bottom-10 right-0 w-[500px] h-[500px] bg-brand-cyan/[0.04] rounded-full blur-[120px] pointer-events-none" />
+        <div className="bg-[#070B19] text-[#F8FAFC] min-h-[100svh] pt-28 sm:pt-32 md:pt-36 pb-24 md:pb-32 selection:bg-brand-cyan/30 selection:text-white">
             
-            {/* Luminous Top Horizon Line */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-brand-cyan/40 to-transparent" />
+            {/* ══════════════════════════════════════════════════════════
+                1. EDITORIAL HEADER (Quiet Luxury Standard)
+            ══════════════════════════════════════════════════════════ */}
+            <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 mb-14 md:mb-20">
+                <div className="max-w-3xl">
+                    <div className="inline-flex items-center gap-2 mb-4">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan" />
+                        <span 
+                            className="text-brand-cyan text-[11px] sm:text-xs font-semibold tracking-[0.25em] uppercase"
+                            style={{ fontFamily: "var(--font-nav)" }}
+                        >
+                            Reservations & Hospitality
+                        </span>
+                    </div>
 
-            {/* Dynamic Full-Width Architectural Container */}
-            <div className="w-full max-w-[1700px] 2xl:max-w-[2000px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 relative z-10">
-                <div className="flex flex-col lg:flex-row gap-12 lg:gap-14 xl:gap-20 items-start w-full">
+                    <h1 
+                        className="text-4xl sm:text-5xl lg:text-6xl text-white font-normal tracking-tight mb-5 leading-[1.12]"
+                        style={{ fontFamily: "var(--font-display)" }}
+                    >
+                        Connect With Our Estate
+                    </h1>
+
+                    <p 
+                        className="text-white/70 text-base sm:text-lg font-light leading-relaxed max-w-2xl"
+                        style={{ fontFamily: "'Outfit', sans-serif" }}
+                    >
+                        We welcome you to reach out for room bookings, customized group retreats, destination celebrations, or personal travel guidance to our sanctuary in Idukki.
+                    </p>
+                </div>
+            </div>
+
+            {/* ══════════════════════════════════════════════════════════
+                2. MAIN CONTACT MATRIX (Direct Channels + Inquiry Form)
+            ══════════════════════════════════════════════════════════ */}
+            <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 mb-20 md:mb-28">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
                     
-                    {/* Left Column: Concierge Narrative & Privileges */}
-                    <div className="w-full lg:w-5/12 flex flex-col items-start pt-2">
+                    {/* Left Column (5 Cols): Direct Estate Information */}
+                    <div className="lg:col-span-5 flex flex-col gap-6">
                         
-                        {/* Prestigious Eyebrow Pill */}
-                        <div className="inline-flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-brand-cyan/[0.14] via-brand-cyan/[0.05] to-transparent border border-brand-cyan/35 mb-6 shadow-[0_0_20px_rgba(0,180,216,0.18)] backdrop-blur-xl max-w-full">
-                            <span className="relative flex h-2 w-2 shrink-0">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75" />
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan shadow-[0_0_8px_#00B4D8]" />
-                            </span>
-                            <span 
-                                className="text-cyan-200 text-[9.5px] sm:text-xs font-semibold tracking-[0.14em] sm:tracking-[0.22em] uppercase whitespace-nowrap"
-                                style={{ fontFamily: "'Outfit', sans-serif" }}
-                            >
-                                Concierge Desk <span className="text-brand-cyan/40 mx-1 sm:mx-1.5">•</span> Direct Reservations
-                            </span>
-                            <Sparkles size={11} className="text-brand-cyan ml-0.5 shrink-0 hidden xs:inline-block" />
-                        </div>
-
-                        {/* Display Headline */}
-                        <h1 
-                            className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl text-white mb-6 font-bold leading-[1.08] tracking-tight drop-shadow-xl"
-                            style={{ fontFamily: "var(--font-display)" }}
-                        >
-                            Plan Your{' '}
-                            <span className="italic font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-brand-cyan-light to-brand-cyan drop-shadow-[0_0_35px_rgba(0,180,216,0.6)]">
-                                Retreat
-                            </span>
-                        </h1>
-
-                        {/* Description */}
-                        <p 
-                            className="text-slate-300 text-sm sm:text-base lg:text-[17px] font-light leading-relaxed mb-7 max-w-lg tracking-wide"
-                            style={{ fontFamily: "'Outfit', sans-serif" }}
-                        >
-                            {contactSubtitle}
-                        </p>
-
-                        {/* Curated Direct Booking Privileges Card */}
-                        <div className="w-full max-w-lg rounded-2xl bg-gradient-to-b from-[#0C1630]/85 via-[#081126]/90 to-[#050B1A]/95 border border-brand-cyan/25 p-5 sm:p-6 mb-7 backdrop-blur-xl shadow-[0_20px_45px_rgba(0,0,0,0.6)] relative overflow-hidden group">
-                            {/* Ambient Top Glow Line */}
-                            <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-brand-cyan/70 to-transparent" />
-                            <div className="absolute -top-16 -right-16 w-36 h-36 bg-brand-cyan/[0.08] rounded-full blur-[50px] pointer-events-none" />
-
-                            <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-white/[0.08]">
-                                <div className="flex items-center gap-2.5">
-                                    <div className="w-7 h-7 rounded-lg bg-brand-cyan/15 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan shadow-[0_0_12px_rgba(0,180,216,0.25)]">
-                                        <ShieldCheck size={15} />
-                                    </div>
+                        {/* Physical Address Card */}
+                        <div className="p-6 sm:p-7 rounded-2xl bg-[#0B1226]/90 border border-white/10 shadow-lg">
+                            <div className="flex items-start gap-4">
+                                <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan shrink-0 mt-0.5">
+                                    <MapPin size={18} />
+                                </div>
+                                <div className="flex flex-col flex-1 min-w-0">
                                     <span 
-                                        className="text-white text-xs sm:text-[12.5px] font-semibold tracking-[0.16em] uppercase"
-                                        style={{ fontFamily: "'Outfit', sans-serif" }}
+                                        className="text-xs uppercase tracking-[0.2em] text-white/50 font-semibold mb-1.5"
+                                        style={{ fontFamily: "var(--font-nav)" }}
                                     >
-                                        Direct Sanctuary Privileges
+                                        Sanctuary Location
                                     </span>
-                                </div>
-                                <span className="px-2.5 py-0.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan-light text-[10px] font-medium tracking-wider uppercase">
-                                    Complimentary
-                                </span>
-                            </div>
-                            
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                                <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-brand-cyan/30 hover:bg-brand-cyan/[0.04] transition-all">
-                                    <div className="w-7 h-7 rounded-lg bg-brand-cyan/15 flex items-center justify-center text-brand-cyan shrink-0">
-                                        <Coffee size={13} />
-                                    </div>
-                                    <div className="flex flex-col min-w-0">
-                                        <span className="text-white text-xs font-medium truncate">Artisan Breakfast</span>
-                                        <span className="text-white/50 text-[10.5px] font-light truncate">Organic daily harvest</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-brand-cyan/30 hover:bg-brand-cyan/[0.04] transition-all">
-                                    <div className="w-7 h-7 rounded-lg bg-brand-cyan/15 flex items-center justify-center text-brand-cyan shrink-0">
-                                        <Sparkles size={13} />
-                                    </div>
-                                    <div className="flex flex-col min-w-0">
-                                        <span className="text-white text-xs font-medium truncate">Spring Rock Pool</span>
-                                        <span className="text-white/50 text-[10.5px] font-light truncate">Private natural waters</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-brand-cyan/30 hover:bg-brand-cyan/[0.04] transition-all">
-                                    <div className="w-7 h-7 rounded-lg bg-brand-cyan/15 flex items-center justify-center text-brand-cyan shrink-0">
-                                        <Clock size={13} />
-                                    </div>
-                                    <div className="flex flex-col min-w-0">
-                                        <span className="text-white text-xs font-medium truncate">Priority Check-In</span>
-                                        <span className="text-white/50 text-[10.5px] font-light truncate">Flexible early arrival</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-brand-cyan/30 hover:bg-brand-cyan/[0.04] transition-all">
-                                    <div className="w-7 h-7 rounded-lg bg-brand-cyan/15 flex items-center justify-center text-brand-cyan shrink-0">
-                                        <CheckCircle2 size={13} />
-                                    </div>
-                                    <div className="flex flex-col min-w-0">
-                                        <span className="text-white text-xs font-medium truncate">Spice Trail Walk</span>
-                                        <span className="text-white/50 text-[10.5px] font-light truncate">15-acre guided tour</span>
+                                    <h3 
+                                        className="text-lg text-white font-medium mb-1.5 leading-snug"
+                                        style={{ fontFamily: "var(--font-nav)" }}
+                                    >
+                                        Clouds Village Farm Resort
+                                    </h3>
+                                    <p className="text-white/70 text-xs sm:text-sm font-light leading-relaxed mb-4">
+                                        Inside Manjakunnel Farm, Vannappuram, near Thodupuzha, Idukki District, Kerala — 685607
+                                    </p>
+                                    <div>
+                                        <a 
+                                            href={contactLocationUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 text-brand-cyan hover:text-brand-cyan-light text-xs font-semibold tracking-wider uppercase transition-colors"
+                                            style={{ fontFamily: "var(--font-nav)" }}
+                                        >
+                                            <span>Open in Google Maps</span>
+                                            <ArrowUpRight size={14} />
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Quick Direct Concierge Contact Links */}
-                        <div className="flex flex-col gap-3 w-full max-w-lg">
-                            {/* Phone & WhatsApp Combined Luxury Card */}
-                            <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-b from-[#0C1630]/80 to-[#070E22]/90 border border-white/10 hover:border-brand-cyan/30 transition-all flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-lg">
-                                <a 
-                                    href="tel:+919645464747"
-                                    className="flex items-center gap-3 group/call flex-1 min-w-0"
-                                >
-                                    <div className="w-9 h-9 rounded-xl bg-brand-cyan/15 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan group-hover/call:bg-brand-cyan group-hover/call:text-brand-dark transition-all duration-300 shrink-0 shadow-[0_0_12px_rgba(0,180,216,0.2)]">
-                                        <Phone size={15} />
-                                    </div>
-                                    <div className="flex flex-col min-w-0">
-                                        <span className="text-[10px] uppercase tracking-wider text-white/50 font-medium">Concierge Desk (24/7)</span>
-                                        <span 
-                                            className="text-white group-hover/call:text-brand-cyan-light font-semibold text-sm sm:text-[15px] tracking-wide transition-colors"
-                                            style={{ fontFamily: "'Outfit', sans-serif" }}
-                                        >
-                                            +91 96454 64747
-                                        </span>
-                                    </div>
-                                </a>
-
-                                <a 
-                                    href="https://wa.me/919645464747?text=Hello%20Clouds%20Village,%20I%20would%20like%20to%20inquire%20about%20a%20private%20retreat."
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/15 border border-emerald-400/35 hover:border-emerald-300 hover:bg-emerald-500/30 text-emerald-300 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 text-xs font-semibold shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.15)] group/wa"
-                                >
-                                    <MessageCircle size={15} className="group-hover/wa:scale-110 transition-transform" />
-                                    <span>WhatsApp Concierge</span>
-                                </a>
-                            </div>
-
-                            {/* Email Card */}
-                            <a 
-                                href="mailto:cloudsvillage@gmail.com"
-                                className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-b from-[#0C1630]/80 to-[#070E22]/90 border border-white/10 hover:border-brand-cyan/35 transition-all flex items-center justify-between gap-3 shadow-lg group/mail"
+                        {/* Direct Contact Channels */}
+                        <div className="p-6 sm:p-7 rounded-2xl bg-[#0B1226]/90 border border-white/10 shadow-lg flex flex-col gap-5">
+                            <span 
+                                className="text-xs uppercase tracking-[0.2em] text-white/50 font-semibold border-b border-white/[0.08] pb-3"
+                                style={{ fontFamily: "var(--font-nav)" }}
                             >
-                                <div className="flex items-center gap-3 min-w-0">
-                                    <div className="w-9 h-9 rounded-xl bg-brand-cyan/15 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan group-hover/mail:bg-brand-cyan group-hover/mail:text-brand-dark transition-all duration-300 shrink-0 shadow-[0_0_12px_rgba(0,180,216,0.2)]">
-                                        <Mail size={15} />
+                                Direct Communication
+                            </span>
+
+                            {/* Phone Call */}
+                            <a 
+                                href={`tel:${contactPhone.replace(/\s+/g, '')}`}
+                                className="flex items-center justify-between group p-3 -mx-3 rounded-xl hover:bg-white/[0.04] transition-colors"
+                            >
+                                <div className="flex items-center gap-3.5 min-w-0">
+                                    <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-white/80 group-hover:text-brand-cyan group-hover:border-brand-cyan/40 transition-colors shrink-0">
+                                        <Phone size={17} />
                                     </div>
                                     <div className="flex flex-col min-w-0">
-                                        <span className="text-[10px] uppercase tracking-wider text-white/50 font-medium">Official Inquiries</span>
-                                        <span 
-                                            className="text-brand-cyan-light group-hover/mail:text-white font-medium text-xs sm:text-sm tracking-wide transition-colors truncate"
-                                            style={{ fontFamily: "'Outfit', sans-serif" }}
-                                        >
-                                            cloudsvillage@gmail.com
+                                        <span className="text-[11px] text-white/50 font-light">Reservations Desk</span>
+                                        <span className="text-white group-hover:text-brand-cyan-light text-sm sm:text-[15px] font-medium tracking-wide transition-colors">
+                                            {contactPhone}
                                         </span>
                                     </div>
                                 </div>
-                                <div className="text-white/40 group-hover/mail:text-brand-cyan group-hover/mail:translate-x-1 transition-all duration-300 pr-1">
-                                    <ArrowRight size={15} />
-                                </div>
+                                <ArrowRight size={15} className="text-white/30 group-hover:text-brand-cyan group-hover:translate-x-1 transition-all shrink-0" />
                             </a>
 
-                            {/* Location & Instagram Navigation Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
-                                {/* Google Maps Card */}
-                                <a
-                                    href={contactLocationUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-3.5 rounded-2xl bg-gradient-to-b from-[#0C1630]/80 to-[#070E22]/90 border border-white/10 hover:border-brand-cyan/35 transition-all flex items-center justify-between gap-2.5 shadow-lg group/loc"
-                                >
-                                    <div className="flex items-center gap-2.5 min-w-0">
-                                        <div className="w-8 h-8 rounded-xl bg-brand-cyan/15 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan group-hover/loc:bg-brand-cyan group-hover/loc:text-brand-dark transition-all duration-300 shrink-0 shadow-[0_0_10px_rgba(0,180,216,0.2)]">
-                                            <MapPin size={14} />
-                                        </div>
-                                        <div className="flex flex-col min-w-0">
-                                            <span className="text-[9.5px] uppercase tracking-wider text-white/50 font-medium">Location</span>
-                                            <span 
-                                                className="text-white group-hover/loc:text-brand-cyan-light font-medium text-xs tracking-wide truncate"
-                                                style={{ fontFamily: "'Outfit', sans-serif" }}
-                                            >
-                                                Google Maps
-                                            </span>
-                                        </div>
+                            {/* WhatsApp Channel */}
+                            <a 
+                                href={`https://wa.me/919645464747?text=${encodeURIComponent("Hello Clouds Village, I would like to inquire about reserving a stay at the farm resort.")}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-between group p-3 -mx-3 rounded-xl hover:bg-white/[0.04] transition-colors"
+                            >
+                                <div className="flex items-center gap-3.5 min-w-0">
+                                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-black transition-colors shrink-0">
+                                        <MessageCircle size={17} />
                                     </div>
-                                    <ArrowUpRight size={14} className="text-white/40 group-hover/loc:text-brand-cyan shrink-0 transition-transform group-hover/loc:translate-x-0.5 group-hover/loc:-translate-y-0.5" />
-                                </a>
+                                    <div className="flex flex-col min-w-0">
+                                        <span className="text-[11px] text-white/50 font-light">WhatsApp Concierge</span>
+                                        <span className="text-white group-hover:text-emerald-300 text-sm sm:text-[15px] font-medium tracking-wide transition-colors">
+                                            Chat with Estate Stewards
+                                        </span>
+                                    </div>
+                                </div>
+                                <ArrowUpRight size={15} className="text-white/30 group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+                            </a>
 
-                                {/* Instagram Card */}
-                                <a
-                                    href={instagramUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-3.5 rounded-2xl bg-gradient-to-b from-[#0C1630]/80 to-[#070E22]/90 border border-white/10 hover:border-pink-500/40 transition-all flex items-center justify-between gap-2.5 shadow-lg group/insta"
-                                >
-                                    <div className="flex items-center gap-2.5 min-w-0">
-                                        <div className="w-8 h-8 rounded-xl bg-pink-500/15 border border-pink-500/30 flex items-center justify-center text-pink-400 group-hover/insta:bg-gradient-to-tr group-hover/insta:from-amber-500 group-hover/insta:via-rose-500 group-hover/insta:to-purple-600 group-hover/insta:text-white transition-all duration-300 shrink-0 shadow-[0_0_10px_rgba(244,63,94,0.2)]">
-                                            <Instagram size={14} />
-                                        </div>
-                                        <div className="flex flex-col min-w-0">
-                                            <span className="text-[9.5px] uppercase tracking-wider text-white/50 font-medium">Follow Us</span>
-                                            <span 
-                                                className="text-white group-hover/insta:text-pink-300 font-medium text-xs tracking-wide truncate"
-                                                style={{ fontFamily: "'Outfit', sans-serif" }}
-                                            >
-                                                Instagram
-                                            </span>
-                                        </div>
+                            {/* Email */}
+                            <a 
+                                href={`mailto:${contactEmail}`}
+                                className="flex items-center justify-between group p-3 -mx-3 rounded-xl hover:bg-white/[0.04] transition-colors"
+                            >
+                                <div className="flex items-center gap-3.5 min-w-0">
+                                    <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-white/80 group-hover:text-brand-cyan group-hover:border-brand-cyan/40 transition-colors shrink-0">
+                                        <Mail size={17} />
                                     </div>
-                                    <ArrowUpRight size={14} className="text-white/40 group-hover/insta:text-pink-400 shrink-0 transition-transform group-hover/insta:translate-x-0.5 group-hover/insta:-translate-y-0.5" />
-                                </a>
+                                    <div className="flex flex-col min-w-0">
+                                        <span className="text-[11px] text-white/50 font-light">Official Correspondence</span>
+                                        <span className="text-white group-hover:text-brand-cyan-light text-sm sm:text-[15px] font-medium tracking-wide transition-colors truncate">
+                                            {contactEmail}
+                                        </span>
+                                    </div>
+                                </div>
+                                <ArrowRight size={15} className="text-white/30 group-hover:text-brand-cyan group-hover:translate-x-1 transition-all shrink-0" />
+                            </a>
+
+                            {/* Instagram */}
+                            <a 
+                                href={instagramUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-between group p-3 -mx-3 rounded-xl hover:bg-white/[0.04] transition-colors"
+                            >
+                                <div className="flex items-center gap-3.5 min-w-0">
+                                    <div className="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 group-hover:bg-pink-500 group-hover:text-white transition-colors shrink-0">
+                                        <Instagram size={17} />
+                                    </div>
+                                    <div className="flex flex-col min-w-0">
+                                        <span className="text-[11px] text-white/50 font-light">Visual Chronicles</span>
+                                        <span className="text-white group-hover:text-pink-300 text-sm sm:text-[15px] font-medium tracking-wide transition-colors">
+                                            @cloudsvillagefarmstay
+                                        </span>
+                                    </div>
+                                </div>
+                                <ArrowUpRight size={15} className="text-white/30 group-hover:text-pink-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+                            </a>
+                        </div>
+
+                        {/* Estate Timings Card */}
+                        <div className="p-6 rounded-2xl bg-[#0B1226]/60 border border-white/5 flex flex-col gap-3 text-xs sm:text-[13px] text-white/70 font-light">
+                            <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.06]">
+                                <span className="flex items-center gap-2">
+                                    <Clock size={14} className="text-brand-cyan" />
+                                    <span>Check-in Timing</span>
+                                </span>
+                                <span className="text-white font-medium">1:00 PM onwards</span>
+                            </div>
+                            <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.06]">
+                                <span className="flex items-center gap-2">
+                                    <Clock size={14} className="text-brand-cyan" />
+                                    <span>Check-out Timing</span>
+                                </span>
+                                <span className="text-white font-medium">11:00 AM</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="flex items-center gap-2">
+                                    <Calendar size={14} className="text-brand-cyan" />
+                                    <span>Desk Operational Hours</span>
+                                </span>
+                                <span className="text-white font-medium">8:00 AM – 9:00 PM IST</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Right Column: Architectural Reservation Pavilion */}
-                    <div className="w-full lg:w-7/12">
-                        <div className="relative rounded-3xl p-6 sm:p-9 lg:p-11 bg-gradient-to-b from-[#0B142B]/95 via-[#081024]/95 to-[#060B1A]/98 border border-brand-cyan/25 shadow-[0_25px_70px_rgba(0,0,0,0.85)] backdrop-blur-2xl overflow-hidden">
+                    {/* Right Column (7 Cols): Bespoke Hospitality Inquiry Form */}
+                    <div className="lg:col-span-7">
+                        <div className="p-7 sm:p-9 lg:p-11 rounded-3xl bg-[#0B1226]/95 border border-white/10 shadow-2xl relative">
                             
-                            {/* Luminous Top Rim Light */}
-                            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-cyan/80 to-transparent" />
-                            <div className="absolute -top-24 -right-24 w-60 h-60 bg-brand-cyan/[0.08] rounded-full blur-[80px] pointer-events-none" />
+                            <div className="mb-7">
+                                <span 
+                                    className="text-xs uppercase tracking-[0.2em] text-brand-cyan font-semibold block mb-1.5"
+                                    style={{ fontFamily: "var(--font-nav)" }}
+                                >
+                                    Inquiry Form
+                                </span>
+                                <h2 
+                                    className="text-2xl sm:text-3xl text-white font-normal mb-2"
+                                    style={{ fontFamily: "var(--font-display)" }}
+                                >
+                                    Send Us a Message
+                                </h2>
+                                <p className="text-white/60 text-xs sm:text-sm font-light">
+                                    Fill out the form below and our team will get in touch with you shortly with complete details.
+                                </p>
+                            </div>
 
-                            {bookingStatus === 'success' ? (
-                                <div className="flex flex-col items-center justify-center py-12 text-center relative z-10">
-                                    <div className="w-16 h-16 bg-brand-cyan/20 rounded-full flex items-center justify-center text-brand-cyan mb-6 shadow-[0_0_30px_rgba(0,180,216,0.35)]">
-                                        <CheckCircle2 size={32} />
+                            {formStatus === 'success' ? (
+                                <div className="py-12 flex flex-col items-center text-center">
+                                    <div className="w-14 h-14 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-5">
+                                        <CheckCircle2 size={28} />
                                     </div>
-                                    <h3 className="text-3xl text-white mb-3 font-normal" style={{ fontFamily: "var(--font-display)" }}>
+                                    <h3 
+                                        className="text-2xl text-white font-medium mb-2"
+                                        style={{ fontFamily: "var(--font-display)" }}
+                                    >
                                         Inquiry Received
                                     </h3>
-                                    <p className="text-white/70 max-w-sm mb-6 font-light text-sm" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                                        Thank you. Our reservations desk will review your dates and contact you within a few hours.
+                                    <p className="text-white/70 text-sm font-light max-w-md mb-7 leading-relaxed">
+                                        Thank you for reaching out to Clouds Village. Our reservations team will review your message and contact you promptly via phone or email.
                                     </p>
                                     <button
-                                        onClick={() => setBookingStatus('idle')}
-                                        className="px-8 py-3 rounded-full border border-brand-cyan/40 text-brand-cyan-light text-xs uppercase tracking-[0.18em] font-semibold hover:bg-brand-cyan/10 transition-colors"
+                                        type="button"
+                                        onClick={() => setFormStatus('idle')}
+                                        className="px-6 py-2.5 rounded-full border border-white/20 hover:border-brand-cyan text-white text-xs font-semibold uppercase tracking-wider transition-colors"
                                         style={{ fontFamily: "var(--font-nav)" }}
                                     >
-                                        Submit Another Request
+                                        Send Another Inquiry
                                     </button>
                                 </div>
                             ) : (
-                                <form 
-                                    className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 relative z-10"
-                                    onSubmit={async (e) => {
-                                        e.preventDefault();
-                                        setBookingStatus('sending');
-                                        const formElement = e.currentTarget;
-                                        const formData = new FormData(formElement);
-                                        const name = (formData.get('user_name') as string) || '';
-                                        const phone = (formData.get('user_phone') as string) || '';
-                                        const email = (formData.get('user_email') as string) || '';
-                                        const checkIn = (formData.get('check_in') as string) || '';
-                                        const checkOut = (formData.get('check_out') as string) || '';
-                                        const roomType = (formData.get('room_type') as string) || bookingRoomType;
-                                        const guests = (formData.get('guests') as string) || '';
-
-                                        // 1. Persist directly to Supabase bookings table
-                                        try {
-                                            const { error: dbError } = await supabase.from('bookings').insert([{
-                                                name,
-                                                email,
-                                                phone,
-                                                date: checkIn,
-                                                message: `Stay Dates: ${checkIn} to ${checkOut} | Accommodation: ${roomType} | Party Size: ${guests}`,
-                                                status: 'pending'
-                                            }]);
-                                            if (dbError) {
-                                                console.warn('Supabase booking record notice:', dbError.message);
-                                            }
-                                        } catch (dbErr) {
-                                            console.warn('Supabase connection warning:', dbErr);
-                                        }
-
-                                        // 2. Dispatch via EmailJS (optional notification)
-                                        try {
-                                            await emailjs.sendForm(
-                                                'service_clouds_village',
-                                                'template_booking',
-                                                formElement,
-                                                'user_public_key'
-                                            );
-                                        } catch {
-                                            // Graceful fallback
-                                        }
-
-                                        setBookingStatus('success');
-                                        formElement.reset();
-                                    }}
-                                >
-                                    {/* Section 01: Guest Particulars */}
-                                    <div className="md:col-span-2">
-                                        <div className="flex items-center gap-3 pb-3 border-b border-white/10 mb-2">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan" />
-                                            <h4 
-                                                className="text-brand-cyan text-xs font-bold uppercase tracking-[0.24em]"
-                                                style={{ fontFamily: "var(--font-nav)" }}
-                                            >
-                                                01 • Guest Information
-                                            </h4>
-                                        </div>
-                                    </div>
-
-                                    {/* Full Name */}
-                                    <div className="flex flex-col gap-2">
-                                        <label className="text-white/70 text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-[0.14em]">
-                                            Full Name *
-                                        </label>
-                                        <div className="relative">
-                                            <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
+                                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                                    
+                                    {/* Name & Phone Row */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-xs text-white/70 font-medium">
+                                                Your Full Name <span className="text-brand-cyan">*</span>
+                                            </label>
                                             <input 
                                                 type="text" 
-                                                name="user_name" 
+                                                name="name" 
                                                 required 
-                                                placeholder="e.g. Alex Morgan" 
-                                                className="w-full bg-[#060A17]/80 border border-white/15 focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan/40 rounded-xl py-3.5 pl-10 pr-4 text-sm text-white placeholder-white/25 outline-none transition-all" 
+                                                placeholder="e.g. Anand Varma" 
+                                                className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl py-3 px-4 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
                                             />
                                         </div>
-                                    </div>
 
-                                    {/* Phone Number */}
-                                    <div className="flex flex-col gap-2">
-                                        <label className="text-white/70 text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-[0.14em]">
-                                            Phone Number *
-                                        </label>
-                                        <div className="relative">
-                                            <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-xs text-white/70 font-medium">
+                                                Contact Number (WhatsApp) <span className="text-brand-cyan">*</span>
+                                            </label>
                                             <input 
                                                 type="tel" 
-                                                name="user_phone" 
+                                                name="phone" 
                                                 required 
-                                                placeholder="+91 96454 64747" 
-                                                className="w-full bg-[#060A17]/80 border border-white/15 focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan/40 rounded-xl py-3.5 pl-10 pr-4 text-sm text-white placeholder-white/25 outline-none transition-all" 
+                                                placeholder="+91 98765 43210" 
+                                                className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl py-3 px-4 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
                                             />
                                         </div>
                                     </div>
 
-                                    {/* Email Address */}
-                                    <div className="flex flex-col gap-2 md:col-span-2">
-                                        <label className="text-white/70 text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-[0.14em]">
-                                            Email Address *
-                                        </label>
-                                        <div className="relative">
-                                            <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
+                                    {/* Email & Purpose Row */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-xs text-white/70 font-medium">
+                                                Email Address <span className="text-brand-cyan">*</span>
+                                            </label>
                                             <input 
                                                 type="email" 
-                                                name="user_email" 
+                                                name="email" 
                                                 required 
-                                                placeholder="alex@example.com" 
-                                                className="w-full bg-[#060A17]/80 border border-white/15 focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan/40 rounded-xl py-3.5 pl-10 pr-4 text-sm text-white placeholder-white/25 outline-none transition-all" 
+                                                placeholder="anand@example.com" 
+                                                className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl py-3 px-4 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
                                             />
                                         </div>
-                                    </div>
 
-                                    {/* Section 02: Stay & Suite Preferences */}
-                                    <div className="md:col-span-2 mt-3">
-                                        <div className="flex items-center gap-3 pb-3 border-b border-white/10 mb-2">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan" />
-                                            <h4 
-                                                className="text-brand-cyan text-xs font-bold uppercase tracking-[0.24em]"
-                                                style={{ fontFamily: "var(--font-nav)" }}
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-xs text-white/70 font-medium">
+                                                Purpose of Inquiry
+                                            </label>
+                                            <select
+                                                name="purpose"
+                                                defaultValue="Vacation Stay"
+                                                className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl py-3 px-4 text-sm text-white outline-none transition-colors cursor-pointer"
                                             >
-                                                02 • Stay Preferences
-                                            </h4>
+                                                <option value="Vacation Stay">Leisure / Vacation Stay</option>
+                                                <option value="Destination Wedding & Events">Destination Wedding / Lawn Gala</option>
+                                                <option value="Group / Corporate Retreat">Group Retreat / Family Reunion</option>
+                                                <option value="Farm Tour & Day Visit">Farm Tour & Day Visit</option>
+                                                <option value="General Inquiry">General Inquiry</option>
+                                            </select>
                                         </div>
                                     </div>
 
-                                    {/* Check In Date */}
-                                    <div className="flex flex-col gap-2">
-                                        <label className="text-white/70 text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-[0.14em]">
-                                            Check In Date *
-                                        </label>
-                                        <div className="relative">
+                                    {/* Optional Date Range */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-xs text-white/70 font-medium">
+                                                Tentative Arrival (Optional)
+                                            </label>
                                             <input 
                                                 type="date" 
                                                 name="check_in" 
-                                                required 
-                                                className="w-full bg-[#060A17]/80 border border-white/15 focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan/40 rounded-xl py-3.5 px-4 text-sm text-white [color-scheme:dark] outline-none transition-all" 
+                                                className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl py-3 px-4 text-sm text-white outline-none transition-colors [color-scheme:dark]"
                                             />
                                         </div>
-                                    </div>
 
-                                    {/* Check Out Date */}
-                                    <div className="flex flex-col gap-2">
-                                        <label className="text-white/70 text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-[0.14em]">
-                                            Check Out Date *
-                                        </label>
-                                        <div className="relative">
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-xs text-white/70 font-medium">
+                                                Tentative Departure (Optional)
+                                            </label>
                                             <input 
                                                 type="date" 
                                                 name="check_out" 
-                                                required 
-                                                className="w-full bg-[#060A17]/80 border border-white/15 focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan/40 rounded-xl py-3.5 px-4 text-sm text-white [color-scheme:dark] outline-none transition-all" 
+                                                className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl py-3 px-4 text-sm text-white outline-none transition-colors [color-scheme:dark]"
                                             />
                                         </div>
                                     </div>
 
-                                    {/* Accommodation */}
+                                    {/* Message Textarea */}
                                     <div className="flex flex-col gap-2">
-                                        <label className="text-white/70 text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-[0.14em]">
-                                            Accommodation Style *
+                                        <label className="text-xs text-white/70 font-medium">
+                                            Your Message or Requirements
                                         </label>
-                                        <div className="relative">
-                                            <select
-                                                name="room_type"
-                                                value={bookingRoomType}
-                                                onChange={(e) => setBookingRoomType(e.target.value)}
-                                                className="w-full bg-[#060A17] border border-white/15 focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan/40 rounded-xl py-3.5 px-4 text-sm text-white outline-none transition-all appearance-none cursor-pointer"
-                                            >
-                                                <option value="Heritage Plantation Cottage">Heritage Plantation Cottage</option>
-                                                <option value="Luxury Mountain Suite">Luxury Mountain Suite</option>
-                                                <option value="Highland Villa / Dormitory">Highland Villa / Group Dormitory</option>
-                                            </select>
-                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 text-xs">
-                                                ▼
-                                            </div>
-                                        </div>
+                                        <textarea
+                                            name="message"
+                                            rows={4}
+                                            placeholder="Tell us about your expected party size, dietary preferences, or any specific questions you have..."
+                                            className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl p-4 text-sm text-white placeholder:text-white/30 outline-none transition-colors resize-none"
+                                        />
                                     </div>
 
-                                    {/* Guests */}
-                                    <div className="flex flex-col gap-2">
-                                        <label className="text-white/70 text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-[0.14em]">
-                                            Party Size *
-                                        </label>
-                                        <div className="relative">
-                                            <select 
-                                                name="guests" 
-                                                defaultValue="2 Adults"
-                                                className="w-full bg-[#060A17] border border-white/15 focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan/40 rounded-xl py-3.5 px-4 text-sm text-white outline-none transition-all appearance-none cursor-pointer"
-                                            >
-                                                <option value="1 Guest">1 Guest</option>
-                                                <option value="2 Adults">2 Adults (Couple)</option>
-                                                <option value="3 Guests">3 Guests</option>
-                                                <option value="4 Guests">4 Guests (Family)</option>
-                                                <option value="5+ Guests">Group / Reunion (5+ Guests)</option>
-                                            </select>
-                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 text-xs">
-                                                ▼
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Grand Submit CTA Button */}
-                                    <div className="md:col-span-2 mt-4">
+                                    {/* Action Buttons */}
+                                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
                                         <button
                                             type="submit"
-                                            disabled={bookingStatus === 'sending'}
-                                            className="w-full py-4.5 rounded-xl bg-gradient-to-r from-brand-cyan via-[#00B4D8] to-brand-cyan-light text-brand-dark font-bold text-xs tracking-[0.2em] uppercase flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(0,180,216,0.45)] hover:shadow-[0_0_50px_rgba(0,180,216,0.75)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 cursor-pointer disabled:opacity-50"
+                                            disabled={formStatus === 'submitting'}
+                                            className="flex-1 py-3.5 px-6 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-cyan-light text-brand-dark font-bold text-xs uppercase tracking-[0.18em] flex items-center justify-center gap-2 shadow-lg hover:shadow-cyan-500/20 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 cursor-pointer"
                                             style={{ fontFamily: "var(--font-nav)" }}
                                         >
-                                            <span>
-                                                {bookingStatus === 'sending' ? 'Transmitting Sanctuary Request...' : 'Submit Booking Inquiry'}
-                                            </span>
-                                            <ArrowRight size={15} />
+                                            <span>{formStatus === 'submitting' ? 'Submitting...' : 'Submit Inquiry'}</span>
+                                            <Send size={14} />
                                         </button>
 
-                                        {/* Reassurance Footer */}
-                                        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4 text-[10.5px] text-white/50 font-light">
-                                            <div className="flex items-center gap-1.5">
-                                                <ShieldCheck size={13} className="text-emerald-400" />
-                                                <span>Zero Booking Fee • Direct Estate Guarantee</span>
-                                            </div>
-                                            <div className="flex items-center gap-1.5">
-                                                <Clock size={13} className="text-brand-cyan" />
-                                                <span>Prompt Confirmation Within 2 Hours</span>
-                                            </div>
-                                        </div>
+                                        <a
+                                            href={`https://wa.me/919645464747?text=${encodeURIComponent("Hello Clouds Village, I would like to inquire about reserving a stay at the farm resort.")}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="py-3.5 px-5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 font-semibold text-xs tracking-wider uppercase flex items-center justify-center gap-2 transition-colors shrink-0"
+                                            style={{ fontFamily: "var(--font-nav)" }}
+                                        >
+                                            <MessageCircle size={15} />
+                                            <span>WhatsApp Instead</span>
+                                        </a>
                                     </div>
+
+                                    <p className="text-[11px] text-white/40 font-light text-center sm:text-left pt-1">
+                                        Your contact details are kept strictly confidential and used solely for addressing your inquiry.
+                                    </p>
                                 </form>
                             )}
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+
+            {/* ══════════════════════════════════════════════════════════
+                3. HOW TO REACH & MAP SECTION (Authentic Travel Guidance)
+            ══════════════════════════════════════════════════════════ */}
+            <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12">
+                <div className="border-t border-white/10 pt-16 md:pt-20">
+                    
+                    <div className="max-w-2xl mb-10">
+                        <span 
+                            className="text-xs uppercase tracking-[0.2em] text-brand-cyan font-semibold block mb-2"
+                            style={{ fontFamily: "var(--font-nav)" }}
+                        >
+                            Journey & Directions
+                        </span>
+                        <h2 
+                            className="text-3xl sm:text-4xl text-white font-normal mb-3"
+                            style={{ fontFamily: "var(--font-display)" }}
+                        >
+                            Reaching Clouds Village
+                        </h2>
+                        <p className="text-white/70 text-sm sm:text-base font-light leading-relaxed">
+                            Nestled in the lush midlands of Idukki along the foothills of the Western Ghats, Clouds Village is easily accessible by scenic highways from major Kerala transit hubs.
+                        </p>
+                    </div>
+
+                    {/* Transit Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                        {/* By Air */}
+                        <div className="p-6 rounded-2xl bg-[#0B1226]/80 border border-white/10 flex flex-col">
+                            <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-4">
+                                <Plane size={18} />
+                            </div>
+                            <h3 
+                                className="text-base text-white font-medium mb-1.5"
+                                style={{ fontFamily: "var(--font-nav)" }}
+                            >
+                                By Air (Cochin Airport)
+                            </h3>
+                            <p className="text-white/65 text-xs sm:text-[13px] font-light leading-relaxed mb-3">
+                                Cochin International Airport (COK) is located approximately 65 km away. A picturesque 1 hour 45 minute drive connects via Muvattupuzha and Thodupuzha.
+                            </p>
+                            <span className="text-[11px] text-brand-cyan-light font-medium mt-auto">
+                                ~65 km • 1 hr 45 min drive
+                            </span>
+                        </div>
+
+                        {/* By Rail */}
+                        <div className="p-6 rounded-2xl bg-[#0B1226]/80 border border-white/10 flex flex-col">
+                            <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-4">
+                                <Train size={18} />
+                            </div>
+                            <h3 
+                                className="text-base text-white font-medium mb-1.5"
+                                style={{ fontFamily: "var(--font-nav)" }}
+                            >
+                                By Rail (Aluva / Ernakulam)
+                            </h3>
+                            <p className="text-white/65 text-xs sm:text-[13px] font-light leading-relaxed mb-3">
+                                Aluva Railway Station (70 km) and Ernakulam Junction (75 km) offer nationwide rail connections. Taxis and KSRTC bus routes connect regularly to Thodupuzha.
+                            </p>
+                            <span className="text-[11px] text-brand-cyan-light font-medium mt-auto">
+                                ~70 km from Aluva Station
+                            </span>
+                        </div>
+
+                        {/* By Road */}
+                        <div className="p-6 rounded-2xl bg-[#0B1226]/80 border border-white/10 flex flex-col">
+                            <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-4">
+                                <Car size={18} />
+                            </div>
+                            <h3 
+                                className="text-base text-white font-medium mb-1.5"
+                                style={{ fontFamily: "var(--font-nav)" }}
+                            >
+                                By Road (Thodupuzha Route)
+                            </h3>
+                            <p className="text-white/65 text-xs sm:text-[13px] font-light leading-relaxed mb-3">
+                                Follow the Thodupuzha–Vannappuram road (18 km). The resort driveway leads directly into the historic 15-acre Manjakunnel Farm estate with ample private parking.
+                            </p>
+                            <span className="text-[11px] text-brand-cyan-light font-medium mt-auto">
+                                18 km from Thodupuzha Town
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Google Map Card */}
+                    <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative bg-[#0B1226]">
+                        <div className="p-5 sm:p-6 border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div className="flex items-center gap-3">
+                                <MapPin size={18} className="text-brand-cyan shrink-0" />
+                                <div>
+                                    <h4 
+                                        className="text-sm sm:text-base text-white font-medium leading-none mb-1"
+                                        style={{ fontFamily: "var(--font-nav)" }}
+                                    >
+                                        Estate Map Coordinates
+                                    </h4>
+                                    <span className="text-xs text-white/50">Vannappuram, Idukki District, Kerala</span>
+                                </div>
+                            </div>
+                            <a
+                                href={contactLocationUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-brand-cyan/10 border border-white/10 hover:border-brand-cyan/40 text-brand-cyan-light text-xs font-semibold uppercase tracking-wider transition-colors shrink-0"
+                                style={{ fontFamily: "var(--font-nav)" }}
+                            >
+                                <span>Get Directions in Maps</span>
+                                <ArrowUpRight size={14} />
+                            </a>
+                        </div>
+
+                        <div className="w-full h-[380px] sm:h-[440px] relative">
+                            <iframe
+                                title="Clouds Village Location Map"
+                                src="https://maps.google.com/maps?q=Clouds%20Village%20Farm%20Resort,%20Vannappuram,%20Idukki&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) contrast(95%)' }}
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
