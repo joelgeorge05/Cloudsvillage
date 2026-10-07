@@ -114,10 +114,10 @@ export const ContactUs = () => {
                 2. MAIN CONTACT MATRIX (Direct Channels + Inquiry Form)
             ══════════════════════════════════════════════════════════ */}
             <div className="w-full max-w-[2200px] 2xl:max-w-[2560px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-20 mb-20 md:mb-28">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 2xl:gap-16 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 2xl:gap-16 items-stretch">
                     
                     {/* Left Column: Direct Estate Information */}
-                    <div className="lg:col-span-5 xl:col-span-4 2xl:col-span-4 flex flex-col gap-6">
+                    <div className="lg:col-span-5 xl:col-span-4 2xl:col-span-4 flex flex-col justify-between gap-6 lg:h-full">
                         
                         {/* Physical Address Card */}
                         <div className="p-6 sm:p-7 rounded-2xl bg-[#0B1226]/90 border border-white/10 shadow-lg">
@@ -158,7 +158,7 @@ export const ContactUs = () => {
                         </div>
 
                         {/* Direct Contact Channels */}
-                        <div className="p-6 sm:p-7 rounded-2xl bg-[#0B1226]/90 border border-white/10 shadow-lg flex flex-col gap-5">
+                        <div className="p-6 sm:p-7 rounded-2xl bg-[#0B1226]/90 border border-white/10 shadow-lg flex flex-col justify-between flex-1 gap-5">
                             <span 
                                 className="text-xs uppercase tracking-[0.2em] text-white/50 font-semibold border-b border-white/[0.08] pb-3"
                                 style={{ fontFamily: "var(--font-nav)" }}
@@ -248,7 +248,7 @@ export const ContactUs = () => {
                         </div>
 
                         {/* Estate Timings Card */}
-                        <div className="p-6 rounded-2xl bg-[#0B1226]/60 border border-white/5 flex flex-col gap-3 text-xs sm:text-[13px] text-white/70 font-light">
+                        <div className="p-6 sm:p-7 rounded-2xl bg-[#0B1226]/90 border border-white/10 shadow-lg flex flex-col justify-center gap-3 text-xs sm:text-[13px] text-white/70 font-light">
                             <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.06]">
                                 <span className="flex items-center gap-2">
                                     <Clock size={14} className="text-brand-cyan" />
@@ -274,8 +274,8 @@ export const ContactUs = () => {
                     </div>
 
                     {/* Right Column: Bespoke Hospitality Inquiry Form */}
-                    <div className="lg:col-span-7 xl:col-span-8 2xl:col-span-8">
-                        <div className="p-7 sm:p-9 lg:p-12 2xl:p-14 rounded-3xl bg-[#0B1226]/95 border border-white/10 shadow-2xl relative">
+                    <div className="lg:col-span-7 xl:col-span-8 2xl:col-span-8 flex flex-col lg:h-full">
+                        <div className="p-7 sm:p-9 lg:p-12 2xl:p-14 rounded-3xl bg-[#0B1226]/95 border border-white/10 shadow-2xl relative flex-1 flex flex-col justify-between lg:h-full">
                             
                             <div className="mb-7">
                                 <span 
@@ -296,7 +296,7 @@ export const ContactUs = () => {
                             </div>
 
                             {formStatus === 'success' ? (
-                                <div className="py-12 flex flex-col items-center text-center">
+                                <div className="py-12 flex-1 flex flex-col items-center justify-center text-center">
                                     <div className="w-14 h-14 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-5">
                                         <CheckCircle2 size={28} />
                                     </div>
@@ -319,7 +319,7 @@ export const ContactUs = () => {
                                     </button>
                                 </div>
                             ) : (
-                                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                                <form onSubmit={handleSubmit} className="flex-1 flex flex-col justify-between gap-5 sm:gap-6">
                                     
                                     {/* Name & Phone Row */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -409,7 +409,7 @@ export const ContactUs = () => {
                                     </div>
 
                                     {/* Message Textarea */}
-                                    <div className="flex flex-col gap-2">
+                                    <div className="flex flex-col gap-2 flex-1">
                                         <label className="text-xs text-white/70 font-medium">
                                             Your Message or Requirements
                                         </label>
@@ -417,7 +417,7 @@ export const ContactUs = () => {
                                             name="message"
                                             rows={4}
                                             placeholder="Tell us about your expected party size, dietary preferences, or any specific questions you have..."
-                                            className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl p-4 text-sm text-white placeholder:text-white/30 outline-none transition-colors resize-none"
+                                            className="w-full flex-1 min-h-[120px] bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl p-4 text-sm text-white placeholder:text-white/30 outline-none transition-colors resize-none"
                                         />
                                     </div>
 
