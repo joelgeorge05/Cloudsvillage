@@ -7,6 +7,7 @@ import {
     MessageCircle, Sparkles, BedDouble, Trees, Eye, UtensilsCrossed
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { LuxuryDatePicker } from '../components/LuxuryDatePicker';
 
 // Local High-Res Photography
 import npool1 from '../assets/images/npool1.webp';
@@ -76,6 +77,19 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
             return dateStr;
         }
     };
+
+    useEffect(() => {
+        if (!checkIn) {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            setCheckIn(tomorrow.toISOString().split('T')[0]);
+        }
+        if (!checkOut) {
+            const dayAfter = new Date();
+            dayAfter.setDate(dayAfter.getDate() + 2);
+            setCheckOut(dayAfter.toISOString().split('T')[0]);
+        }
+    }, [checkIn, checkOut]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -460,50 +474,32 @@ export const Home = ({ openLightbox }: { openLightbox: (images: string[], title:
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5 items-center">
                             
                             {/* Check In */}
-                            <div className="relative group h-[64px] flex flex-col justify-center px-4 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-brand-cyan/40 transition-all duration-300 cursor-pointer shadow-sm">
-                                <span 
-                                    className="text-[10px] uppercase tracking-[0.22em] text-brand-cyan font-semibold flex items-center gap-1.5 mb-1"
-                                    style={{ fontFamily: "var(--font-nav)" }}
-                                >
-                                    <Calendar size={11} className="text-brand-cyan/80" /> Check In
-                                </span>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-white font-medium text-sm tracking-wide">
-                                        {formatDateDisplay(checkIn)}
-                                    </span>
-                                    <Calendar size={14} className="text-brand-cyan/50 group-hover:text-brand-cyan transition-colors shrink-0" />
-                                </div>
-                                <input
-                                    type="date"
-                                    value={checkIn}
-                                    onChange={(e) => setCheckIn(e.target.value)}
-                                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10 [color-scheme:dark]"
-                                    aria-label="Check-in date"
-                                />
-                            </div>
+                            <LuxuryDatePicker
+                                label="Check In"
+                                value={checkIn}
+                                onChange={(val) => {
+                                    setCheckIn(val);
+                                    if (val && checkOut && checkOut <= val) {
+                                        const nextDay = new Date(val);
+                                        nextDay.setDate(nextDay.getDate() + 1);
+                                        setCheckOut(nextDay.toISOString().split('T')[0]);
+                                    }
+                                }}
+                                variant="booking-bar"
+                                position="top"
+                                placeholder="Select Date"
+                            />
 
                             {/* Check Out */}
-                            <div className="relative group h-[64px] flex flex-col justify-center px-4 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-brand-cyan/40 transition-all duration-300 cursor-pointer shadow-sm">
-                                <span 
-                                    className="text-[10px] uppercase tracking-[0.22em] text-brand-cyan font-semibold flex items-center gap-1.5 mb-1"
-                                    style={{ fontFamily: "var(--font-nav)" }}
-                                >
-                                    <Calendar size={11} className="text-brand-cyan/80" /> Check Out
-                                </span>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-white font-medium text-sm tracking-wide">
-                                        {formatDateDisplay(checkOut)}
-                                    </span>
-                                    <Calendar size={14} className="text-brand-cyan/50 group-hover:text-brand-cyan transition-colors shrink-0" />
-                                </div>
-                                <input
-                                    type="date"
-                                    value={checkOut}
-                                    onChange={(e) => setCheckOut(e.target.value)}
-                                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10 [color-scheme:dark]"
-                                    aria-label="Check-out date"
-                                />
-                            </div>
+                            <LuxuryDatePicker
+                                label="Check Out"
+                                value={checkOut}
+                                onChange={setCheckOut}
+                                minDate={checkIn || undefined}
+                                variant="booking-bar"
+                                position="top"
+                                placeholder="Select Date"
+                            />
 
                             {/* Guests Custom Dropdown */}
                             <div ref={guestDropdownRef} className="relative">

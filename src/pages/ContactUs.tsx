@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
     Phone, 
     Mail, 
@@ -13,13 +13,66 @@ import {
     Plane,
     Train,
     Car,
-    Send
+    Send,
+    ChevronDown,
+    Check
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { LuxuryDatePicker } from '../components/LuxuryDatePicker';
+
+const PURPOSE_OPTIONS = [
+    {
+        value: "Leisure / Vacation Stay",
+        label: "Leisure / Vacation Stay",
+        desc: "Private cottages, natural pool & farm getaway"
+    },
+    {
+        value: "Destination Wedding / Lawn Gala",
+        label: "Destination Wedding / Lawn Gala",
+        desc: "Lush outdoor amphitheater & celebration lawns"
+    },
+    {
+        value: "Group Retreat / Family Reunion",
+        label: "Group Retreat / Family Reunion",
+        desc: "Estate-wide gatherings & corporate offsites"
+    },
+    {
+        value: "Farm Tour & Day Visit",
+        label: "Farm Tour & Day Visit",
+        desc: "Spice plantation trails, trekking & day activities"
+    },
+    {
+        value: "General Inquiry",
+        label: "General Inquiry",
+        desc: "Direct reservations support & bespoke inquiries"
+    }
+];
 
 export const ContactUs = () => {
     const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [settings, setSettings] = useState<any>(null);
+    const [selectedPurpose, setSelectedPurpose] = useState<string>("Leisure / Vacation Stay");
+    const [isPurposeOpen, setIsPurposeOpen] = useState<boolean>(false);
+    const [checkInDate, setCheckInDate] = useState<string>('');
+    const [checkOutDate, setCheckOutDate] = useState<string>('');
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsPurposeOpen(false);
+            }
+        };
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setIsPurposeOpen(false);
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchSettings = async () => {
@@ -67,11 +120,17 @@ export const ContactUs = () => {
                 console.warn('Inquiry notice:', error.message);
             }
             setFormStatus('success');
+            setSelectedPurpose("Leisure / Vacation Stay");
+            setCheckInDate('');
+            setCheckOutDate('');
             formElement.reset();
         } catch (err) {
             console.error('Submission error:', err);
             // Graceful success fallback so guest is never blocked
             setFormStatus('success');
+            setSelectedPurpose("Leisure / Vacation Stay");
+            setCheckInDate('');
+            setCheckOutDate('');
             formElement.reset();
         }
     };
@@ -365,47 +424,87 @@ export const ContactUs = () => {
                                             />
                                         </div>
 
-                                        <div className="flex flex-col gap-2">
+                                        <div className="flex flex-col gap-2 relative" ref={dropdownRef}>
                                             <label className="text-xs text-white/70 font-medium">
                                                 Purpose of Inquiry
                                             </label>
-                                            <select
-                                                name="purpose"
-                                                defaultValue="Vacation Stay"
-                                                className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl py-3 px-4 text-sm text-white outline-none transition-colors cursor-pointer"
+                                            <input type="hidden" name="purpose" value={selectedPurpose} />
+                                            
+                                            <button
+                                                type="button"
+                                                onClick={() => setIsPurposeOpen(!isPurposeOpen)}
+                                                className={`w-full bg-[#070B19] border ${
+                                                    isPurposeOpen 
+                                                        ? 'border-brand-cyan ring-1 ring-brand-cyan/40 shadow-[0_0_20px_rgba(45,212,191,0.15)]' 
+                                                        : 'border-white/15 hover:border-white/30'
+                                                } rounded-xl py-3 px-4 text-sm text-white flex items-center justify-between transition-all cursor-pointer`}
                                             >
-                                                <option value="Vacation Stay">Leisure / Vacation Stay</option>
-                                                <option value="Destination Wedding & Events">Destination Wedding / Lawn Gala</option>
-                                                <option value="Group / Corporate Retreat">Group Retreat / Family Reunion</option>
-                                                <option value="Farm Tour & Day Visit">Farm Tour & Day Visit</option>
-                                                <option value="General Inquiry">General Inquiry</option>
-                                            </select>
+                                                <span className="truncate font-normal text-white">
+                                                    {selectedPurpose}
+                                                </span>
+                                                <ChevronDown 
+                                                    size={16} 
+                                                    className={`text-brand-cyan transition-transform duration-200 shrink-0 ml-2 ${
+                                                        isPurposeOpen ? 'rotate-180' : ''
+                                                    }`} 
+                                                />
+                                            </button>
+
+                                            {/* Custom Luxury Dropdown Menu */}
+                                            {isPurposeOpen && (
+                                                <div className="absolute left-0 right-0 top-full mt-2 z-50 rounded-2xl bg-[#090F22]/98 backdrop-blur-xl border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.7)] py-1.5 overflow-hidden divide-y divide-white/[0.04]">
+                                                    {PURPOSE_OPTIONS.map((option) => {
+                                                        const isSelected = selectedPurpose === option.label || selectedPurpose === option.value;
+                                                        return (
+                                                            <button
+                                                                key={option.value}
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    setSelectedPurpose(option.label);
+                                                                    setIsPurposeOpen(false);
+                                                                }}
+                                                                className={`w-full px-4 py-3 text-left flex items-center justify-between transition-colors cursor-pointer group ${
+                                                                    isSelected 
+                                                                        ? 'bg-brand-cyan/15 text-white' 
+                                                                        : 'hover:bg-white/[0.06] text-white/80 hover:text-white'
+                                                                }`}
+                                                            >
+                                                                <div className="flex flex-col min-w-0 pr-3">
+                                                                    <span className={`text-sm ${isSelected ? 'text-brand-cyan font-medium' : 'group-hover:text-white font-normal'}`}>
+                                                                        {option.label}
+                                                                    </span>
+                                                                    <span className="text-[11px] text-white/45 font-light leading-tight mt-0.5">
+                                                                        {option.desc}
+                                                                    </span>
+                                                                </div>
+                                                                {isSelected && (
+                                                                    <Check size={16} className="text-brand-cyan shrink-0" />
+                                                                )}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
                                     {/* Optional Date Range */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                        <div className="flex flex-col gap-2">
-                                            <label className="text-xs text-white/70 font-medium">
-                                                Tentative Arrival (Optional)
-                                            </label>
-                                            <input 
-                                                type="date" 
-                                                name="check_in" 
-                                                className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl py-3 px-4 text-sm text-white outline-none transition-colors [color-scheme:dark]"
-                                            />
-                                        </div>
-
-                                        <div className="flex flex-col gap-2">
-                                            <label className="text-xs text-white/70 font-medium">
-                                                Tentative Departure (Optional)
-                                            </label>
-                                            <input 
-                                                type="date" 
-                                                name="check_out" 
-                                                className="w-full bg-[#070B19] border border-white/15 focus:border-brand-cyan rounded-xl py-3 px-4 text-sm text-white outline-none transition-colors [color-scheme:dark]"
-                                            />
-                                        </div>
+                                        <LuxuryDatePicker
+                                            name="check_in"
+                                            label="Tentative Arrival (Optional)"
+                                            placeholder="Select arrival date"
+                                            value={checkInDate}
+                                            onChange={setCheckInDate}
+                                        />
+                                        <LuxuryDatePicker
+                                            name="check_out"
+                                            label="Tentative Departure (Optional)"
+                                            placeholder="Select departure date"
+                                            value={checkOutDate}
+                                            onChange={setCheckOutDate}
+                                            minDate={checkInDate || undefined}
+                                        />
                                     </div>
 
                                     {/* Message Textarea */}

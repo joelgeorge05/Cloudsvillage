@@ -1,8 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Calendar, Phone, Mail, ShieldCheck, Sparkles, CheckCircle2, MessageCircle, ArrowRight, User } from 'lucide-react';
+import { 
+    Calendar, Phone, Mail, ShieldCheck, Sparkles, CheckCircle2, MessageCircle, 
+    ArrowRight, User, Instagram, MapPin, Clock, ArrowUpRight 
+} from 'lucide-react';
 import { useSearchParams, Link } from 'react-router';
 import { supabase } from '../lib/supabase';
+import { LuxuryDatePicker } from '../components/LuxuryDatePicker';
+import { LuxurySelect } from '../components/LuxurySelect';
+
+const ROOM_OPTIONS = [
+    {
+        value: "Heritage Plantation Cottage",
+        label: "Heritage Plantation Cottage (2 Guests)",
+        desc: "Timber cottage amidst organic cardamom groves"
+    },
+    {
+        value: "Luxury Mountain Suite",
+        label: "Luxury Mountain Suite (4 Guests)",
+        desc: "Panoramic mountain valley views & private deck"
+    },
+    {
+        value: "Highland Plantation Villa",
+        label: "Highland Plantation Villa (Up to 12 Guests)",
+        desc: "Estate-wide private villa for families & groups"
+    }
+];
+
+const GUEST_OPTIONS = [
+    {
+        value: "1",
+        label: "1 Solo Traveler",
+        desc: "Individual writing or wellness retreat"
+    },
+    {
+        value: "2",
+        label: "2 Guests (Couple)",
+        desc: "Romantic getaway & quiet stillness"
+    },
+    {
+        value: "4",
+        label: "4 Guests (Family Suite)",
+        desc: "Spacious private quarters for family"
+    },
+    {
+        value: "8",
+        label: "5–12 Guests (Group Villa)",
+        desc: "Full plantation villa & private grounds"
+    }
+];
 
 export const Booking = () => {
     const [searchParams] = useSearchParams();
@@ -71,7 +117,7 @@ export const Booking = () => {
             />
 
             {/* Dynamic Full-Width Container synchronized with screen ratios */}
-            <div className="w-full max-w-[2000px] 2xl:max-w-[2400px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 relative z-10">
+            <div className="w-full max-w-[2200px] 2xl:max-w-[2560px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-20 relative z-10">
                 <div className="text-center mb-10 sm:mb-14 relative flex flex-col items-center max-w-4xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/10 mb-4 sm:mb-5">
                         <Sparkles size={12} className="text-[#C5A880]" />
@@ -96,10 +142,10 @@ export const Booking = () => {
                 </div>
 
                 {/* Main Content Grid: Form + Concierge Sidebar */}
-                <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 2xl:gap-16 items-stretch">
                     
                     {/* Left 8 Cols: Interactive Booking Form */}
-                    <div className="lg:col-span-8 bg-[#121620]/90 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-sm">
+                    <div className="lg:col-span-8 bg-[#121620]/90 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-sm flex flex-col justify-between lg:h-full">
                         {status === 'success' ? (
                             <motion.div 
                                 initial={{ opacity: 0, scale: 0.95 }}
@@ -136,7 +182,7 @@ export const Booking = () => {
                                 </div>
                             </motion.div>
                         ) : (
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form onSubmit={handleSubmit} className="flex-1 flex flex-col justify-between gap-6">
                                 <div>
                                     <h3 className="text-lg text-white font-medium mb-1" style={{ fontFamily: "var(--font-display)" }}>
                                         Guest & Stay Details
@@ -146,7 +192,7 @@ export const Booking = () => {
                                     </p>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 flex-1">
                                     <div className="flex flex-col gap-1.5">
                                         <label className="text-white/60 text-[10px] font-semibold uppercase tracking-wider">Full Name</label>
                                         <input
@@ -183,63 +229,52 @@ export const Booking = () => {
                                         />
                                     </div>
 
-                                    <div className="flex flex-col gap-1.5">
-                                        <label className="text-white/60 text-[10px] font-semibold uppercase tracking-wider">Check In Date</label>
-                                        <input
-                                            type="date"
-                                            required
-                                            value={checkIn}
-                                            onChange={(e) => setCheckIn(e.target.value)}
-                                            className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C5A880] [color-scheme:dark] transition-colors"
-                                        />
-                                    </div>
+                                    <LuxuryDatePicker
+                                        label="Check In Date"
+                                        value={checkIn}
+                                        onChange={(val) => {
+                                            setCheckIn(val);
+                                            if (val && checkOut && checkOut <= val) {
+                                                const nextDay = new Date(val);
+                                                nextDay.setDate(nextDay.getDate() + 1);
+                                                setCheckOut(nextDay.toISOString().split('T')[0]);
+                                            }
+                                        }}
+                                        placeholder="Select check-in date"
+                                    />
 
-                                    <div className="flex flex-col gap-1.5">
-                                        <label className="text-white/60 text-[10px] font-semibold uppercase tracking-wider">Check Out Date</label>
-                                        <input
-                                            type="date"
-                                            required
-                                            value={checkOut}
-                                            onChange={(e) => setCheckOut(e.target.value)}
-                                            className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C5A880] [color-scheme:dark] transition-colors"
-                                        />
-                                    </div>
+                                    <LuxuryDatePicker
+                                        label="Check Out Date"
+                                        value={checkOut}
+                                        onChange={setCheckOut}
+                                        minDate={checkIn || undefined}
+                                        placeholder="Select check-out date"
+                                    />
 
-                                    <div className="flex flex-col gap-1.5">
-                                        <label className="text-white/60 text-[10px] font-semibold uppercase tracking-wider">Accommodation Preference</label>
-                                        <select
-                                            value={roomType}
-                                            onChange={(e) => setRoomType(e.target.value)}
-                                            className="bg-[#121620] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C5A880] transition-colors"
-                                        >
-                                            <option value="Heritage Plantation Cottage">Heritage Plantation Cottage (2 Guests)</option>
-                                            <option value="Luxury Mountain Suite">Luxury Mountain Suite (4 Guests)</option>
-                                            <option value="Highland Plantation Villa">Highland Plantation Villa (Up to 12 Guests)</option>
-                                        </select>
-                                    </div>
+                                    <LuxurySelect
+                                        label="Accommodation Preference"
+                                        value={roomType}
+                                        onChange={setRoomType}
+                                        options={ROOM_OPTIONS}
+                                        accentColor="gold"
+                                    />
 
-                                    <div className="flex flex-col gap-1.5">
-                                        <label className="text-white/60 text-[10px] font-semibold uppercase tracking-wider">Party Size (Guests)</label>
-                                        <select
-                                            value={guests}
-                                            onChange={(e) => setGuests(e.target.value)}
-                                            className="bg-[#121620] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C5A880] transition-colors"
-                                        >
-                                            <option value="1">1 Solo Traveler</option>
-                                            <option value="2">2 Guests (Couple)</option>
-                                            <option value="4">4 Guests (Family Suite)</option>
-                                            <option value="8">5–12 Guests (Group Villa)</option>
-                                        </select>
-                                    </div>
+                                    <LuxurySelect
+                                        label="Party Size (Guests)"
+                                        value={guests}
+                                        onChange={setGuests}
+                                        options={GUEST_OPTIONS}
+                                        accentColor="gold"
+                                    />
 
-                                    <div className="flex flex-col gap-1.5 sm:col-span-2">
+                                    <div className="flex flex-col gap-1.5 sm:col-span-2 flex-1">
                                         <label className="text-white/60 text-[10px] font-semibold uppercase tracking-wider">Special Requests / Preferences (Optional)</label>
                                         <textarea
                                             rows={2}
                                             value={notes}
                                             onChange={(e) => setNotes(e.target.value)}
                                             placeholder="e.g. Dietary preferences, campfire arrangement, late check-in..."
-                                            className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#C5A880] transition-colors resize-none"
+                                            className="w-full flex-1 min-h-[85px] bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#C5A880] transition-colors resize-none"
                                         />
                                     </div>
                                 </div>
@@ -257,53 +292,158 @@ export const Booking = () => {
                         )}
                     </div>
 
-                    {/* Right 4 Cols: Direct Concierge & Assurance Card */}
-                    <div className="lg:col-span-4 space-y-6">
-                        <div className="bg-[#121620]/90 border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-sm">
-                            <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#C5A880] mb-5">
-                                <Calendar size={22} />
+                    {/* Right 4 Cols: Direct Concierge & Estate Details */}
+                    <div className="lg:col-span-4 flex flex-col justify-between gap-6 lg:h-full">
+                        
+                        {/* Direct Concierge & Channels Card */}
+                        <div className="bg-[#121620]/90 border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-sm flex-1 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+                            <div>
+                                <div className="flex items-center justify-between mb-5">
+                                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#C5A880]">
+                                        <Calendar size={22} />
+                                    </div>
+                                    <span 
+                                        className="text-[10px] uppercase tracking-[0.22em] text-[#C5A880] font-semibold px-3 py-1 rounded-full bg-[#C5A880]/10 border border-[#C5A880]/20"
+                                        style={{ fontFamily: "var(--font-nav)" }}
+                                    >
+                                        Estate Concierge
+                                    </span>
+                                </div>
+
+                                <h4 className="text-xl sm:text-2xl text-white font-medium mb-2" style={{ fontFamily: "var(--font-display)" }}>
+                                    Direct Sanctuary Desk
+                                </h4>
+                                <p className="text-white/60 text-xs sm:text-sm leading-relaxed mb-6 font-light">
+                                    Prefer an instant booking or customized stay itinerary? Reach out directly to our resident estate stewards.
+                                </p>
+
+                                {/* Direct Channels */}
+                                <div className="space-y-2.5">
+                                    {/* Phone */}
+                                    <a
+                                        href="tel:+919645464747"
+                                        className="w-full p-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#C5A880]/40 flex items-center justify-between transition-all group"
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="w-8 h-8 rounded-lg bg-[#C5A880]/10 border border-[#C5A880]/20 flex items-center justify-center text-[#C5A880] shrink-0">
+                                                <Phone size={14} />
+                                            </div>
+                                            <div className="flex flex-col min-w-0 text-left">
+                                                <span className="text-[10px] uppercase tracking-wider text-white/40">Direct Phone Desk</span>
+                                                <span className="text-white group-hover:text-[#F3E5AB] text-xs sm:text-[13px] font-medium tracking-wide transition-colors">
+                                                    +91 96454 64747
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <ArrowUpRight size={14} className="text-white/30 group-hover:text-[#C5A880] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+                                    </a>
+
+                                    {/* WhatsApp */}
+                                    <a
+                                        href="https://wa.me/919645464747?text=Hello%20Clouds%20Village,%20I%20would%20like%20to%20inquire%20about%20a%20stay."
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full p-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-emerald-500/40 flex items-center justify-between transition-all group"
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                                                <MessageCircle size={14} />
+                                            </div>
+                                            <div className="flex flex-col min-w-0 text-left">
+                                                <span className="text-[10px] uppercase tracking-wider text-white/40">WhatsApp Concierge</span>
+                                                <span className="text-white group-hover:text-emerald-300 text-xs sm:text-[13px] font-medium tracking-wide transition-colors">
+                                                    Chat with Estate Stewards
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <ArrowUpRight size={14} className="text-white/30 group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+                                    </a>
+
+                                    {/* Email */}
+                                    <a
+                                        href="mailto:cloudsvillage01@gmail.com"
+                                        className="w-full p-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-brand-cyan/40 flex items-center justify-between transition-all group"
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="w-8 h-8 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan shrink-0">
+                                                <Mail size={14} />
+                                            </div>
+                                            <div className="flex flex-col min-w-0 text-left">
+                                                <span className="text-[10px] uppercase tracking-wider text-white/40">Official Correspondence</span>
+                                                <span className="text-white group-hover:text-brand-cyan-light text-xs sm:text-[13px] font-medium tracking-wide truncate transition-colors">
+                                                    cloudsvillage01@gmail.com
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <ArrowUpRight size={14} className="text-white/30 group-hover:text-brand-cyan group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+                                    </a>
+
+                                    {/* Instagram */}
+                                    <a
+                                        href="https://www.instagram.com/cloudsvillagefarmstay/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full p-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-pink-500/40 flex items-center justify-between transition-all group"
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="w-8 h-8 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 shrink-0">
+                                                <Instagram size={14} />
+                                            </div>
+                                            <div className="flex flex-col min-w-0 text-left">
+                                                <span className="text-[10px] uppercase tracking-wider text-white/40">Visual Chronicles</span>
+                                                <span className="text-white group-hover:text-pink-300 text-xs sm:text-[13px] font-medium tracking-wide transition-colors">
+                                                    @cloudsvillagefarmstay
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <ArrowUpRight size={14} className="text-white/30 group-hover:text-pink-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+                                    </a>
+                                </div>
                             </div>
 
-                            <h4 className="text-xl text-white font-medium mb-2" style={{ fontFamily: "var(--font-display)" }}>
-                                Direct Concierge
-                            </h4>
-                            <p className="text-white/60 text-xs leading-relaxed mb-6 font-light">
-                                Prefer an instant booking over the phone or WhatsApp? Our estate concierge desk is available 24/7.
-                            </p>
+                            {/* Location & Timings Sub-module */}
+                            <div className="pt-6 mt-6 border-t border-white/[0.08] space-y-4">
+                                {/* Address with Map Link */}
+                                <div className="flex items-start gap-3">
+                                    <MapPin size={16} className="text-[#C5A880] shrink-0 mt-0.5" />
+                                    <div className="flex flex-col min-w-0">
+                                        <span className="text-[10px] uppercase tracking-wider text-white/40 mb-0.5">Sanctuary Address</span>
+                                        <p className="text-white/75 text-xs font-light leading-relaxed mb-1.5">
+                                            Manjakunnel Farm, Vannappuram, near Thodupuzha, Idukki, Kerala — 685607
+                                        </p>
+                                        <a 
+                                            href="https://share.google/DB1mdQaBldvZ9oumC"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-1.5 text-[#C5A880] hover:text-[#F3E5AB] text-[11px] font-medium tracking-wide uppercase transition-colors"
+                                        >
+                                            <span>Open in Google Maps</span>
+                                            <ArrowUpRight size={12} />
+                                        </a>
+                                    </div>
+                                </div>
 
-                            <div className="space-y-3">
-                                <a
-                                    href="tel:+919645464747"
-                                    className="w-full py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-semibold tracking-wider flex items-center gap-3 transition-colors"
-                                >
-                                    <Phone size={15} className="text-[#C5A880]" />
-                                    <span>+91 96454 64747</span>
-                                </a>
-                                <a
-                                    href="https://wa.me/919645464747?text=Hello%20Clouds%20Village,%20I%20would%20like%20to%20inquire%20about%20a%20stay."
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-full py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-semibold tracking-wider flex items-center gap-3 transition-colors"
-                                >
-                                    <MessageCircle size={15} className="text-emerald-400" />
-                                    <span>WhatsApp Inquiries</span>
-                                </a>
-                                <a
-                                    href="mailto:cloudsvillage@gmail.com"
-                                    className="w-full py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-semibold tracking-wider flex items-center gap-3 transition-colors"
-                                >
-                                    <Mail size={15} className="text-brand-cyan" />
-                                    <span>cloudsvillage@gmail.com</span>
-                                </a>
+                                {/* Estate Timings */}
+                                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/[0.04] text-[11px]">
+                                    <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/5">
+                                        <span className="text-white/40 block text-[9px] uppercase tracking-wider">Check-In</span>
+                                        <span className="text-white font-medium">1:00 PM onwards</span>
+                                    </div>
+                                    <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/5">
+                                        <span className="text-white/40 block text-[9px] uppercase tracking-wider">Check-Out</span>
+                                        <span className="text-white font-medium">11:00 AM</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="bg-[#121620]/60 border border-white/10 rounded-2xl p-5 text-xs text-white/50 space-y-2.5">
+                        {/* Direct Reservation Benefits Card */}
+                        <div className="bg-[#121620]/90 border border-white/10 rounded-2xl p-6 text-xs text-white/50 space-y-2.5 shadow-lg">
                             <div className="flex items-center gap-2 text-brand-cyan font-medium">
                                 <ShieldCheck size={16} />
-                                <span>Direct Reservation Benefits</span>
+                                <span className="text-xs uppercase tracking-wider font-semibold">Direct Reservation Benefits</span>
                             </div>
-                            <ul className="space-y-1.5 text-white/60 text-[11px] list-disc list-inside">
+                            <ul className="space-y-2 text-white/70 text-xs list-disc list-inside font-light">
                                 <li>Complimentary organic farm breakfast</li>
                                 <li>Free living spring rock pool access</li>
                                 <li>Guided cardamom & pepper farm tour</li>
